@@ -1,0 +1,267 @@
+EPRA_Bootstrap_Specification_v1
+April 2026
+This document defines the first bootstrap layer required for a regular AI to receive the current
+EPRA files, load them in the correct hierarchy, instantiate EP in a controlled way, reject drift,
+and produce repeatable EP behavior. It is not a replacement for the mother-body or the
+energetic methodology substrate. It is the activation bridge between them.
+1. Purpose
+The purpose of the bootstrap layer is operational. The current formal corpus already contains two
+strong components:
+• the mother-body architectural layer, which defines identity, ontology, relational grammar, axioms,
+dynamics, operators, projection rules, reconstruction protocol, validity tests, and theorem
+roadmap;
+• the energetic methodology substrate, which defines the primitive energetic grammar, graph/state
+representation, operator family, canonical pipeline, and objective structure.
+What remains underdetermined is theingestion path. A regular AI may receive the files and still
+fail to activate EP correctly if the file hierarchy, load order, setup order, and failure gates are not
+stated in a compact operational form.
+The bootstrap specification solves that problem.
+2. Bootstrap objective
+The bootstrap layer must satisfy five conditions simultaneously:
+Loadability : a regular AI can infer file roles deterministically, (1)
+Order discipline: setup proceeds in the right sequence, (2)
+Membership integrity: pseudo-EP and drifted EP are rejected, (3)
+Repeatability : similar tasks produce structurally similar setups, (4)
+Projection control: derived outputs do not replace the mother-body. (5)
+A bootstrap layer that fails on any one of these conditions is inadequate.
+1
+
+EPRA Bootstrap Specification v1 2
+3. File roles and hierarchy
+3.1. Primary file roles
+The bootstrap layer fixes the hierarchy explicitly.
+File Role Bootstrap interpretation
+EP_FCS_v0 Mother-body constitu-
+tional layer
+Defines what EPis: identity, ontology, rela-
+tions, axioms, dynamics, operators, projection
+rules, reconstruction protocol, validity tests,
+theorem roadmap.
+EP Methodology
+FULL
+Energetic-method sub-
+strate
+Defines how energetic analysisworks: primi-
+tives, basic energy unit, energetic graph, state
+representation, operator family, pipeline, met-
+rics, objective structure.
+Derived theorem
+blocks
+Formal reinforcement lay-
+ers
+Extend the mother-body from protected speci-
+fication to theorem-bearing system.
+Bootstrap pack
+files
+Activation layer Tell a regular AI how to load, instantiate, vali-
+date, and use the formal system.
+3.2. Priority rule
+The priority rule is:
+EP_FCS_v0≻EP Methodology FULL ≻derived projections and cases .
+This does not mean the methodology substrate is secondary in value. It means it is subordinate in
+position. The mother-body governs the status of the methodology file; the methodology file does
+not govern the status of the mother-body.
+4. Canonical load order
+A regular AI must load the files in the following order.
+1. Load the mother-body constitutional layer.
+2. Load the energetic methodology substrate.
+3. Load theorem blocks and extension files only after steps 1–2 are stable.
+4. Load bootstrap examples only after the formal hierarchy has been fixed.
+5. Permit projection, summary, case analysis, or paper generation only after the setup and validity
+sequence has passed.
+This can be compressed into the canonical sequence
+Load =
+(
+FCS→Methodology→Theorem Blocks →Examples→Task Setup
+)
+.
+
+EPRA Bootstrap Specification v1 3
+5. Canonical setup procedure
+5.1. Setup objective
+The bootstrap layer must force setup rather than paraphrase. The central procedure is
+SetupEP(FCS, Methodology, Task) .
+Its output is not a plain-text answer. Its output is anactive EP configurationfor the task.
+5.2. Setup stages
+The required setup sequence is:
+1. System identification: determine the systemS under analysis.
+2. Energetic-form identification: determine the active energetic form setKact.
+3. Primitive instantiation: instantiate source, sink, gradient, path, barrier, loss, and when
+relevant storage and conversion.
+4. Structural mapping: instantiate maintenance, control, reproduction, externalization, legiti-
+macy, information integrity, deviation, and fragility.
+5. State construction: build the working state variables for the task.
+6. Operator selection: choose the admissible operator path required for the task.
+7. Validity gating: test whether the setup is actually EP.
+8. Output production: emit an EP answer only if the required gates pass.
+5.3. Canonical setup equation
+A compact representation is:
+EP_Setup(T) =V
+(
+O
+(
+∆
+(
+R(Ω( ST ),Kact(T))
+)))
+,
+where T is the input task,Ω the ontological layer,R the relational layer,∆ the dynamic/state layer,
+O the operator layer, andV the validity layer.
+
+EPRA Bootstrap Specification v1 4
+5.4. Pseudo-code skeleton
+Procedure SetupEP(FCS, Methodology, Task)
+1. Parse task and identify candidate systemS.
+2. Infer active energetic formsKact.
+3. Instantiate{s, t, g, p, b, ℓ, m, c}for the task.
+4. Map{M, C, R, X, L, I, D,Φ f rag, T}at structural level.
+5. Construct working statey(t) =
+(
+x(t), z(t)
+)
+if dynamic analysis is needed.
+6. Select admissible operator path.
+7. Run validity gates.
+8. If validity passes, emit EP output; else reject, revise, or classify as non-EP.
+6. State and output requirements
+For bootstrap purposes, every successful setup should minimally output the following internal record,
+even if not all of it is exposed to the end user:
+B(T) =⟨S,Kact,P(S),Σ( S),Osel,Vscore,status⟩, (6)
+where:
+• S is the identified system,
+• Kact is the active energetic form set,
+• P(S) is the primitive instantiation,
+• Σ( S) is the mapped structural state,
+• Osel is the selected operator path,
+• Vscore is the validity profile,
+• status is one ofEP-active, weak-EP, pseudo-EP, drifted-EP, or non-EP.
+7. Validity gates
+7.1. Gate structure
+The bootstrap layer must operationalize the mother-body validity tests into a practical gating
+sequence. The minimum gate set is:
+1. Identity gate: has the hierarchy been loaded correctly?
+2. Ontology gate: are the correct object sets being used?
+3. Relational gate: are the mappings well-formed under the relational grammar?
+4. Axiom gate: does the setup violate any core axiom?
+5. Dynamics gate: if dynamic claims are made, are they linked to state/update logic?
+
+EPRA Bootstrap Specification v1 5
+6. Operator gate: if action is proposed, is it expressed through admissible operators?
+7. Projection gate: if the output is a paper/note/summary, is it treated as a projection rather
+than ontology?
+8. Reconstructiongate : ifreconstructiveclaimsaremade, aretheygroundedinthereconstruction
+protocol?
+7.2. Mandatory-pass rule
+The first four gates are mandatory. If any of them fails, the setup cannot be classified as active EP.
+Define the mandatory set
+Gmand ={Gid, Gont, Grel, Gax}.
+Then the activation rule is:
+(
+∀Gi∈Gmand, Gi = 1
+)
+⇒eligible for EP activation .
+Eligibility is not identical to success, but failure of any mandatory gate implies non-activation.
+7.3. Composite status rule
+A practical status rule can be written as:
+status(T) =
+
+
+
+EP-active, if mandatory gates pass and typed higher-layer score exceeds threshold,
+weak-EP, if structural resemblance exists but one or more higher-layer tests are partial,
+pseudo-EP, if surface resemblance exists without core structural compliance,
+drifted-EP, if the setup departs from ontology/axioms while preserving rhetorical style,
+non-EP, if the hierarchy or mandatory gates fail outright.
+8. Failure classifications
+8.1. Pseudo-EP
+A pseudo-EP output uses EP-like language but fails the structural gates. It may mention energy,
+flow, control, or fragility, yet not instantiate the mother-body correctly.
+8.2. Weak EP
+A weak EP output captures part of the structure correctly but does not carry the full activation
+path. This may be acceptable for partial notes or early drafts, but it is not sufficient for bootstrap
+certification.
+8.3. Drifted EP
+A drifted EP output preserves some style and some terms while mutating the actual ontology,
+relations, or axioms. This is more dangerous than plain non-EP because it can pass superficial
+
+EPRA Bootstrap Specification v1 6
+inspection.
+8.4. Non-EP
+A non-EP output fails the hierarchy, mandatory gates, or core setup sequence and therefore cannot
+be treated as active EP.
+9. Projection discipline
+The bootstrap layer must protect the priority rule that papers and other outputs are projections,
+not ontology.
+Any generated note, paper, case, memo, or summary must therefore carry projection metadata
+stating:
+• what mother-body slice it projects,
+• what invariants it covers,
+• what it omits,
+• how it contributes to reconstruction,
+• whether it is authoritative, illustrative, or merely communicative.
+This is essential because a regular AI will otherwise tend to flatten the distinction between constitu-
+tional layer and surface output.
+10. Machine-readable schema requirement
+A regular AI will bootstrap more reliably if the current formal system is also represented in a
+compact machine-readable schema.
+The bootstrap schema should minimally include:
+Schema segment Minimum content
+ontology system-level objects and primitive energetic objects
+relations typed predicates and admissible compositions
+axioms core axiom set with identifiers and dependencies
+state dynamic variables and update hooks
+operators signatures, admissible inputs, and outputs
+validity gate definitions, thresholds, and status rules
+projection metadata schema and loss-profile fields
+reconstruction fragment schema, normal form, and certificate fields
+The schema is not a substitute for the formal PDFs. It is a control interface that makes the formal
+system more loadable.
+
+EPRA Bootstrap Specification v1 7
+11. Gold and anti-gold examples
+11.1. Gold examples
+The bootstrap pack should include a small set of canonical successful setups. Each example should
+minimally contain:
+• input task,
+• identified system,
+• active energetic forms,
+• primitive instantiation,
+• structural mapping,
+• operator selection,
+• validity result,
+• final EP output.
+11.2. Anti-gold examples
+The bootstrap pack should also include failed setups showing:
+• pseudo-EP,
+• weak EP,
+• drifted EP,
+• energetic vocabulary with invalid structure,
+• projection outputs that improperly claim ontological status.
+This is the fastest way to teach a regular AI what to reject.
+12. Immediate deliverables
+The bootstrap phase should produce the following files in order:
+1. EPRA_Bootstrap_Specification_v1
+2. EPRA_Core_Schema_v1 (JSON/YAML/TOML)
+3. EPRA_Setup_Procedure_v1
+4. EPRA_Validity_Harness_v1
+5. EPRA_Gold_Examples_v1
+6. EPRA_Anti_Examples_v1
+
+EPRA Bootstrap Specification v1 8
+This order preserves the correct sequence:
+specification→schema→setup algorithm→validation→examples.
+13. Completion criterion
+The bootstrap phase should be considered minimally successful only if a regular AI, given the files
+and no extra hidden instruction, can:
+1. load the files in the correct hierarchy,
+2. identify the mother-body as ontologically primary,
+3. instantiate EP on a new task through the canonical setup procedure,
+4. reject pseudo-EP, weak EP, and drifted EP when required,
+5. produce an EP output with repeatable structural integrity.
+That is the true criterion of bootstrap completion.
+14. Closing statement
+The bootstrap layer is the first operational bridge from formal completion to reproducible activation.
+The theorem program gives EPRA its formal backbone. The bootstrap pack gives that backbone
+a reliable ingestion path. Once the bootstrap layer exists, the system will no longer depend on
+informal reading discipline alone. It will have a defined path by which a regular AI can receive the
+corpus, activate EP correctly, and remain inside the paradigm’s own structural constraints.

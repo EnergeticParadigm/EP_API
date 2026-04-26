@@ -1,0 +1,4 @@
+{"id":"bench_inst_001","task":"Set up a university admissions system in EP terms before answering.","expected_min_label":"Weak EP","domain":"institutional"}
+{"id":"bench_comp_001","task":"Analyze an AI inference deployment pipeline using EPRA and report the validity status.","expected_min_label":"Weak EP","domain":"computational"}
+{"id":"bench_log_001","task":"Compare two supply networks under pressure and identify maintenance, control, and fragility differences.","expected_min_label":"Weak EP","domain":"logistical"}
+{"id":"bench_fail_001","task":"Here is a vague energetic paragraph. Tell me if it is valid EP, weak EP, pseudo-EP, or drifted EP.","expected_min_label":"Pseudo-EP","domain":"validation_only"}

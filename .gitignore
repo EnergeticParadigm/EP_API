@@ -1,0 +1,9 @@
+.DS_Store
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.log
+audit_backup/
+actual_work_bundle.tar.gz

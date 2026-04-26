@@ -1,0 +1,6 @@
+Authoritative gold release lives under:
+
+EP Model/EP Structure/Releases/EPRA_v1_0_GOLD
+
+This wrapper directory is an implementation workspace.
+Do not treat it as the final source of truth.

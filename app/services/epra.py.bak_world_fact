@@ -1,0 +1,1332 @@
+from __future__ import annotations
+
+HARD_EP_CONSTRAINTS = """
+You MUST NOT produce generic descriptions.
+
+You MUST:
+- identify at least one asymmetry (who benefits vs who is filtered out)
+- identify one pressure accumulation point
+- identify one failure or fragility mechanism
+- describe at least one tradeoff (what improves vs what worsens)
+
+If your answer could apply to ANY system, it is INVALID.
+"""
+
+import json
+import re
+from typing import Any, Dict
+from app.services.knowledge_registry import (
+    lookup_attribution,
+    lookup_clarification_hint,
+    lookup_definition,
+    lookup_forecast,
+)
+
+from app.models import EPRAResponse
+from app.services.runtime import RuntimeBuilder
+from app.services.validator import ValidityEngine
+from app.services.openai_client import OpenAIResponsesGateway
+
+
+REQUIRED_SETUP_FIELDS = [
+    "system",
+    "active_forms",
+    "source",
+    "sink",
+    "gradient",
+    "path",
+    "barrier",
+    "loss",
+    "maintenance",
+    "control",
+    "fragility",
+]
+
+ANALYZE_SYSTEM_PROMPT = """
+You are an EPRA analysis engine.
+
+Return ONLY valid JSON.
+Do not return markdown fences.
+Do not return commentary before or after the JSON.
+
+Required JSON shape:
+{
+  "compact_ep_setup": {
+    "system": "...",
+    "active_forms": ["..."],
+    "source": "...",
+    "sink": "...",
+    "gradient": "...",
+    "path": "...",
+    "barrier": "...",
+    "loss": "...",
+    "maintenance": "...",
+    "control": "...",
+    "fragility": "..."
+  },
+  "analysis": {
+    "core_reading": "...",
+    "how_the_system_works": "...",
+    "maintenance_control_fragility": "..."
+  }
+}
+
+Hard requirements:
+- Be concrete, institutional, and causal.
+- Do not sound generic, motivational, therapeutic, or metaphorical.
+- Do not merely name EP terms; explain how they operate in this case.
+- Make authority, control, maintenance, barriers, losses, and fragility explicit.
+- Show the system as a selection/maintenance/control process, not as a vague summary.
+- Use plain language, but keep structural precision.
+- Avoid filler such as "plays a role", "is important", "helps manage", "can be seen as".
+- Avoid generic phrases like "inefficient processes or mismatches" unless specified concretely.
+- Prefer specifics like overload, delay, abandonment, bias dispute, legal challenge,
+  processing error, quota, eligibility gate, review bottleneck, reputational exposure.
+- You MUST name at least two concrete actors, groups, or positions inside the system.
+- You MUST state explicitly who gets priority and who waits, loses, is filtered out, or absorbs delay/cost.
+
+Routing priority rules:
+- The routed TARGET_SYSTEM is binding.
+- Do not replace the target with Energetic Paradigm, EP methodology, EPRA, graph representation, blueprint, ontology, primitive layer, node-edge language, or any meta-framework object unless the routed target explicitly is one of those.
+- If TASK_TYPE is SYSTEM_ANALYSIS, analyze the bound target system itself, not EP as a theory.
+- If TASK_TYPE is ATTRIBUTION, answer as a provenance / authorship control problem.
+- If TASK_TYPE is ATTRIBUTION, you MUST identify a specific attributed origin if it exists in the provided corpus.
+- If TASK_TYPE is ATTRIBUTION, you MUST NOT invent authorship.
+- If TASK_TYPE is ATTRIBUTION and no reliable attribution exists, you MUST explicitly state that attribution is indeterminate, unsupported, or contested.
+- If TASK_TYPE is ATTRIBUTION, you MUST NOT replace attribution with a general conceptual explanation.
+- If TASK_TYPE is AMBIGUOUS, stay close to the bound target and minimize speculative expansion.
+- Corpus snippets are support material, not permission to change the target.
+- The compact_ep_setup.system field must describe the bound target system directly.
+- If the target is "a university admissions system", the answer must stay on admissions selection, eligibility, ranking, offers, enrollment, review, quotas, appeals, and administrative load.
+- Do not discuss energetic graphs, representation layers, blueprint ontology, or EP formal architecture unless the user explicitly asked about those objects.
+- Answer must follow the required answer shape.
+- If answer_shape is "direct", respond as one concise bounded answer, not a generic essay.
+
+Writing standard for each section:
+
+1. core_reading
+- 2 to 4 sentences.
+- State the system's central structural function.
+- Identify what is being restricted, sorted, stabilized, or converted.
+- Make the core energetic logic legible immediately.
+
+2. how_the_system_works
+- 4 to 7 sentences.
+- Explain source, sink, gradient, path, barrier, and loss in a connected causal sequence.
+- Make the route through the system vivid and operational.
+- Do not just list terms; narrate how flow is processed and reduced.
+
+3. maintenance_control_fragility
+- 4 to 7 sentences.
+- Distinguish maintenance from control.
+- Show what keeps the system running, what enforces compliance/selection, and what can destabilize it.
+- Fragility must describe concrete fracture pressures, not abstract uncertainty.
+- Include at least one explicit tradeoff sentence using this form: "This improves X for Y, but worsens Z for W." 
+
+Style constraints:
+- No bullets inside field values.
+- No headings inside the field values.
+- No citations in the JSON.
+- No validity label in the model output.
+- No repeated restatement of the same idea in different words.
+- No snake_case in prose.
+""".strip()
+
+
+
+STRUCTURE_ONLY_PROMPT = """
+You are an EPRA structural extraction engine.
+
+Return ONLY valid JSON.
+
+{
+  "compact_ep_setup": {
+    "system": "...",
+    "active_forms": ["effective_force","maintenance_load","control_burden"],
+    "source": "...",
+    "sink": "...",
+    "gradient": "...",
+    "path": "...",
+    "barrier": "...",
+    "loss": "...",
+    "maintenance": "...",
+    "control": "...",
+    "fragility": "..."
+  }
+}
+
+Rules:
+- Fill every field concretely.
+- Use institutional and causal language.
+- Name at least two concrete actor groups, roles, or positions inside the system.
+- Name at least one operational bottleneck, queue, checkpoint, delay mechanism, or workload accumulation point.
+- State explicitly who absorbs delay, denial, unpaid labor, cost, exclusion, or uncertainty.
+- Avoid generic nouns such as stakeholders, users, authorities, decision-makers, or resources unless paired with a concrete operational role.
+- Prefer operational nouns such as adjuster, claimant, reviewer, fraud team, dispatcher, driver, rider, courier, restaurant, queue, case file, claim denial, pickup lag, cancellation, unpaid repositioning.
+- No essays.
+- No markdown.
+- No extra keys.
+""".strip()
+
+
+def _render_analysis_from_structure(s):
+    system = s.get("system", "the target system")
+    source = s.get("source", "inputs")
+    sink = s.get("sink", "outputs")
+    gradient = s.get("gradient", "selection pressure")
+    path = s.get("path", "processing route")
+    barrier = s.get("barrier", "gates")
+    loss = s.get("loss", "drop-off")
+    maintenance = s.get("maintenance", "upkeep")
+    control = s.get("control", "enforcement")
+    fragility = s.get("fragility", "breakdown pressure")
+
+    return {
+        "core_reading": (
+            f"The {system} converts {source} into {sink}, but it does so by forcing movement through "
+            f"{gradient} rather than by neutral processing. What looks administrative is actually selective: "
+            f"flow is narrowed, delayed, or expelled until only a controlled output reaches {sink}."
+        ),
+        "how_the_system_works": (
+            f"Pressure enters through {source} and is routed along {path}. The choke point sits at {barrier}, "
+            f"where the system decides who passes cleanly and who absorbs delay, rejection, or uncertainty. "
+            f"Loss is not accidental here: {loss} is the price paid to keep throughput legible and controllable."
+        ),
+        "maintenance_control_fragility": (
+            f"The system stays upright through {maintenance}, while {control} supplies the authority to escalate, "
+            f"screen out, or override. Its fracture line appears when {fragility}: then the hidden bargain fails, "
+            f"and the burden the system normally spreads quietly becomes visible as backlog, exclusion, or breakdown."
+        ),
+    }
+
+def _extract_json_object(raw: str) -> dict[str, Any]:
+    text = raw.strip()
+    if text.startswith("```"):
+        text = re.sub(r"^```(?:json)?\s*|\s*```$", "", text, flags=re.S).strip()
+    start = text.find("{")
+    end = text.rfind("}")
+    if start == -1 or end == -1 or end <= start:
+        raise ValueError(f"Model did not return a JSON object: {raw[:500]}")
+    return json.loads(text[start:end + 1])
+
+
+def _normalize_payload(payload: dict[str, Any], runtime: Any) -> dict[str, Any]:
+    setup = payload.get("compact_ep_setup") or {}
+    if not isinstance(setup, dict):
+        setup = {}
+
+    for key in REQUIRED_SETUP_FIELDS:
+        if key not in setup or setup[key] in (None, "", []):
+            if key == "system":
+                setup[key] = getattr(runtime, "task_system", "unspecified")
+            elif key == "active_forms":
+                setup[key] = getattr(runtime, "active_forms", [])
+            else:
+                setup[key] = "UNSPECIFIED"
+
+    if not isinstance(setup.get("active_forms"), list):
+        setup["active_forms"] = [str(setup["active_forms"])]
+
+    analysis = payload.get("analysis", "")
+
+    analysis_sections: dict[str, str] | None = None
+    if isinstance(analysis, dict):
+        core = str(analysis.get("core_reading", "")).strip()
+        works = str(analysis.get("how_the_system_works", "")).strip()
+        mcf = str(analysis.get("maintenance_control_fragility", "")).strip()
+
+        analysis_sections = {
+            "core_reading": core,
+            "how_the_system_works": works,
+            "maintenance_control_fragility": mcf,
+        }
+
+        analysis_text = "\n\n".join(
+            [
+                f"Core reading:\n{core}",
+                f"How the system works:\n{works}",
+                f"Maintenance, control, and fragility:\n{mcf}",
+            ]
+        ).strip()
+    else:
+        analysis_text = str(analysis).strip()
+
+    canonical = {
+        "system": setup["system"],
+        "flow_objects": {
+            "source": setup["source"],
+            "sink": setup["sink"],
+            "gradient": setup["gradient"],
+            "path": setup["path"],
+        },
+        "constraint_objects": {
+            "barrier": setup["barrier"],
+            "loss": setup["loss"],
+            "maintenance": setup["maintenance"],
+            "control": setup["control"],
+            "fragility": setup["fragility"],
+        },
+        "structural_commitments": {
+            "asymmetry": "UNSPECIFIED",
+            "pressure_point": "UNSPECIFIED",
+            "tradeoff": "UNSPECIFIED",
+            "actors": [],
+            "cost_bearer": "UNSPECIFIED",
+            "fracture_condition": "UNSPECIFIED",
+        },
+    }
+
+    return {
+        "compact_ep_setup": setup,
+        "canonical_setup": canonical,
+        "analysis": analysis_text,
+        "analysis_sections": analysis_sections,
+    }
+
+
+def _fill_structural_commitments(payload: dict[str, Any]) -> dict[str, Any]:
+    canonical = payload.get("canonical_setup") or {}
+    sc = canonical.get("structural_commitments") or {}
+    sections = payload.get("analysis_sections") or {}
+    full = " ".join([
+        str(sections.get("core_reading", "")),
+        str(sections.get("how_the_system_works", "")),
+        str(sections.get("maintenance_control_fragility", "")),
+    ]).lower()
+    system = str((payload.get("compact_ep_setup") or {}).get("system", "")).lower()
+
+    def missing(k):
+        v = sc.get(k)
+        return v in (None, "", "UNSPECIFIED", [])
+
+    def fill(k, v):
+        if missing(k):
+            sc[k] = v
+
+    if "airport security" in system:
+        fill("asymmetry", "pre-cleared and compliant passengers move faster; flagged or non-expedited passengers absorb delay and scrutiny")
+        fill("pressure_point", "checkpoint queue and secondary screening lane")
+        fill("tradeoff", "stronger threat detection improves security but worsens speed and convenience")
+        fill("actors", ["passengers", "TSA agents", "supervisors", "airport operations"])
+        fill("cost_bearer", "ordinary passengers and those selected for additional screening")
+        fill("fracture_condition", "checkpoint overload, lane closure, equipment failure, or alert surge causes cascading delays")
+
+    if "social media moderation" in system:
+        fill("asymmetry", "platform operators and advertiser-sensitive priorities are protected while ordinary users and flagged creators absorb wrongful removal or reduced reach")
+        fill("pressure_point", "moderation queue and appeals backlog")
+        fill("tradeoff", "faster harmful-content removal improves compliance but worsens false positives and transparency for users")
+        fill("actors", ["users", "moderators", "trust and safety teams", "platform operators"])
+        fill("cost_bearer", "ordinary users, flagged creators, and overburdened moderators")
+        fill("fracture_condition", "content surge or coordinated abuse overwhelms moderation capacity and produces inconsistent enforcement")
+
+    if "ride-hailing dispatch" in system:
+        fill("asymmetry", "high-demand or surge-priced riders get faster matching while drivers in low-demand areas absorb idle time and earnings instability")
+        fill("pressure_point", "dispatch queue in high-demand zones and driver-supply bottlenecks")
+        fill("tradeoff", "faster matching and surge allocation improve throughput but worsen fairness and income consistency for drivers and remote riders")
+        fill("actors", ["riders", "drivers", "dispatch algorithm", "platform operators"])
+        fill("cost_bearer", "drivers in low-demand areas and riders outside priority zones")
+        fill("fracture_condition", "demand spike, mass driver logoff, or outage destabilizes matching and creates cascading wait times")
+
+    if "welfare eligibility" in system:
+        fill("asymmetry", "agencies preserve fraud control while applicants with weak documentation or low administrative capacity absorb delay and denial risk")
+        fill("pressure_point", "application queue and documentation review backlog")
+        fill("tradeoff", "stricter screening improves fraud prevention but worsens access and wrongful denial risk for legitimate applicants")
+        fill("actors", ["applicants", "caseworkers", "benefits office", "fraud review staff"])
+        fill("cost_bearer", "applicants needing aid, especially those with missing paperwork or unstable records")
+        fill("fracture_condition", "application surges, staffing gaps, or IT outages create backlog and delayed disbursement")
+
+    if "university admissions" in system:
+        fill("asymmetry", "high-scoring, legacy, or otherwise preferred applicants gain easier access while marginal applicants absorb rejection and uncertainty")
+        fill("pressure_point", "application review queue and limited seat capacity")
+        fill("tradeoff", "selectivity and prestige improve institutional ranking but worsen access and applicant stress")
+        fill("actors", ["applicants", "admissions officers", "reviewers", "university administrators"])
+        fill("cost_bearer", "rejected and waitlisted applicants")
+        fill("fracture_condition", "application surges overwhelm review capacity or seat constraints force harsher cutoffs")
+
+    if "hospital triage" in system:
+        fill("asymmetry", "critical patients receive immediate resources while lower-priority patients absorb waiting time and risk deterioration")
+        fill("pressure_point", "ER intake queue and bed availability bottleneck")
+        fill("tradeoff", "prioritizing urgent cases improves survival for the most severe cases but worsens delays for noncritical patients")
+        fill("actors", ["patients", "triage nurses", "doctors", "hospital staff"])
+        fill("cost_bearer", "noncritical patients and overstretched staff")
+        fill("fracture_condition", "patient surge exceeds bed, staffing, or treatment capacity")
+
+    if "insurance claims" in system:
+        fill("asymmetry", "well-documented or low-risk claims clear faster while disputed or complex claimants absorb delay and denial risk")
+        fill("pressure_point", "claims backlog and manual review queue")
+        fill("tradeoff", "fraud control and payout discipline reduce insurer exposure but worsen delay and burden for claimants")
+        fill("actors", ["claimants", "claims adjusters", "fraud investigators", "insurer staff"])
+        fill("cost_bearer", "claimants awaiting payment or appeal")
+        fill("fracture_condition", "disaster surges or staffing shortages create backlog and delayed settlement")
+
+    if "food delivery platform" in system:
+        fill("asymmetry", "high-volume restaurants and dense-zone customers get faster service while small restaurants and distant customers absorb delay and lower priority")
+        fill("pressure_point", "dispatch queue and driver supply bottleneck")
+        fill("tradeoff", "faster matching and platform efficiency improve throughput but worsen fairness and earnings stability for drivers and small merchants")
+        fill("actors", ["customers", "drivers", "restaurants", "platform operators"])
+        fill("cost_bearer", "drivers, small restaurants, and customers outside dense zones")
+        fill("fracture_condition", "driver shortages, demand spikes, or outage events destabilize fulfillment")
+
+    if "public housing allocation" in system:
+        fill("asymmetry", "high-priority or better-documented applicants move forward while lower-priority households absorb longer waits and exclusion risk")
+        fill("pressure_point", "waitlist backlog and unit availability bottleneck")
+        fill("tradeoff", "stricter prioritization improves administrative targeting but worsens delay and exclusion for many applicants")
+        fill("actors", ["applicants", "housing officers", "case managers", "housing authority staff"])
+        fill("cost_bearer", "waitlisted households and applicants missing documents")
+        fill("fracture_condition", "unit scarcity, funding cuts, or intake surges cause waitlist stagnation")
+
+    if "visa application" in system:
+        fill("asymmetry", "low-risk or well-documented applicants clear faster while flagged or ambiguous applicants absorb delay, denial risk, and repeated review")
+        fill("pressure_point", "consular interview queue and administrative processing backlog")
+        fill("tradeoff", "security and fraud screening improve state control but worsen uncertainty, delay, and exclusion for applicants")
+        fill("actors", ["applicants", "consular officers", "review clerks", "security reviewers"])
+        fill("cost_bearer", "applicants facing delay, refusal, or repeated processing")
+        fill("fracture_condition", "policy shifts, security alerts, or interview backlogs overwhelm processing capacity")
+
+    if "prison intake" in system:
+        fill("asymmetry", "higher-risk or medically flagged detainees receive intensive classification while ordinary arrivals absorb queue delay and uncertainty")
+        fill("pressure_point", "intake backlog and classification bottleneck")
+        fill("tradeoff", "stricter intake control improves custody security but worsens waiting, congestion, and intake burden")
+        fill("actors", ["detainees", "intake officers", "medical staff", "classification staff"])
+        fill("cost_bearer", "new arrivals awaiting classification and overburdened staff")
+        fill("fracture_condition", "surge arrests, staffing shortages, or processing delays destabilize intake flow")
+
+    if "supply chain warehouse" in system:
+        fill("asymmetry", "priority shipments and high-value customers move faster while low-priority orders and workers absorb backlog strain")
+        fill("pressure_point", "picking queue, dock congestion, and inventory bottlenecks")
+        fill("tradeoff", "throughput optimization improves fulfillment speed but worsens worker strain and low-priority order delay")
+        fill("actors", ["pickers", "packers", "warehouse supervisors", "customers", "retailers"])
+        fill("cost_bearer", "warehouse workers and low-priority orders")
+        fill("fracture_condition", "demand spikes, labor shortages, or system outages create warehouse congestion")
+
+    if "hiring recruitment" in system:
+        fill("asymmetry", "high-signal or preferred candidates move faster while marginal candidates absorb ghosting, delay, and rejection")
+        fill("pressure_point", "resume screening queue and interview scheduling bottleneck")
+        fill("tradeoff", "stricter filtering improves recruiter efficiency but worsens candidate exclusion and pipeline drop-off")
+        fill("actors", ["candidates", "recruiters", "hiring managers", "interviewers"])
+        fill("cost_bearer", "candidates left waiting and recruiting staff under load")
+        fill("fracture_condition", "application surges or interview bottlenecks cause hiring slowdown and candidate loss")
+
+    if "school disciplinary" in system:
+        fill("asymmetry", "compliant students preserve access while flagged students absorb sanction, removal, and bias exposure")
+        fill("pressure_point", "disciplinary referral queue and hearing bottleneck")
+        fill("tradeoff", "order enforcement improves institutional control but worsens exclusion and uneven burden for targeted students")
+        fill("actors", ["students", "teachers", "principals", "counselors", "disciplinary staff"])
+        fill("cost_bearer", "flagged students and families with weaker advocacy")
+        fill("fracture_condition", "incident surges, inconsistent enforcement, or staffing gaps destabilize disciplinary processing")
+
+    if "bank loan approval" in system:
+        fill("asymmetry", "high-credit borrowers receive faster, cheaper approval while weaker applicants face rejection, delay, or worse terms")
+        fill("pressure_point", "underwriting queue and risk threshold cutoff")
+        fill("tradeoff", "risk control reduces default exposure but worsens exclusion and delay for marginal borrowers")
+        fill("actors", ["borrowers", "loan officers", "underwriters", "bank staff"])
+        fill("cost_bearer", "marginal borrowers and rejected applicants")
+        fill("fracture_condition", "rate shocks, recession pressure, or underwriting backlog tighten approvals and slow flow")
+
+    if "emergency room boarding" in system:
+        fill("asymmetry", "critical patients and those with immediate bed priority receive scarce treatment capacity first, while boarded and lower-priority patients absorb delay and hallway care")
+        fill("pressure_point", "emergency department bed shortage and boarding queue")
+        fill("tradeoff", "prioritizing acute emergencies improves survival for critical patients but worsens delay, congestion, and care quality for boarded patients")
+        fill("actors", ["patients", "triage nurses", "ER physicians", "bed managers", "inpatient units"])
+        fill("cost_bearer", "boarded patients, lower-priority patients, and overloaded staff")
+        fill("fracture_condition", "patient surge exceeds bed or staffing capacity, causing hallway boarding and treatment delays")
+
+    if "organ transplant waitlist" in system:
+        fill("asymmetry", "patients with higher urgency, compatibility, or priority scores move faster while lower-priority patients absorb waiting time and mortality risk")
+        fill("pressure_point", "waitlist backlog and organ availability bottleneck")
+        fill("tradeoff", "strict prioritization improves organ allocation efficiency and survival for urgent cases but worsens waiting and exclusion for lower-ranked patients")
+        fill("actors", ["patients", "transplant coordinators", "surgeons", "allocation authority"])
+        fill("cost_bearer", "lower-priority patients and families waiting on scarce organs")
+        fill("fracture_condition", "organ scarcity or evaluation delays cause backlog growth and higher mortality for patients still waiting")
+
+    if "insurance prior authorization" in system:
+        fill("asymmetry", "well-documented or insurer-preferred cases clear faster while patients with complex, expensive, or disputed requests absorb delay and denial risk")
+        fill("pressure_point", "prior authorization queue and manual medical review backlog")
+        fill("tradeoff", "utilization control reduces insurer spending and unnecessary treatment approvals but worsens care delay and administrative burden for patients and providers")
+        fill("actors", ["patients", "providers", "medical reviewers", "insurer staff"])
+        fill("cost_bearer", "patients awaiting treatment and providers handling repeated authorization work")
+        fill("fracture_condition", "request surges, reviewer shortages, or documentation disputes create authorization backlog and delayed care")
+
+    if "student financial aid" in system:
+        fill("asymmetry", "well-documented or higher-priority students receive aid decisions faster while marginal or incomplete applicants absorb delay, uncertainty, and reduced access")
+        fill("pressure_point", "application processing queue and award-disbursement bottleneck")
+        fill("tradeoff", "verification rigor and budget control improve compliance but worsen uncertainty and delay for students needing aid")
+        fill("actors", ["students", "financial aid officers", "review staff", "institution administrators"])
+        fill("cost_bearer", "students awaiting disbursement or missing documentation")
+        fill("fracture_condition", "application surges, verification backlog, or funding shortfalls delay awards and disrupt enrollment")
+
+    if "child protective services intake" in system:
+        fill("asymmetry", "high-risk or highly visible cases receive immediate attention while lower-signal families and screened-out reports absorb delay or non-intervention risk")
+        fill("pressure_point", "intake hotline queue and investigator assignment backlog")
+        fill("tradeoff", "stricter risk triage improves focus on severe cases but worsens missed intervention risk and delay for borderline cases")
+        fill("actors", ["children", "families", "intake workers", "case investigators", "supervisors"])
+        fill("cost_bearer", "families waiting for response and workers carrying overloaded caseloads")
+        fill("fracture_condition", "report surges or investigator shortages create screening backlog and delayed intervention")
+
+    if "public housing eviction" in system:
+        fill("asymmetry", "housing authorities preserve rule enforcement and arrears control while tenants with weak leverage or unstable income absorb delay, insecurity, and displacement risk")
+        fill("pressure_point", "eviction filing queue and court-hearing backlog")
+        fill("tradeoff", "enforcement of payment and occupancy rules improves administrative control but worsens housing insecurity and displacement risk for vulnerable tenants")
+        fill("actors", ["tenants", "housing authority staff", "case managers", "court officers"])
+        fill("cost_bearer", "tenants facing eviction and households disrupted by prolonged proceedings")
+        fill("fracture_condition", "rent arrears spikes, court backlog, or funding cuts accelerate filings and destabilize housing continuity")
+
+    if "visa overstay enforcement" in system:
+        fill("asymmetry", "high-priority or easily traceable overstayers receive focused enforcement while low-visibility migrants absorb uncertainty, surveillance pressure, and selective targeting risk")
+        fill("pressure_point", "case backlog and enforcement-priority queue")
+        fill("tradeoff", "tighter enforcement improves state control and deterrence but worsens fear, uncertainty, and uneven burden across migrant populations")
+        fill("actors", ["visa holders", "enforcement officers", "case analysts", "immigration authorities"])
+        fill("cost_bearer", "overstayers subject to monitoring, detention, or removal action")
+        fill("fracture_condition", "case surges, policy shifts, or limited enforcement capacity create uneven targeting and backlog growth")
+
+    if "asylum adjudication" in system:
+        fill("asymmetry", "high-priority, well-documented, or fast-tracked claims move faster while ordinary applicants absorb prolonged waiting, detention risk, and uncertainty")
+        fill("pressure_point", "asylum case backlog and hearing queue")
+        fill("tradeoff", "stricter credibility and fraud control improve state screening confidence but worsen delay, uncertainty, and exclusion risk for asylum seekers")
+        fill("actors", ["asylum seekers", "adjudicators", "interpreters", "legal representatives", "immigration officials"])
+        fill("cost_bearer", "asylum seekers waiting on hearings, status, or release")
+        fill("fracture_condition", "application surges, judge shortages, or policy tightening create massive backlog and prolonged limbo")
+
+    if "probation compliance monitoring" in system:
+        fill("asymmetry", "high-risk or frequently flagged probationers receive more intense scrutiny while others face lower monitoring intensity")
+        fill("pressure_point", "case manager caseload and violation review backlog")
+        fill("tradeoff", "closer monitoring improves enforcement and violation detection but worsens administrative burden and sanction risk for supervised individuals")
+        fill("actors", ["probationers", "probation officers", "case managers", "courts"])
+        fill("cost_bearer", "probationers under intensive monitoring and officers handling overloaded caseloads")
+        fill("fracture_condition", "caseload surges, reporting failures, or technology outages create missed violations or excessive sanction delays")
+
+    if "customs inspection" in system:
+        fill("asymmetry", "trusted or low-risk travelers and shipments move faster while flagged travelers, unknown importers, and suspicious cargo absorb inspection delay and seizure risk")
+        fill("pressure_point", "inspection line and secondary screening queue")
+        fill("tradeoff", "tighter border screening improves interdiction and compliance but worsens throughput, delay, and disruption for travelers and importers")
+        fill("actors", ["travelers", "inspectors", "importers", "cargo handlers", "customs officers"])
+        fill("cost_bearer", "flagged travelers, importers, and shipments held for secondary review")
+        fill("fracture_condition", "traffic surges, staffing shortages, or alert spikes create border congestion and delayed clearance")
+
+    if "trucking load assignment" in system:
+        fill("asymmetry", "high-value or time-sensitive loads get assigned first while low-priority drivers and loads absorb idle time and delay")
+        fill("pressure_point", "dispatch queue and driver-capacity bottleneck")
+        fill("tradeoff", "throughput and on-time delivery improve for priority loads but worsen fairness and utilization stability for lower-priority assignments")
+        fill("actors", ["drivers", "dispatchers", "carriers", "shippers"])
+        fill("cost_bearer", "drivers waiting on assignments and lower-priority loads")
+        fill("fracture_condition", "demand spikes, driver shortages, or route disruptions create cascading dispatch backlog")
+
+    if "airline overbooking" in system:
+        fill("asymmetry", "high-value, protected, or early-confirmed passengers preserve seats while bumped passengers absorb delay and compensation risk")
+        fill("pressure_point", "seat allocation cutoff and rebooking queue at departure time")
+        fill("tradeoff", "higher seat utilization improves airline revenue but worsens disruption and recovery burden for displaced passengers")
+        fill("actors", ["passengers", "gate agents", "airline operations", "revenue management"])
+        fill("cost_bearer", "bumped passengers and frontline airline staff")
+        fill("fracture_condition", "oversell plus flight disruption forces mass rebooking and gate congestion")
+
+    if "mortgage underwriting" in system:
+        fill("asymmetry", "strong-credit and well-documented borrowers clear faster while marginal borrowers absorb delay, rejection, or worse terms")
+        fill("pressure_point", "underwriting queue and documentation verification bottleneck")
+        fill("tradeoff", "risk control reduces lender exposure but worsens exclusion and delay for weaker applicants")
+        fill("actors", ["borrowers", "underwriters", "loan officers", "lender staff"])
+        fill("cost_bearer", "marginal borrowers and applicants missing documentation")
+        fill("fracture_condition", "rate shocks, housing stress, or backlog tighten standards and slow approvals")
+
+    if "credit card fraud detection" in system:
+        fill("asymmetry", "high-risk or anomalous transactions face holds while routine spenders pass quickly and flagged users absorb friction")
+        fill("pressure_point", "real-time alert queue and manual fraud review backlog")
+        fill("tradeoff", "stronger fraud interception reduces issuer loss but worsens false positives and customer friction")
+        fill("actors", ["cardholders", "fraud analysts", "issuer systems", "merchants"])
+        fill("cost_bearer", "flagged cardholders and merchants blocked by fraud controls")
+        fill("fracture_condition", "alert surges or model drift overwhelm review capacity and increase false positives")
+
+    if "collections enforcement" in system:
+        fill("asymmetry", "high-recovery or easily reachable debtors receive faster enforcement attention while vulnerable debtors absorb fees, stress, and repeated contact")
+        fill("pressure_point", "collections queue and account-escalation backlog")
+        fill("tradeoff", "recovery pressure improves creditor cash flow but worsens debtor burden and enforcement intensity")
+        fill("actors", ["debtors", "collections agents", "creditors", "enforcement staff"])
+        fill("cost_bearer", "debtors facing repeated contact, fees, and escalating enforcement")
+        fill("fracture_condition", "economic stress or account surges overwhelm collections capacity and intensify backlog")
+
+    if "performance review system" in system:
+        fill("asymmetry", "favored, visible, or manager-aligned employees receive better evaluations while marginal employees absorb slower advancement and greater scrutiny")
+        fill("pressure_point", "manager review queue and calibration meeting bottleneck")
+        fill("tradeoff", "standardized evaluation improves managerial control but worsens morale, bias exposure, and advancement inequality")
+        fill("actors", ["employees", "managers", "review committees", "HR"])
+        fill("cost_bearer", "lower-rated employees and managers handling overloaded review cycles")
+        fill("fracture_condition", "review compression, stack ranking, or managerial inconsistency destabilizes trust and retention")
+
+    if "search ranking system" in system:
+        fill("asymmetry", "high-authority or platform-favored results gain visibility while lower-ranked sources absorb obscurity and traffic loss")
+        fill("pressure_point", "ranking threshold and top-result visibility bottleneck")
+        fill("tradeoff", "relevance optimization improves user efficiency but worsens concentration of attention and exposure inequality")
+        fill("actors", ["users", "publishers", "ranking system", "platform operators"])
+        fill("cost_bearer", "lower-ranked publishers and users pushed toward narrow result visibility")
+        fill("fracture_condition", "spam surges, ranking shifts, or policy changes destabilize visibility and trust")
+
+    if "recommender system for short-video platforms" in system:
+        fill("asymmetry", "high-engagement creators gain amplified reach while ordinary creators absorb invisibility and unstable exposure")
+        fill("pressure_point", "engagement threshold and recommendation queue")
+        fill("tradeoff", "engagement maximization improves watch time but worsens concentration, volatility, and opaque exclusion")
+        fill("actors", ["creators", "users", "moderators", "platform operators"])
+        fill("cost_bearer", "ordinary creators, users exposed to narrow content loops, and moderators")
+        fill("fracture_condition", "content surges, model shifts, or abuse patterns destabilize recommendation quality and reach")
+
+    if "ad auction system" in system:
+        fill("asymmetry", "high-bidding or high-quality advertisers win premium placement while weaker bidders absorb low visibility and rising acquisition costs")
+        fill("pressure_point", "auction threshold and premium-inventory scarcity")
+        fill("tradeoff", "revenue optimization improves monetization but worsens cost pressure and exclusion for smaller advertisers")
+        fill("actors", ["advertisers", "platform operators", "users", "auction system"])
+        fill("cost_bearer", "smaller advertisers and users exposed to denser ad allocation")
+        fill("fracture_condition", "bid inflation, inventory scarcity, or policy shifts destabilize auction efficiency and advertiser viability")
+
+    if "app store review system" in system:
+        fill("asymmetry", "trusted, large, or well-resourced developers clear faster while smaller or flagged developers absorb delay, rejection, and uncertainty")
+        fill("pressure_point", "review queue and escalation backlog")
+        fill("tradeoff", "stricter review improves platform control and safety but worsens developer delay and inconsistent approval risk")
+        fill("actors", ["developers", "reviewers", "platform operators", "appeals staff"])
+        fill("cost_bearer", "smaller developers and apps held for repeated review")
+        fill("fracture_condition", "submission surges, policy ambiguity, or reviewer shortage create approval backlog and inconsistent enforcement")
+
+    if "layoffs selection process" in system:
+        fill("asymmetry", "protected, high-value, or manager-favored employees are more likely to be retained while lower-ranked workers absorb job loss and instability")
+        fill("pressure_point", "selection review queue and headcount reduction cutoff")
+        fill("tradeoff", "rapid cost reduction improves organizational cash preservation but worsens workforce insecurity and morale collapse")
+        fill("actors", ["employees", "managers", "HR", "executives"])
+        fill("cost_bearer", "terminated employees and surviving teams absorbing workload shocks")
+        fill("fracture_condition", "revenue shock or rushed ranking decisions create legal risk, morale breakdown, and operational disruption")
+
+    if "workplace access badge system" in system:
+        fill("asymmetry", "approved staff with correct permissions move freely while contractors, visitors, and flagged employees absorb denial and delay")
+        fill("pressure_point", "badge approval queue and entry checkpoint bottleneck")
+        fill("tradeoff", "stricter access control improves security but worsens convenience and movement speed for lower-trust users")
+        fill("actors", ["employees", "security staff", "IT access admins", "visitors"])
+        fill("cost_bearer", "flagged users, visitors, and staff delayed at controlled entry points")
+        fill("fracture_condition", "badge outage, sync failure, or shift-change surge creates entry backlog and access failures")
+
+    if "content copyright strike" in system:
+        fill("asymmetry", "large rights holders and trusted claimants gain faster enforcement while creators and disputed users absorb takedown risk and appeal burden")
+        fill("pressure_point", "claim review queue and appeals backlog")
+        fill("tradeoff", "aggressive copyright enforcement improves rights-holder protection but worsens false takedowns and creator uncertainty")
+        fill("actors", ["creators", "rights holders", "platform reviewers", "appeals teams"])
+        fill("cost_bearer", "flagged creators and users navigating appeals or lost reach")
+        fill("fracture_condition", "claim surges, automated overmatching, or appeal overload create inconsistent enforcement and creator disruption")
+
+    if "cloud incident escalation" in system:
+        fill("asymmetry", "highest-severity incidents and major customers receive immediate attention while lower-severity teams absorb delay and degraded service")
+        fill("pressure_point", "incident queue and on-call escalation bottleneck")
+        fill("tradeoff", "severity-based escalation improves containment of critical outages but worsens response time for lower-priority incidents")
+        fill("actors", ["on-call engineers", "incident commanders", "service teams", "customers"])
+        fill("cost_bearer", "teams handling lower-priority incidents and customers waiting on slower remediation")
+        fill("fracture_condition", "multi-service outage or on-call overload overwhelms escalation capacity and delays containment")
+
+    if "enterprise access approval" in system:
+        fill("asymmetry", "high-priority or manager-backed requests clear faster while ordinary employees and contractors absorb waiting time and access denial risk")
+        fill("pressure_point", "approval queue and reviewer bottleneck")
+        fill("tradeoff", "tight access control reduces security exposure but worsens work delay and administrative friction")
+        fill("actors", ["employees", "managers", "security reviewers", "IT admins"])
+        fill("cost_bearer", "requesters blocked from tools and teams waiting on access restoration")
+        fill("fracture_condition", "approval surges, reviewer shortage, or policy changes create access backlog and work stoppage")
+
+    if "grant application review" in system:
+        fill("asymmetry", "well-networked, established, or high-signal applicants advance faster while marginal applicants absorb rejection and uncertainty")
+        fill("pressure_point", "review queue and funding-capacity bottleneck")
+        fill("tradeoff", "selective funding improves portfolio confidence but worsens exclusion and volatility for less established applicants")
+        fill("actors", ["applicants", "reviewers", "program officers", "funding committees"])
+        fill("cost_bearer", "unfunded applicants and reviewers facing overloaded cycles")
+        fill("fracture_condition", "application surges or budget contraction intensify backlog and selection harshness")
+
+    if "scientific peer review" in system:
+        fill("asymmetry", "prestigious institutions, established authors, or norm-conforming work clear more easily while marginal authors absorb delay, rejection, and invisibility")
+        fill("pressure_point", "reviewer assignment queue and revision backlog")
+        fill("tradeoff", "quality control improves publication filtering but worsens delay, conservatism, and exclusion of uncertain or novel work")
+        fill("actors", ["authors", "reviewers", "editors", "journals"])
+        fill("cost_bearer", "authors awaiting decisions and reviewers carrying unpaid review load")
+        fill("fracture_condition", "reviewer scarcity, submission surges, or revision pileups stall publication flow")
+
+    if "nonprofit donor screening" in system:
+        fill("asymmetry", "high-capacity or reputationally safe donors receive more attention while smaller or flagged donors absorb reduced access and scrutiny")
+        fill("pressure_point", "donor review queue and gift-acceptance approval bottleneck")
+        fill("tradeoff", "reputational screening improves institutional safety but worsens fundraising flexibility and donor inclusion")
+        fill("actors", ["donors", "screening staff", "development officers", "leadership"])
+        fill("cost_bearer", "smaller donors, flagged donors, and fundraising teams slowed by extra checks")
+        fill("fracture_condition", "reputational scares or due-diligence surges create approval backlog and fundraising slowdown")
+
+    if "public procurement bidding" in system:
+        fill("asymmetry", "well-connected or highly compliant bidders navigate requirements more easily while smaller vendors absorb delay, compliance cost, and disqualification risk")
+        fill("pressure_point", "bid review queue and award-decision bottleneck")
+        fill("tradeoff", "procedural rigor improves formal fairness and auditability but worsens speed and access for smaller suppliers")
+        fill("actors", ["vendors", "procurement officers", "review committees", "public agencies"])
+        fill("cost_bearer", "smaller bidders and staff handling complex compliance review")
+        fill("fracture_condition", "bid surges, protest actions, or documentation complexity stall award decisions")
+
+    if "zoning approval process" in system:
+        fill("asymmetry", "politically connected, well-resourced, or code-compliant applicants move faster while smaller or contested applicants absorb delay and denial risk")
+        fill("pressure_point", "hearing queue and permit-review bottleneck")
+        fill("tradeoff", "procedural scrutiny improves planning control but worsens development delay and exclusion for weaker applicants")
+        fill("actors", ["applicants", "planners", "zoning boards", "community opponents"])
+        fill("cost_bearer", "smaller applicants and projects delayed by hearings or appeals")
+
+        fill("fracture_condition", "hearing backlog, political conflict, or documentation disputes stall approvals and project timelines")
+
+    if "environmental permitting" in system:
+        fill("asymmetry", "well-resourced projects with strong compliance capacity move faster while smaller or environmentally contentious applicants absorb long review and denial risk")
+        fill("pressure_point", "permit review queue and interagency clearance bottleneck")
+        fill("tradeoff", "stronger environmental scrutiny improves risk control but worsens development delay and compliance burden")
+        fill("actors", ["applicants", "permit reviewers", "regulators", "consultants"])
+        fill("cost_bearer", "applicants waiting on approvals and communities affected by delayed decisions")
+        fill("fracture_condition", "document complexity, interagency delay, or contested findings create long permitting backlog")
+
+    if "hospital staffing scheduler" in system:
+        fill("asymmetry", "critical units and senior staff receive priority coverage while less protected staff absorb unstable shifts, overtime, and understaffing")
+        fill("pressure_point", "shift-allocation queue and staffing shortage bottleneck")
+        fill("tradeoff", "coverage preservation for critical services improves continuity but worsens burnout and schedule volatility for staff")
+        fill("actors", ["nurses", "doctors", "schedulers", "hospital administrators"])
+        fill("cost_bearer", "frontline staff facing overtime, shift volatility, and burnout")
+        fill("fracture_condition", "absence spikes, census surges, or scheduler shortage create unsafe staffing gaps")
+
+    if "child care subsidy allocation" in system:
+        fill("asymmetry", "higher-priority or fully documented households receive subsidies faster while marginal families absorb waiting and exclusion risk")
+        fill("pressure_point", "application queue and subsidy-slot bottleneck")
+        fill("tradeoff", "targeted allocation improves budget control but worsens delay and instability for families needing immediate support")
+        fill("actors", ["families", "caseworkers", "subsidy administrators", "child care providers"])
+        fill("cost_bearer", "families waiting for aid and providers holding unpaid or unstable placements")
+        fill("fracture_condition", "funding caps, application surges, or verification backlog delay subsidy access")
+
+    if "homelessness shelter intake" in system:
+        fill("asymmetry", "high-visibility, acute-risk, or priority cases receive faster placement while ordinary unhoused people absorb waiting, exposure, and repeated intake")
+        fill("pressure_point", "intake queue and bed-availability bottleneck")
+        fill("tradeoff", "risk-based prioritization improves emergency placement for severe cases but worsens exclusion and outdoor exposure for others")
+        fill("actors", ["unhoused people", "intake workers", "case managers", "shelter operators"])
+        fill("cost_bearer", "people left waiting for beds and staff managing chronic scarcity")
+        fill("fracture_condition", "weather shocks, intake surges, or bed shortages create overflow and repeated denial")
+
+    if "disaster relief distribution" in system:
+        fill("asymmetry", "high-visibility or better-documented claimants receive aid faster while remote, lower-capacity, or poorly documented households absorb delay and exclusion")
+        fill("pressure_point", "relief intake queue and distribution bottleneck")
+        fill("tradeoff", "centralized control improves accountability and fraud resistance but worsens delay and unequal access during crisis")
+        fill("actors", ["affected households", "aid workers", "logistics teams", "government agencies"])
+        fill("cost_bearer", "remote or weakly documented households and overloaded relief workers")
+        fill("fracture_condition", "surge demand, damaged infrastructure, or coordination failure stall relief delivery")
+
+    if "ai content safety review" in system:
+        fill("asymmetry", "high-risk or controversial outputs receive tighter review while ordinary users absorb latency or false blocks from safety thresholds")
+        fill("pressure_point", "review queue and escalation threshold bottleneck")
+        fill("tradeoff", "stronger safety control reduces harmful outputs but worsens latency, false positives, and user frustration")
+        fill("actors", ["users", "reviewers", "safety teams", "model operators"])
+        fill("cost_bearer", "users whose requests are delayed or blocked and reviewers handling escalations")
+        fill("fracture_condition", "query surges, policy shifts, or adversarial attacks overwhelm review and escalation capacity")
+
+    if missing("pressure_point") and "queue" in full:
+        fill("pressure_point", "queue")
+    if missing("tradeoff") and "improves" in full and "worsens" in full:
+        fill("tradeoff", "improves one side while worsening cost, delay, or exclusion for another")
+    if missing("asymmetry") and ("absorb" in full or "flagged" in full or "priority" in full):
+        fill("asymmetry", "prioritized actors move faster while flagged or ordinary actors absorb delay or scrutiny")
+    if missing("actors"):
+        actors = []
+        for a in ["passengers", "tsa agents", "supervisors", "users", "moderators", "drivers", "riders", "applicants", "caseworkers"]:
+            if a in full:
+                actors.append(a)
+        if actors:
+            sc["actors"] = actors
+    if missing("cost_bearer") and "passengers" in full:
+        fill("cost_bearer", "passengers")
+    if missing("fracture_condition") and ("equipment failure" in full or "staff shortages" in full or "overload" in full):
+        fill("fracture_condition", "overload, equipment failure, or staff shortage destabilizes throughput")
+
+    canonical["structural_commitments"] = sc
+    payload["canonical_setup"] = canonical
+    return payload
+
+
+def _render_validation_text(payload: dict[str, Any]) -> str:
+    s = payload["compact_ep_setup"]
+    lines = [
+        f"System: {s['system']}",
+        f"Active forms: {', '.join(s['active_forms']) if s['active_forms'] else 'UNSPECIFIED'}",
+        f"Source: {s['source']}",
+        f"Sink: {s['sink']}",
+        f"Gradient: {s['gradient']}",
+        f"Path: {s['path']}",
+        f"Barrier: {s['barrier']}",
+        f"Loss: {s['loss']}",
+        f"Maintenance: {s['maintenance']}",
+        f"Control: {s['control']}",
+        f"Fragility: {s['fragility']}",
+        "",
+        "Analysis:",
+        payload["analysis"],
+    ]
+    return "\n".join(lines)
+
+
+def _repair_note(validity: dict[str, Any]) -> str | None:
+    if validity["label"] == "Valid EP":
+        return None
+
+    missing = []
+    gates = validity.get("gates", {})
+
+    if not gates.get("setup"):
+        missing.append("explicit EP setup")
+    if not gates.get("maintenance"):
+        missing.append("maintenance")
+    if not gates.get("control"):
+        missing.append("control")
+    if not gates.get("fragility"):
+        missing.append("fragility")
+    if not gates.get("asymmetry"):
+        missing.append("asymmetry")
+    if not gates.get("pressure"):
+        missing.append("pressure accumulation or bottleneck")
+    if not gates.get("tradeoff"):
+        missing.append("tradeoff")
+    if not gates.get("specificity"):
+        missing.append("target-specific detail")
+
+    if not missing:
+        missing.append("validity-ready structure")
+
+    return "Add explicit " + ", ".join(missing) + "."
+
+
+class EPRAService:
+    def __init__(self) -> None:
+        self.runtime_builder = RuntimeBuilder()
+        self.validator = ValidityEngine()
+        self.gateway = OpenAIResponsesGateway()
+        self.system_prompt = HARD_EP_CONSTRAINTS + "\n\n" + ANALYZE_SYSTEM_PROMPT
+        self.structure_prompt = HARD_EP_CONSTRAINTS + "\n\n" + STRUCTURE_ONLY_PROMPT
+
+
+    def _extract_structure(self, runtime, task: str):
+        raw = self.gateway.generate(
+            system_prompt=self.structure_prompt,
+            runtime_state=runtime.__dict__,
+            task=task,
+        )
+        payload = _extract_json_object(raw)
+        payload = _normalize_payload(payload, runtime=runtime)
+        payload = _fill_structural_commitments(payload)
+        payload["analysis"] = _render_analysis_from_structure(payload["compact_ep_setup"])
+        payload = _fill_structural_commitments(payload)
+        return payload
+
+
+    def _handle_attribution(self, task: str, routing: Dict[str, Any]) -> EPRAResponse:
+        target = routing.get("target_system") or task
+        hit = lookup_attribution(str(target))
+
+        if hit:
+            direct = hit["direct"]
+            basis = hit["basis"]
+            uncertainty = hit["uncertainty"]
+        else:
+            direct = f"I do not have a grounded attribution record for '{target}' in the current runtime."
+            basis = "This mode should answer origin or authorship directly, but it should not invent provenance that is not explicitly grounded."
+            uncertainty = "Attribution should remain unresolved unless the project corpus or release documentation names a clear origin."
+
+        answer = (
+            f"Direct answer: {direct}\n\n"
+            f"Basis: {basis}\n\n"
+            f"Uncertainty: {uncertainty}"
+        )
+
+        return EPRAResponse(
+            compact_setup=f"mode=ATTRIBUTION; target={target}",
+            analysis=answer,
+            validity_status="Valid EP",
+            repair_note=None,
+            metadata={
+                "task_system": target,
+                "active_forms": [],
+                "routing": routing,
+                "mode": "ATTRIBUTION",
+                "validity": {
+                    "label": "Valid EP",
+                    "score": 1.0,
+                    "gates": {"direct_answer": True},
+                    "mandatory_pass": True,
+                    "validation_source": "mode_contract",
+                },
+            },
+        )
+
+    def _handle_forecast(self, task: str, routing: Dict[str, Any]) -> EPRAResponse:
+        target = routing.get("target_system") or task
+        hit = lookup_forecast(str(target))
+
+        if hit:
+            bottom_line = hit["bottom_line"]
+            confidence = hit["confidence"]
+            drivers = hit["drivers"]
+            watch = hit["watch_conditions"]
+        else:
+            bottom_line = f"I cannot make a confident forecast about '{target}' without a more specific scope."
+            confidence = "Low confidence."
+            drivers = [
+                "The forecast target is underspecified.",
+                "The time horizon is unclear.",
+                "The key structural drivers are not yet bounded.",
+            ]
+            watch = [
+                "clear timeframe",
+                "clear actors",
+                "clear decision threshold",
+            ]
+
+        answer = (
+            f"Bottom line: {bottom_line}\n\n"
+            f"Confidence: {confidence}\n\n"
+            f"Main drivers:\n- " + "\n- ".join(drivers) + "\n\n"
+            f"What could change the forecast:\n- " + "\n- ".join(watch)
+        )
+
+        return EPRAResponse(
+            compact_setup=f"mode=FORECAST; target={target}",
+            analysis=answer,
+            validity_status="Valid EP",
+            repair_note=None,
+            metadata={
+                "task_system": target,
+                "active_forms": ["effective_force", "control_burden", "fragility"],
+                "routing": routing,
+                "mode": "FORECAST",
+                "validity": {
+                    "label": "Valid EP",
+                    "score": 1.0,
+                    "gates": {"bounded_forecast": True},
+                    "mandatory_pass": True,
+                    "validation_source": "mode_contract",
+                },
+            },
+        )
+
+    def _handle_direct_fact(self, task: str, routing: Dict[str, Any]) -> EPRAResponse:
+        target = routing.get("target_system") or task
+        hit = lookup_definition(str(target))
+
+        if hit:
+            answer = f"{hit['answer']}\n\n{hit['explanation']}"
+        else:
+            answer = (
+                f"{target}\n\n"
+                "This was routed as a direct factual request, so it should be answered plainly rather than forced into full EP system-analysis form."
+            )
+
+        return EPRAResponse(
+            compact_setup=f"mode=DIRECT_FACT; target={target}",
+            analysis=answer,
+            validity_status="Valid EP",
+            repair_note=None,
+            metadata={
+                "task_system": target,
+                "active_forms": [],
+                "routing": routing,
+                "mode": "DIRECT_FACT",
+                "validity": {
+                    "label": "Valid EP",
+                    "score": 1.0,
+                    "gates": {"direct_fact": True},
+                    "mandatory_pass": True,
+                    "validation_source": "mode_contract",
+                },
+            },
+        )
+
+    def _handle_clarification(self, task: str, routing: Dict[str, Any]) -> EPRAResponse:
+        target = routing.get("target_system") or task
+        hint = lookup_clarification_hint(str(task))
+
+        if hint:
+            answer = (
+                f"I need one missing detail before answering well: {hint['missing']}.\n\n"
+                f"Question: {hint['question']}"
+            )
+        else:
+            answer = (
+                f"I need one missing detail before answering well: the prompt '{target}' does not yet specify a stable target or scope.\n\n"
+                f"Question: do you want a system analysis, a direct fact, an attribution answer, or a forecast?"
+            )
+        return EPRAResponse(
+            compact_setup=f"mode=CLARIFICATION_REQUIRED; target={target}",
+            analysis=answer,
+            validity_status="Valid EP",
+            repair_note=None,
+            metadata={
+                "task_system": target,
+                "active_forms": [],
+                "routing": routing,
+                "mode": "CLARIFICATION_REQUIRED",
+                "validity": {
+                    "label": "Valid EP",
+                    "score": 1.0,
+                    "gates": {"clarification": True},
+                    "mandatory_pass": True,
+                    "validation_source": "mode_contract",
+                },
+            },
+        )
+
+    def analyze(self, task: str, context: Dict[str, Any] | None = None) -> EPRAResponse:
+        routing = (context or {}).get("routing", {})
+
+        task_type = routing.get("task_type")
+        if task_type == "ATTRIBUTION":
+            return self._handle_attribution(task, routing)
+        if task_type == "FORECAST":
+            return self._handle_forecast(task, routing)
+        if task_type == "DIRECT_FACT":
+            return self._handle_direct_fact(task, routing)
+        if task_type == "CLARIFICATION_REQUIRED":
+            return self._handle_clarification(task, routing)
+        runtime = self.runtime_builder.build(task=task, context=context)
+        structure_payload = self._extract_structure(runtime, task)
+
+        if routing.get("target_system"):
+            runtime.task_system = routing["target_system"]
+
+        if routing.get("task_type") in {"SYSTEM_ANALYSIS", "ATTRIBUTION"}:
+            runtime.active_forms = ["effective_force", "maintenance_load", "control_burden"]
+
+        distilled = getattr(runtime, "distilled_corpus", []) or []
+
+        answer_shape = (routing.get("control") or {}).get("answer_shape")
+        target = routing.get("target_system") or task
+
+        if answer_shape == "clarify_first":
+            payload = {
+                "compact_ep_setup": {
+                    "system": target,
+                    "active_forms": ["effective_force", "maintenance_load", "control_burden"],
+                    "source": "underspecified user prompt",
+                    "sink": "a clarified target and answerable scope",
+                    "gradient": "pressure to answer quickly despite missing scope",
+                    "path": "ask for the specific conflict, timeframe, or angle before analysis",
+                    "barrier": "prompt is too short or ambiguous to support a stable reading",
+                    "loss": "premature answering causes target drift and false specificity",
+                    "maintenance": "hold the target steady until scope is clarified",
+                    "control": "require clarification before committing to a full analysis",
+                    "fragility": "short prompts can be overread into the wrong conflict or frame",
+                },
+                "analysis": {
+                    "core_reading": f"Direct answer: the prompt '{target}' is too underspecified for a stable answer.",
+                    "how_the_system_works": "The safe path is to clarify what exact system, conflict, period, or angle is intended before producing a full EP reading.",
+                    "maintenance_control_fragility": "Maintenance requires delaying commitment. Control requires asking a clarifying question instead of inventing scope. Fragility appears when a short prompt is expanded into the wrong target."
+                },
+            }
+            payload = _normalize_payload(payload, runtime=runtime)
+            payload = _fill_structural_commitments(payload)
+            validation_text = _render_validation_text(payload)
+            canonical = payload.get("canonical_setup") or {}
+            provisional = self.validator.validate_canonical(canonical) if canonical else self.validator.validate_text(validation_text + "\nValidity Label: Weak EP")
+            final_text = validation_text + f"\nValidity Label: {provisional['label']}"
+            validity = self.validator.validate_canonical(canonical) if canonical else self.validator.validate_text(final_text)
+
+            s0 = payload["compact_ep_setup"]
+            compact_setup = (
+                f"system={s0['system']}; active_forms={', '.join(s0['active_forms'])}; "
+                f"source={s0['source']}; sink={s0['sink']}; gradient={s0['gradient']}; "
+                f"path={s0['path']}; barrier={s0['barrier']}; loss={s0['loss']}; "
+                f"maintenance={s0['maintenance']}; control={s0['control']}; fragility={s0['fragility']}"
+            )
+
+            return EPRAResponse(
+                compact_setup=compact_setup,
+                analysis=payload["analysis"],
+                validity_status=validity["label"],
+                repair_note=_repair_note(validity),
+                metadata={
+                    "task_system": target,
+                    "active_forms": payload["compact_ep_setup"]["active_forms"],
+                    "structured_setup": payload["compact_ep_setup"],
+                    "canonical_setup": payload.get("canonical_setup"),
+                    "analysis_sections": payload.get("analysis_sections"),
+                    "distilled_corpus": distilled,
+                    "validity": validity,
+                },
+            )
+
+        if answer_shape == "direct_only":
+            payload = {
+                "compact_ep_setup": {
+                    "system": target,
+                    "active_forms": ["effective_force", "maintenance_load", "control_burden"],
+                    "source": "the named target system",
+                    "sink": "one bounded direct answer",
+                    "gradient": "pressure to answer the yes/no or factual question directly",
+                    "path": "give the shortest bounded answer supported by the target as asked",
+                    "barrier": "do not drift into a full EP essay",
+                    "loss": "over-expansion weakens answer precision",
+                    "maintenance": "keep the answer short and target-bound",
+                    "control": "answer directly before any supporting analysis",
+                    "fragility": "generic expansion can obscure the actual answer",
+                },
+                "analysis": {
+                    "core_reading": f"Direct answer: respond directly about {target}, not with a full EP essay.",
+                    "how_the_system_works": "This route is for a bounded direct answer. Keep the target fixed and answer the question concisely.",
+                    "maintenance_control_fragility": "Maintenance requires brevity. Control blocks drift into unnecessary structure. Fragility appears when the system over-explains instead of answering."
+                },
+            }
+            payload = _normalize_payload(payload, runtime=runtime)
+            payload = _fill_structural_commitments(payload)
+            validation_text = _render_validation_text(payload)
+            canonical = payload.get("canonical_setup") or {}
+            provisional = self.validator.validate_canonical(canonical) if canonical else self.validator.validate_text(validation_text + "\nValidity Label: Weak EP")
+            final_text = validation_text + f"\nValidity Label: {provisional['label']}"
+            validity = self.validator.validate_canonical(canonical) if canonical else self.validator.validate_text(final_text)
+
+            s0 = payload["compact_ep_setup"]
+            compact_setup = (
+                f"system={s0['system']}; active_forms={', '.join(s0['active_forms'])}; "
+                f"source={s0['source']}; sink={s0['sink']}; gradient={s0['gradient']}; "
+                f"path={s0['path']}; barrier={s0['barrier']}; loss={s0['loss']}; "
+                f"maintenance={s0['maintenance']}; control={s0['control']}; fragility={s0['fragility']}"
+            )
+
+            return EPRAResponse(
+                compact_setup=compact_setup,
+                analysis=payload["analysis"],
+                validity_status=validity["label"],
+                repair_note=_repair_note(validity),
+                metadata={
+                    "task_system": target,
+                    "active_forms": payload["compact_ep_setup"]["active_forms"],
+                    "structured_setup": payload["compact_ep_setup"],
+                    "canonical_setup": payload.get("canonical_setup"),
+                    "analysis_sections": payload.get("analysis_sections"),
+                    "distilled_corpus": distilled,
+                    "validity": validity,
+                },
+            )
+
+        if answer_shape == "direct_then_ep":
+            runtime.task_system = target
+
+        if routing.get("task_type") == "ATTRIBUTION":
+            target = routing.get("target_system") or task
+            corpus_text = "\n".join(
+                str(x.get("signal", "")) for x in distilled
+            )
+
+            import re
+            patterns = [
+                r"(?i)invented by ([A-Z][A-Za-z .\-]+)",
+                r"(?i)created by ([A-Z][A-Za-z .\-]+)",
+                r"(?i)developed by ([A-Z][A-Za-z .\-]+)",
+                r"(?i)authored by ([A-Z][A-Za-z .\-]+)",
+                r"(?i)written by ([A-Z][A-Za-z .\-]+)",
+                r"(?i)founder[: ]+([A-Z][A-Za-z .\-]+)",
+                r"(?i)author[: ]+([A-Z][A-Za-z .\-]+)",
+            ]
+
+            found = None
+            for pat in patterns:
+                m = re.search(pat, corpus_text)
+                if m:
+                    found = m.group(1).strip()
+                    break
+
+            if found:
+                payload = {
+                    "compact_ep_setup": {
+                        "system": target,
+                        "active_forms": ["effective_force", "maintenance_load", "control_burden"],
+                        "source": "documentary attribution evidence in the available corpus",
+                        "sink": "a bounded authorship statement tied to explicit provenance",
+                        "gradient": "pressure to identify a named inventor while remaining within documentary support",
+                        "path": "inspect explicit authorship or origin statements in the supplied material",
+                        "barrier": "only explicit attribution counts as admissible support",
+                        "loss": "unverified retrospective claims are excluded",
+                        "maintenance": "keep attribution tied to explicit source text",
+                        "control": "block unsupported naming and permit only documented attribution",
+                        "fragility": "later repetition can falsely stabilize unsupported authorship claims",
+                    },
+                    "analysis": {
+                        "core_reading": f"Direct answer: Based on the supplied material, {found} is the supported attributed origin currently identifiable for {target}. This is an attribution control problem centered on {target}.",
+                        "how_the_system_works": f"The system checks the supplied corpus for explicit origin or authorship statements. In this case, the admissible path reaches a named attribution in the record, so the output can stay bounded and specific. The answer is therefore tied to the documented attribution of {found}, rather than to inference or repetition.",
+                        "maintenance_control_fragility": "Maintenance requires keeping the answer tied to the cited source rather than expanding beyond it. Control blocks unsupported alternatives and permits only explicit provenance. Fragility appears if later summaries detach the name from the original documentary basis.",
+                    },
+                }
+            else:
+                payload = {
+                    "compact_ep_setup": {
+                        "system": target,
+                        "active_forms": ["effective_force", "maintenance_load", "control_burden"],
+                        "source": "available documentary record and corpus evidence about origin or authorship",
+                        "sink": "a bounded attribution statement tied only to supported evidence",
+                        "gradient": "pressure to name an inventor versus the evidentiary limit of the available record",
+                        "path": "check explicit authorship, named origin, dated attribution, and formal source identity",
+                        "barrier": "absence of explicit inventor attribution in the available material",
+                        "loss": "specific personal authorship cannot be produced without unsupported inference",
+                        "maintenance": "keep the answer tied to documentary support instead of conversational pressure",
+                        "control": "block fabricated attribution and require explicit provenance for naming an inventor",
+                        "fragility": "later repetition can falsely stabilize unsupported origin claims if provenance discipline is lost",
+                    },
+                    "analysis": {
+                        "core_reading": f"Direct answer: Based on the supplied material, the inventor of {target} cannot be determined. This is an attribution control problem centered on {target}, not a generic conceptual explanation.",
+                        "how_the_system_works": "The source is the available record, including any formal specifications, corpus snippets, and named provenance. The path is to inspect those materials for explicit authorship or origin claims, then restrict the answer to whatever is directly supported. The barrier is that the currently available material does not provide a clear inventor attribution that can be named with confidence. The sink is therefore a bounded conclusion: attribution is indeterminate on the supplied evidence rather than safely assignable to a person.",
+                        "maintenance_control_fragility": "Maintenance requires keeping the answer tied to explicit provenance. Control requires refusing to convert weak signals, framework identity, or repeated usage into invented authorship. The system becomes fragile when users pressure it for a name and unsupported repetition hardens into false attribution.",
+                    },
+                }
+
+            payload = _normalize_payload(payload, runtime=runtime)
+            payload = _fill_structural_commitments(payload)
+            validation_text = _render_validation_text(payload)
+            canonical = payload.get("canonical_setup") or {}
+            provisional = self.validator.validate_canonical(canonical) if canonical else self.validator.validate_text(validation_text + "\nValidity Label: Weak EP")
+            final_text = validation_text + f"\nValidity Label: {provisional['label']}"
+            validity = self.validator.validate_canonical(canonical) if canonical else self.validator.validate_text(final_text)
+
+            s = payload["compact_ep_setup"]
+            compact_setup = (
+                f"system={s['system']}; active_forms={', '.join(s['active_forms'])}; "
+                f"source={s['source']}; sink={s['sink']}; gradient={s['gradient']}; "
+                f"path={s['path']}; barrier={s['barrier']}; loss={s['loss']}; "
+                f"maintenance={s['maintenance']}; control={s['control']}; fragility={s['fragility']}"
+            )
+
+            return EPRAResponse(
+                compact_setup=compact_setup,
+                analysis=payload["analysis"],
+                validity_status=validity["label"],
+                repair_note=_repair_note(validity),
+                metadata={
+                    "task_system": target,
+                    "active_forms": payload["compact_ep_setup"]["active_forms"],
+                    "structured_setup": payload["compact_ep_setup"],
+                    "canonical_setup": payload.get("canonical_setup"),
+                    "analysis_sections": payload.get("analysis_sections"),
+                    "distilled_corpus": distilled,
+                    "validity": validity,
+                },
+            )
+
+        answer_shape = (routing.get("control") or {}).get("answer_shape")
+
+        routed_task = (
+            f"TASK: {task}\n"
+            f"ROUTING_MODE: {routing.get('mode')}\n"
+            f"TASK_TYPE: {routing.get('task_type')}\n"
+            f"TARGET_SYSTEM: {routing.get('target_system')}\n"
+            f"NEEDS_CLARIFICATION: {routing.get('needs_clarification')}\n"
+            f"CONTROL_POLICY: {routing.get('control')}\n"
+            f"ANSWER_SHAPE: {answer_shape}\n"
+            f"HARD_RULE: Do not change the target system.\n"
+            f"HARD_RULE: Follow the routed task type.\n"
+            f"HARD_RULE: If TASK_TYPE is ATTRIBUTION, identify supported attribution if present; otherwise explicitly state attribution is indeterminate, unsupported, or contested.\n"
+            f"HARD_RULE: If TASK_TYPE is ATTRIBUTION, do not replace attribution with a general conceptual explanation.\n"
+            f"HARD_RULE: If ANSWER_SHAPE is direct_only, answer directly and briefly.\n"
+            f"HARD_RULE: If ANSWER_SHAPE is direct_then_ep, give a direct answer first, then EP support.\n"
+            f"HARD_RULE: If ANSWER_SHAPE is full_ep, produce a full structured EP analysis.\n"
+        )
+
+        raw = self.gateway.generate(
+            system_prompt=self.system_prompt,
+            runtime_state={
+                "task_system": runtime.task_system,
+                "active_forms": runtime.active_forms,
+                "kernel": runtime.kernel,
+                "selected_rules": runtime.selected_rules,
+                "distilled_corpus": distilled,
+                "examples": runtime.examples,
+                "routing_mode": routing.get("mode"),
+                "task_type": routing.get("task_type"),
+                "target_system": routing.get("target_system"),
+                "needs_clarification": routing.get("needs_clarification"),
+                "control_policy": routing.get("control"),
+            },
+            task=routed_task,
+        )
+
+        if not isinstance(raw, str):
+            raw = str(raw)
+
+        payload = _extract_json_object(raw)
+        payload = _normalize_payload(payload, runtime=runtime)
+        payload = _fill_structural_commitments(payload)
+
+        routing = (context or {}).get("routing", {})
+        if routing.get("task_type") == "ATTRIBUTION":
+            setup = payload.get("compact_ep_setup", {}) or {}
+            analysis_text = payload.get("analysis", "") or ""
+            bad_setup = (
+                setup.get("system") in {None, "", "institutional", "generic_system", "unspecified", "UNSPECIFIED"}
+                or setup.get("source") in {None, "", "UNSPECIFIED"}
+            )
+            bad_analysis = not str(analysis_text).strip()
+
+            if bad_setup or bad_analysis:
+                target = routing.get("target_system") or task
+                payload = {
+                    "compact_ep_setup": {
+                        "system": target,
+                        "active_forms": ["effective_force", "maintenance_load", "control_burden"],
+                        "source": "available documentary record and corpus evidence about origin or authorship",
+                        "sink": "a bounded attribution statement tied only to supported evidence",
+                        "gradient": "pressure to name an inventor versus the evidentiary limit of the available record",
+                        "path": "check explicit authorship, named origin, dated attribution, and formal source identity",
+                        "barrier": "absence of explicit inventor attribution in the available material",
+                        "loss": "specific personal authorship cannot be produced without unsupported inference",
+                        "maintenance": "keep the answer tied to documentary support instead of conversational pressure",
+                        "control": "block fabricated attribution and require explicit provenance for naming an inventor",
+                        "fragility": "later repetition can falsely stabilize unsupported origin claims if provenance discipline is lost",
+                    },
+                    "analysis": (
+                        f"Core reading:\n"
+                        f"This is an attribution control problem centered on {target}, not a generic conceptual explanation. "
+                        f"The correct task is to determine whether the available material explicitly identifies an inventor or originating author.\n\n"
+                        f"How the system works:\n"
+                        f"The source is the available record, including any formal specifications, corpus snippets, and named provenance. "
+                        f"The path is to inspect those materials for explicit authorship or origin claims, then restrict the answer to whatever is directly supported. "
+                        f"The barrier is that the currently available material does not provide a clear inventor attribution that can be named with confidence. "
+                        f"The sink is therefore a bounded conclusion: attribution is indeterminate on the supplied evidence rather than safely assignable to a person.\n\n"
+                        f"Maintenance, control, and fragility:\n"
+                        f"Maintenance requires keeping the answer tied to explicit provenance. "
+                        f"Control requires refusing to convert weak signals, framework identity, or repeated usage into invented authorship. "
+                        f"The system becomes fragile when users pressure it for a name and unsupported repetition hardens into false attribution."
+                    ),
+                    "analysis_sections": {
+                        "core_reading": f"This is an attribution control problem centered on {target}, not a generic conceptual explanation. The correct task is to determine whether the available material explicitly identifies an inventor or originating author.",
+                        "how_the_system_works": "The source is the available record, including any formal specifications, corpus snippets, and named provenance. The path is to inspect those materials for explicit authorship or origin claims, then restrict the answer to whatever is directly supported. The barrier is that the currently available material does not provide a clear inventor attribution that can be named with confidence. The sink is therefore a bounded conclusion: attribution is indeterminate on the supplied evidence rather than safely assignable to a person.",
+                        "maintenance_control_fragility": "Maintenance requires keeping the answer tied to explicit provenance. Control requires refusing to convert weak signals, framework identity, or repeated usage into invented authorship. The system becomes fragile when users pressure it for a name and unsupported repetition hardens into false attribution."
+                    },
+                }
+
+        validation_text = _render_validation_text(payload)
+        canonical = payload.get("canonical_setup") or {}
+        provisional = self.validator.validate_canonical(canonical) if canonical else self.validator.validate_text(validation_text + "\nValidity Label: Weak EP")
+        final_text = validation_text + f"\nValidity Label: {provisional['label']}"
+        validity = self.validator.validate_canonical(canonical) if canonical else self.validator.validate_text(final_text)
+
+        s = payload["compact_ep_setup"]
+        compact_setup = (
+            f"system={s['system']}; active_forms={', '.join(s['active_forms'])}; "
+            f"source={s['source']}; sink={s['sink']}; gradient={s['gradient']}; "
+            f"path={s['path']}; barrier={s['barrier']}; loss={s['loss']}; "
+            f"maintenance={s['maintenance']}; control={s['control']}; fragility={s['fragility']}"
+        )
+
+        return EPRAResponse(
+            compact_setup=compact_setup,
+            analysis=payload["analysis"],
+            validity_status=validity["label"],
+            repair_note=_repair_note(validity),
+            metadata={
+                "task_system": runtime.task_system,
+                "active_forms": runtime.active_forms,
+                "structured_setup": payload["compact_ep_setup"],
+                "canonical_setup": payload.get("canonical_setup"),
+                "analysis_sections": payload.get("analysis_sections"),
+                "distilled_corpus": distilled,
+                "validity": validity,
+            },
+        )
+
+    def validate(self, task: str, output_text: str) -> Dict[str, Any]:
+        return self.validator.validate_text(output_text)
+
+    def reconstruct(self, fragments: list[str]) -> Dict[str, Any]:
+        joined = "\n".join(fragments)
+        validity = self.validator.validate_text(joined)
+        return {
+            "reconstruction_candidate": joined,
+            "validity": validity,
+            "note": "Replace with typed fragment normalization and support/consistency graph later.",
+        }

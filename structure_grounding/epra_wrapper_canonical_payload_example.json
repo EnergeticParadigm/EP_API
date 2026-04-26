@@ -1,0 +1,24 @@
+{
+  "system": "",
+  "flow_objects": {
+    "source": "",
+    "sink": "",
+    "gradient": "",
+    "path": ""
+  },
+  "constraint_objects": {
+    "barrier": "",
+    "loss": "",
+    "maintenance": "",
+    "control": "",
+    "fragility": ""
+  },
+  "structural_commitments": {
+    "asymmetry": "",
+    "pressure_point": "",
+    "tradeoff": "",
+    "actors": [],
+    "cost_bearer": "",
+    "fracture_condition": ""
+  }
+}

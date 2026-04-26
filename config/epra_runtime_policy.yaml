@@ -1,0 +1,74 @@
+version: epra-runtime-policy-v2
+
+corpus:
+  mode: private_server_only
+  expose_full_documents: false
+  distill_max_chars_per_snippet: 900
+  max_retrieved_items: 6
+  max_distilled_items: 4
+
+runtime:
+  max_examples: 2
+  max_snippets: 4
+  include_validity_harness: true
+  include_repair_loop: true
+  require_compact_setup: true
+  allowed_labels:
+    - Valid EP
+    - Weak EP
+    - Pseudo-EP
+    - Drifted EP
+  required_setup_fields:
+    - system
+    - active_forms
+    - source
+    - sink
+    - gradient
+    - path
+    - barrier
+    - loss
+
+validity:
+  mandatory_gates:
+    - setup
+    - maintenance
+    - control
+    - fragility
+    - asymmetry
+    - pressure
+    - tradeoff
+    - specificity
+    - concreteness
+  weighted_checks:
+    setup: 0.18
+    maintenance: 0.10
+    control: 0.10
+    fragility: 0.10
+    asymmetry: 0.12
+    pressure: 0.10
+    tradeoff: 0.12
+    specificity: 0.08
+    concreteness: 0.10
+  thresholds:
+    valid_ep: 0.85
+    weak_ep: 0.60
+    pseudo_ep: 0.0
+  drift_terms:
+    - moralizing_only
+    - metaphoric_energy_only
+    - missing_setup
+    - generic_template
+    - missing_asymmetry
+    - missing_pressure
+    - missing_tradeoff
+    - low_concreteness
+    - generic_language
+
+repair:
+  max_attempts: 1
+  auto_repair_if_not_valid: true
+
+exposure:
+  allow_full_theorem_text: false
+  allow_private_annotations: false
+  allow_private_benchmark_data: false

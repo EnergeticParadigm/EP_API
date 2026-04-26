@@ -1,0 +1,280 @@
+EP_FCS D1 Completion Block v1
+Relational Well-Formedness, Partial Axiom Independence, Structural
+Reproduction, and Fracture Threshold
+Purpose. This document completes the remaining Tier I D1 theorem families identified
+after the first D1 theorem block and the D1 extension block. Its role is to finish the first
+mother-body proof layer needed before opening D2. The document develops four families:
+relational well-formedness, partial independence of the core axioms,
+reproduction-preserves-structural-logic, and a fracture-threshold theorem that bridges
+fragility accumulation to regime change.
+Formal draft prepared in English
+April 8, 2026
+
+Contents
+1 Purpose and Position 2
+2 Assumptions and Base Setting 3
+2.1 Standing Mother-Body Setting . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
+2.2 Core Typing Convention . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
+3 Relational Well-Formedness 4
+3.1 Why This Theorem Family Matters . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+3.2 Main Theorem . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+4 Partial Independence of the Core Axioms 6
+4.1 Why Independence Matters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+4.2 Independence Framework . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+4.3 Main Independence Result . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+5 Structural Reproduction Theorem 8
+5.1 The Target Claim . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+5.2 Transmission Condition . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+6 Fracture Threshold and Fragility-to-Fracture Bridge 10
+6.1 Why This Theorem Family Matters . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+6.2 Threshold Setting . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+7 Completion Status and Transition to D2 12
+7.1 What D1 Now Contains . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+7.2 What Comes Next . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+1
+
+Chapter 1
+Purpose and Position
+This document should be read as the D1 completion layer rather than as a free-standing
+alternative theorem note. The earlier D1 block established four initial families: closure, weak
+consistency, persistence-under-maintenance, and fragility monotonicity. The D1 extension block
+then added partial independence, structural reproduction, quantitative persistence bounds, and
+fracture-threshold ideas in preliminary form. The present completion block consolidates the
+missing Tier I families in a tighter and more explicit mother-body proof format.
+The strategic function of this document is simple. Tier I is the layer that secures identity before
+expansion. Until Tier I is substantially complete, later operator, projection, reconstruction,
+validity, compression, and algorithmic results remain under-protected. The present block
+therefore aims to close the most important remaining Tier I gaps before D2 begins.
+2
+
+Chapter 2
+Assumptions and Base Setting
+2.1 Standing Mother-Body Setting
+WeassumetheEP FCSmother−bodysettingalreadyfixedinthepriordocuments.Inparticular,weassume :
+atypedhigh−levelobjectsetΣ = {S,E,M,C,R,X,T,F,L,I,D }; an energetic primitive layer
+P (S) ={s,t,g,p,b,ℓ,m,c}; a typed relational grammar over those objects; the core axiom fam-
+ily including persistence, maintenance, energetic dependence, control selection, externalization
+tendency, fragility accumulation, structural reproduction, legitimacy burden reduction, and
+fracture threshold; and the dynamic state variables with fragility stockΦ frag(t) and effective
+stability horizonTt.
+2.2 Core Typing Convention
+A relational statement belongs to the admissible grammar only if its arguments satisfy the
+required type signature. For example,
+maintained_by(S,M ), depends_on(S,E ),
+reproduces_through(S,R ), fractures_when(S,F )
+are admissible only when the arguments belong to the required typed domains.
+Definition 2.1(Well-Formed Relational Expression). A relational expressionρ(o1,...,o k) is
+well-formed if and only if:
+1. ρbelongs to the admissible predicate familyR,
+2. each argumentoi belongs to the declared domain of the corresponding slot ofρ,
+3. the expression does not violate any dependency or exclusion rule already imposed by the
+mother-body.
+We writeWellFormed(ρ(o1,...,o k)) = 1 when these conditions hold.
+Definition 2.2(Admissible Core Model). A candidate core modelM is admissible if it satisfies
+the typing discipline, the relational dependency rules, and the core axiom set. We write
+Admissible(M) = 1.
+3
+
+Chapter 3
+Relational Well-Formedness
+3.1 Why This Theorem Family Matters
+Closure at the ontological level is not enough. A model can use the right object names and still
+generate malformed relations or illegal compositions. The point of this theorem family is to show
+that, once the mother-body typing and dependency rules are enforced, admissible relational
+chains stay inside the grammar rather than leaking into pseudo-EP syntax.
+3.2 Main Theorem
+Theorem 3.1(Relational Well-Formedness Under Typed Composition). LetM be an admissible
+core model. Let
+ρ1(o1,...,o k), ρ 2(o′
+1,...,o′
+m)
+be well-formed relational expressions inM such that the output type ofρ1 matches the required
+input type of the composition rule joiningρ1 to ρ2. If the mother-body dependency and exclusion
+rules are respected, then the composed chain
+ρ2◦ρ1
+is also well-formed.
+Proof. BecauseM is admissible, every participating relation is typed and every argument
+occupies a permitted slot. By hypothesis, the output type ofρ1 matches the input requirement
+for the composition rule, so the composition is not blocked by type mismatch. Since dependency
+and exclusion rules are also assumed satisfied, no illegal transition is introduced at the composition
+boundary. Therefore the resulting chain remains inside the admissible relational grammar. Hence
+WellFormed(ρ2◦ρ1) = 1.
+Corollary 3.2 (Well-Formedness of Canonical Chains). In any admissible core model, the
+canonical chains
+Persist(S)⇒maintained_by(S,M )◦depends_on(S,E ),
+reproduces_through(S,R )⇒maintained_by(S,M ),
+fractures_when(S,F )⇒Φ frag(S,t )> Φ crit(S,T t)
+4
+
+EP_FCS D1 Completion Block v1 5/13
+are well-formed whenever their premises are well-formed.
+Proof. Each displayed chain is built from admissible predicates using the declared mother-body
+dependency rules. The previous theorem applies directly.
+Remark 3.3. This theorem does not claim that every grammatically well-formed chain is true. It
+claims the narrower and essential point that typed EP composition does not generate malformed
+internal syntax when the mother-body rules are obeyed.
+
+Chapter 4
+Partial Independence of the Core Ax-
+ioms
+4.1 Why Independence Matters
+A weakly consistent axiom set is useful, but it can still be trivial if the axioms collapse into
+disguised restatements. The correct Tier I goal is not absolute logical independence of every
+sentence under every future formalization. The more realistic and useful target is partial
+independence: at least some axioms contribute non-redundant structural information to the
+mother-body.
+4.2 Independence Framework
+Let the core axiom family be denoted
+A ={A1,A 2,...,A n}.
+For a given axiomAi, writeA−i =A\{Ai}.
+Definition 4.1(Partial Independence). An axiomAi is independent relative to a theorem target
+Θ if A⊢Θ but A−i ⊬ Θ.
+This notion is enough for Tier I because it shows that removing a given axiom loses at least one
+structurally important consequence.
+4.3 Main Independence Result
+Theorem 4.2(Partial Independence of Maintenance and Fragility Axioms). Under the cur-
+rent mother-body formalization, the persistence-under-maintenance axiom and the suppressed-
+correction-implies-fragility-accumulation axiom are partially independent in the following sense:
+1. If the maintenance axiom is removed, persistence-under-maintenance can no longer be
+derived.
+2. If the fragility-accumulation axiom is removed, monotone growth of fragility under blocked
+correction can no longer be derived.
+6
+
+EP_FCS D1 Completion Block v1 7/13
+Proof. For (1), the theorem target is the persistence consequence
+Persist(S)⇒∃M : maintained_by(S,M ).
+This consequence is exactly the content delivered by the maintenance axiom. Once that axiom
+is removed, the remaining axioms do not force existence ofM from persistence alone, because
+energetic dependence, control selection, externalization, legitimacy, and fracture statements all
+presuppose or interact with maintenance but do not recreate its existence claim from nothing.
+Hence the target is not derivable fromA−maint.
+For (2), the theorem target is
+blocked(D)⇒dΦ frag
+dt > 0.
+This consequence is exactly the structural content of the fragility-accumulation axiom. The
+remaining axioms can discuss persistence, control, externalization, legitimacy, structural repro-
+duction, and fracture thresholds, but without the fragility-accumulation clause there is no rule
+forcing blocked correction to increase fragility monotonically. Thus the target is not derivable
+from A−frag.
+Corollary 4.3(Non-Redundancy of the Tier I Core). The Tier I mother-body is not a mere
+restatement bundle. At least two of its central axioms contribute theorem-bearing content that is
+not regenerated by the rest of the current axiom family.
+Remark 4.4. This is intentionally weaker than full global independence. The theorem secures
+the documentation claim that the core is not vacuous or merely repetitive, which is the right
+Tier I target at the current stage.
+
+Chapter 5
+Structural Reproduction Theorem
+5.1 The Target Claim
+The structural reproduction axiom says that systems reproduce deep maintenance-control-
+reproduction logic more fundamentally than they reproduce surface description. To complete
+Tier I, this should not remain only an axiom statement. It should yield an explicit theorem
+under a clear transmission condition.
+5.2 Transmission Condition
+Assumption 5.1(Operational Reproduction Transmission). Suppose a reproducing systemS
+transmits enough of its maintenance, control, and reproduction organization to a successorS′
+such that:
+1. the maintenance channel remains viable,
+2. the control logic remains executable under the successor constraint field,
+3. the reproduction mechanism itself is carried into the successor,
+4. surface narrative elements may vary without destroying those three structural transfers.
+Theorem 5.2(Reproduction Preserves Structural Logic More Reliably Than Surface Form).
+Under the operational reproduction transmission assumption, ifS reproduces throughR, then
+there exists a successorS′such that the successor preserves the maintenance-control-reproduction
+pattern ofS even when the surface form changes. Symbolically,
+reproduces_through(S,R )⇒preserves(RMCR(S′))⪰preserves(RMCR(S))
+with no requirement that
+preserves(SurfaceForm(S′)) = preserves(SurfaceForm(S)).
+In particular, structural reproduction is more robust than exact surface reproduction.
+Proof. By assumption, reproduction transfers the viable maintenance channel, executable control
+logic, and reproduction mechanism itself. These three together constitute the maintenance-
+control-reproduction patternRMCR. Since surface narrative elements are allowed to vary without
+8
+
+EP_FCS D1 Completion Block v1 9/13
+destroying those transfers, exact preservation ofSurfaceForm is unnecessary for preservation of
+RMCR. Therefore the successor may differ in self-description, symbolic language, or surface
+institutional form while still preserving the deeper structural logic required for continued
+reproduction. Hence structural reproduction is more reliable than exact surface replication under
+the stated transmission condition.
+Corollary 5.3(Surface Variability Does Not Refute Reproduction). Observed differences in
+rhetoric, labels, or visible form betweenS and S′do not by themselves refute the claim that the
+same deep structural logic has been reproduced.
+Remark 5.4. This is one of the most important anti-drift results for EP. It explains why a regular
+AI or human analyst should not anchor the paradigm in visible wording alone. Deep-pattern
+continuity has higher evidential priority than surface similarity.
+
+Chapter 6
+Fracture Threshold and Fragility-to-
+Fracture Bridge
+6.1 Why This Theorem Family Matters
+The earlier D1 theorem block already secured fragility monotonicity under blocked correction.
+The missing completion step is to connect that monotonic quantity to an actual regime transition.
+Without that bridge, fragility remains an accumulating warning variable but not yet a theorem-
+bearing predictor of fracture.
+6.2 Threshold Setting
+Let Φ crit(S,T t) denote the critical fragility threshold permitted by the system’s current mainte-
+nance and stability-horizon structure.
+Assumption 6.1(Threshold Regularity). Assume that for the system under study:
+1. Φ crit(S,T t) is finite and well-defined over the horizon of analysis,
+2. Φ crit weakly decreases as effective stability horizon collapses,
+3. once Φ frag(t) exceeds Φ crit(S,T t), no admissible local correction inside the current step can
+fully reabsorb the overshoot.
+Theorem 6.2(Fracture Threshold Theorem). Assume threshold regularity. If
+Φ frag(t)> Φ crit(S,T t),
+then the system enters a fracture regime at timet; equivalently,
+Φ frag(t)> Φ crit(S,T t)⇒fractures_when(S,F ).
+Proof. By threshold regularity, the critical bound is finite and meaningful. Once actual fragility
+exceeds that bound, the current maintenance-control organization can no longer stabilize the
+accumulated contradiction within the available effective horizon. The third regularity clause
+rules out instant internal absorption of the overshoot inside the same step. Therefore the system
+cannot remain in the non-fracture regime after threshold crossing. Hence it enters a fracture
+regime.
+10
+
+EP_FCS D1 Completion Block v1 11/13
+Corollary 6.3(Blocked Correction Plus Persistence Pressure Implies Eventual Fracture Under
+Finite Threshold). Suppose:
+1. correction remains blocked for a sustained interval,
+2. fragility grows monotonically over that interval,
+3. the critical fracture threshold remains finite.
+Then if the interval is long enough, the system eventually fractures.
+Proof. Monotone growth ofΦ frag(t) under blocked correction implies that fragility continues
+to rise. If the critical threshold remains finite, then sufficiently prolonged monotone increase
+eventually forcesΦ frag(t) above that threshold. The fracture threshold theorem then applies.
+Proposition 6.4(Lower Stability Horizon Raises Fracture Exposure). If all else is fixed and the
+effective stability horizonTt declines in a way that lowers or preservesΦ crit(S,T t), then fracture
+exposure weakly increases.
+Proof. A lower or equal threshold requires less accumulated fragility to trigger fracture. Therefore
+the set of fragility states lying in the fracture regime weakly expands.
+
+Chapter 7
+Completion Status and Transition to
+D2
+7.1 What D1 Now Contains
+With the prior D1 theorem block, the D1 extension block, and the present completion block
+taken together, the D1 program now contains:
+• closure and primitive admissibility,
+• weak consistency of the core axiom set,
+• persistence-under-maintenance,
+• fragility monotonicity under blocked correction,
+• relational well-formedness under typed composition,
+• partial independence of central core axioms,
+• structural reproduction as deep-pattern preservation,
+• a fracture-threshold bridge from accumulated fragility to regime change.
+That is enough to say D1 has moved from initial proof sketch status into a substantial Tier I
+mother-body block.
+7.2 What Comes Next
+The next formal move should be D2. On the current roadmap, D2 should target theorem families
+such as:
+• operator monotonicity,
+• routing dominance,
+• projection boundedness,
+• first reconstruction and validity soundness lemmas.
+12
+
+EP_FCS D1 Completion Block v1 13/13
+That transition is now appropriate because the Tier I core has been materially strengthened.
+Identity has been protected enough to let methodology, projection, reconstruction, and validity
+results grow on a firmer base.

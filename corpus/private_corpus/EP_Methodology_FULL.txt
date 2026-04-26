@@ -1,0 +1,4081 @@
+EP Methodology  
+A Formal Framework for Representing, Tracing, and Reorganizing 
+Energy Flow in Complex Systems  
+Table of Contents 
+EP Methodology .......................................................................................................... 1 
+A. Introduction ............................................................................................................... 4 
+B. Energy as Methodological Object ................................................................................ 6 
+C. Primitive Layer and Basic Energy Unit.......................................................................... 8 
+1. Source and Sink ............................................................................................................................. 9 
+2. Gradient and Directionality ............................................................................................................ 9 
+3. Path Structure ............................................................................................................................. 10 
+4. Barrier and Resistance ................................................................................................................ 11 
+5. Loss and Dissipation ................................................................................................................... 12 
+6. Storage and Temporal Buffering................................................................................................... 13 
+7. Conversion Across Energetic Forms ............................................................................................ 14 
+8. The Basic Energy Unit .................................................................................................................. 14 
+9. Aggregation of Energy Units ......................................................................................................... 15 
+D. Representation Layer ............................................................................................... 16 
+1. Node Attribute Structure ............................................................................................................. 17 
+2. Edge Attribute Structure .............................................................................................................. 18 
+3. Adjacency, Incidence, and Energetic Topology ............................................................................ 19 
+4. Gradient Field on the Graph ......................................................................................................... 20 
+5. Edge Flow Equations ................................................................................................................... 21 
+6. Viability Weights .......................................................................................................................... 22 
+7. Delivered Flow and Path Retention .............................................................................................. 23 
+8. Node Balance and System Conservation ..................................................................................... 23 
+9. Path Cost and Transfer Burden .................................................................................................... 24 
+10. System Representation as Energetic State .............................................................................. 25 
+11. From Representation to Operation .......................................................................................... 26 
+E. Operator Layer ......................................................................................................... 26 
+1. Detection Operator...................................................................................................................... 27 
+2. Mapping Operator ....................................................................................................................... 28 
+3. Tracing Operator.......................................................................................................................... 29 
+4. Compression Operator ................................................................................................................ 30 
+
+5. Routing Operator ......................................................................................................................... 32 
+6. Concentration Operator .............................................................................................................. 33 
+7. Dissipation Operator ................................................................................................................... 34 
+8. Stabilization Operator.................................................................................................................. 35 
+9. Redirection Operator ................................................................................................................... 36 
+10. Reallocation Operator ............................................................................................................. 37 
+11. Operator Composition ............................................................................................................ 38 
+12. From Operators to Pipeline ..................................................................................................... 38 
+F. Canonical Pipeline ................................................................................................... 39 
+1. Identifying the Energetic Form ..................................................................................................... 39 
+2. Locating Sources and Sinks ......................................................................................................... 40 
+3. Mapping Gradients and Barriers .................................................................................................. 41 
+4. Enumerating Admissible Paths .................................................................................................... 43 
+5. Estimating Transfer Cost ............................................................................................................. 44 
+6. Measuring Loss and Leakage ....................................................................................................... 45 
+7. Testing Stability Under Pressure .................................................................................................. 46 
+8. Selecting or Engineering Improved Flow ...................................................................................... 47 
+9. Pipeline Composition .................................................................................................................. 48 
+10. From Pipeline to Objective Structure ....................................................................................... 49 
+G. Objective Structure and Evaluation Metrics .............................................................. 49 
+1. Transfer Efficiency ....................................................................................................................... 50 
+2. System Loss Rate ........................................................................................................................ 51 
+3. Path Economy and Transfer Burden ............................................................................................. 52 
+4. Concentration Metrics ................................................................................................................. 53 
+5. Stability Under Load .................................................................................................................... 55 
+6. Recovery Capacity ....................................................................................................................... 56 
+7. Systemic Coherence ................................................................................................................... 57 
+8. Sink Satisfaction and Distributional Coverage ............................................................................. 58 
+9. Composite Metric Vector ............................................................................................................. 59 
+10. The EP Objective Functional .................................................................................................... 59 
+11. Constrained EP Optimization .................................................................................................. 60 
+12. Objective Interpretation .......................................................................................................... 61 
+H. Illustrative Cross-Domain Cases .............................................................................. 61 
+1. Case I: AI Inference and Deployment System .............................................................................. 62 
+2. Case II: Legal-Institutional Process ............................................................................................. 65 
+3. Case III: Military Logistics and Command-Support Network ........................................................ 68 
+4. Comparative Interpretation ......................................................................................................... 71 
+I. Discussion and Future Development ........................................................................ 71 
+J. Conclusion ............................................................................................................... 77 
+
+Appendix A. Notation ....................................................................................................... 80 
+1. A.1 System-Level Objects ............................................................................................................ 80 
+2. A.2 Primitive Roles ....................................................................................................................... 81 
+3. A.3 Source and Sink Objects ........................................................................................................ 82 
+4. A.4 Potentials and Gradients ....................................................................................................... 82 
+5. A.5 Paths and Route Sets ............................................................................................................. 83 
+6. A.6 Barrier, Resistance, and Cost ................................................................................................ 84 
+7. A.7 Flow, Retention, and Loss ...................................................................................................... 85 
+8. A.8 Storage and Conversion......................................................................................................... 87 
+9. A.9 Node and Edge Attributes ...................................................................................................... 88 
+10. A.10 Viability and Transfer Quality ........................................................................................... 88 
+11. A.11 Graph-Theoretic Objects ................................................................................................. 89 
+12. A.12 Operators ........................................................................................................................ 90 
+13. A.13 Pipeline Symbols ............................................................................................................. 91 
+14. A.14 Concentration, Stability, Recovery, and Coherence ........................................................ 92 
+15. A.15 Performance Metrics and Objective ................................................................................ 94 
+16. A.16 Case-Specific Symbols ................................................................................................... 95 
+17. A.17 Compact Reading Rule .................................................................................................... 96 
+Appendix B. Preliminary Propositions ............................................................................... 96 
+1. B.1 Monotonicity of Transfer Efficiency Under Path Retention...................................................... 97 
+2. B.2 Monotonicity of System Loss Rate Under Edge Loss Reduction ............................................. 98 
+3. B.3 Dominance of Higher-Scoring Paths Under the EP Routing Score .......................................... 99 
+4. B.4 Soft Routing Preference Is Monotone in the Transfer Score .................................................... 99 
+5. B.5 Transfer Score Increases with Positive Gradient and Decreases with Cost .......................... 100 
+6. B.6 Path Viability Decreases with Edgewise Barrier Increase ..................................................... 101 
+7. B.7 Increased Concentration Raises Localized Failure Exposure ............................................... 102 
+8. B.8 Stability Improvement Under Redundant Parallel Path Addition........................................... 103 
+9. B.9 Recovery Capacity Increases with Additional Stored Reserve .............................................. 103 
+10. B.10 Coherence Is Maximized Under Perfect Positive Alignment ........................................... 104 
+11. B.11 Sink Satisfaction Improves Under Monotone Arrival Increase ........................................ 105 
+12. B.12 Objective Improvement Under Pareto Improvement ...................................................... 106 
+13. B.13 A First Meta-Observation ............................................................................................... 107 
+14. B.14 Future Theorem Directions ............................................................................................ 107 
+Appendix C. Internal Research Roadmap........................................................................ 108 
+1. C.1 Purpose of This Appendix .................................................................................................... 108 
+2. C.2 Priority Structure ................................................................................................................. 108 
+3. C.3 Priority I Literature Clusters ................................................................................................. 109 
+4. C.4 Priority II Literature Clusters ................................................................................................ 110 
+5. C.6 Future Theoretical Extension Paths ..................................................................................... 111 
+6. C.7 Bibliography Construction Plan ........................................................................................... 111 
+7. C.8 Reading Order ..................................................................................................................... 112 
+
+8. C.9 Internal Warning .................................................................................................................. 112 
+9. C.10 Internal Closing Note......................................................................................................... 113 
+Bibliography .................................................................................................................. 113 
+10. Part 1. Core categorized references ...................................................................................... 113 
+11. Part 2. Exhaustive APA bibliography in alphabetical order ..................................................... 116 
+ 
+ 
+A. Introduction 
+EP begins from energy. A complex system is first approached as an arrangement of 
+generation, transmission, obstruction, storage, conversion, and loss. This starting point 
+determines the entire methodology. Once the system is read through energy, many 
+features that usually appear scattered across different vocabularies can be gathered 
+into a single operational frame. Stability becomes a property of sustained flow. 
+Coordination becomes a property of coupled flow. Scalability becomes a property of 
+whether flow can expand without disproportionate loss. Governance becomes a 
+property of whether flow can be bounded, directed, and regulated across the structure. 
+From this starting point, EP does not begin with visible outcomes. It begins with the 
+conditions that make outcomes possible. A system does not first produce judgment and 
+then acquire structure. It first acquires an energetic organization, and from that 
+organization there emerge paths, bottlenecks, concentrations, recoveries, and 
+convergences. What later appears as intelligence or judgment belongs to that later 
+layer. The primary task of methodology is therefore to identify the energetic 
+architecture that gives rise to those phenomena. 
+This choice of starting point gives EP a unified scope. The same initial move can be 
+applied to an AI system, a legal procedure, a military campaign, a transport network, a 
+financial mechanism, or a civilizational formation. In every case, the operative question 
+is the same. What kind of effective force is present, how is it organized, how does it 
+move, where does it weaken, and how can it be reorganized. EP takes those questions 
+as its foundation and builds its method from there. 
+Complex systems are commonly analyzed through the language of function, decision, 
+rule, representation, output, coordination, or control. These vocabularies each capture 
+an important layer of system behavior, yet they often begin at a stage where the system 
+is already visibly organized. A legal order is described through rules and judgments. A 
+
+military structure is described through command, sensing, maneuver, and firepower. 
+An artificial intelligence system is described through representation, training, inference, 
+and output quality. An economy is described through production, allocation, exchange, 
+and incentive. In each case, the descriptive language is useful, but it typically starts from 
+a layer at which the internal organization of effective force has already taken form. 
+This paper proposes that a more general methodological entry point is available. It 
+approaches complex systems as structured organizations of energy. The term energy is 
+used here in an operational and system-theoretic sense rather than as a narrow 
+reference to physical energetics alone. It refers to any effective quantity, capacity, or 
+transferable force that can drive state transition, directional movement, structural 
+change, accumulation, conversion, obstruction, or coordinated action within a system. 
+The purpose of this definition is methodological. It makes possible a common analytic 
+frame for systems whose material carriers differ but whose structural problems remain 
+comparable. 
+The central claim of the paper is that many higher-level properties of complex systems 
+can be analyzed more systematically once they are reformulated in terms of energetic 
+structure and energetic flow. Stability may be treated as the capacity of flow to remain 
+viable under load. Coordination may be treated as the coupling of multiple flows across 
+a shared structure. Scalability may be treated as the expansion of throughput without 
+disproportionate loss. Governance may be treated as the regulation of boundaries, 
+direction, rate, priority, and permission over flow. Judgment may be treated as a 
+convergence outcome produced under constraints within a field of competing energetic 
+paths. These reformulations do not replace domain-specific analysis. They establish a 
+deeper structural layer on which domain-specific analysis can be built. 
+The methodological aim of the present work is therefore formal rather than merely 
+interpretive. The paper does not introduce energy as a loose metaphor for complexity. 
+It defines a candidate methodological framework with four explicit components: a 
+primitive layer of energetic roles, a basic analytic unit, an operator layer, and a 
+canonical pipeline for system analysis and redesign. It further proposes a preliminary 
+evaluative layer based on transfer efficiency, loss, path economy, concentration, 
+stability, recovery, and coherence. Taken together, these elements form the initial 
+architecture of what is here called EP Energy Methodology. 
+This methodological project belongs to a broader class of attempts to formalize general 
+system structure. Yet the present approach differs from many existing frameworks in 
+
+one respect. It treats directional force, obstruction, loss, storage, conversion, and 
+reallocation as primary analytic objects rather than as secondary consequences of 
+already-defined system functions. In that respect, the framework is neither a 
+conventional network description nor a purely abstract systems language. It is a 
+structured method for identifying, representing, tracing, evaluating, and reorganizing 
+effective flow. 
+The paper is positioned as a foundational methodology paper rather than a completed 
+architecture paper. Its task is to define the formal core of the framework clearly enough 
+to support future mathematical modeling, algorithmic implementation, and domain-
+specific application. The present paper therefore does three things. It defines the 
+conceptual and methodological meaning of energy for EP. It introduces the initial 
+formal grammar through which energetic systems may be represented. It establishes 
+the first sequence of operators and evaluative criteria by which those systems may be 
+analyzed. The paper does not claim that the framework is already complete as a 
+computational architecture. It claims that the framework can now be stated in a 
+sufficiently formal way to support further development. 
+The structure of the paper is as follows. Section 2 defines energy as the methodological 
+object of the framework and clarifies the level of abstraction at which the term is used. 
+Section 3 introduces the primitive layer and the basic energy unit. Section 4 develops 
+the first formal representation of energetic systems. Section 5 defines the operator 
+layer. Section 6 presents the canonical analytic pipeline. Section 7 introduces objective 
+structure and evaluation metrics. Section 8 outlines illustrative applications across 
+multiple domains. Section 9 concludes by identifying the role of EP Energy Methodology 
+as a formal starting point for later work in energetic modeling, optimization, and 
+system design. 
+B. Energy as Methodological Object 
+The concept of energy in this paper is defined operationally. Energy is any effective 
+quantity or transferable force that contributes to state transition, directional 
+propagation, structural transformation, accumulation, conversion, or regulated 
+constraint within a complex system. This definition is broader than the physical usage 
+of the term, but it is not indefinite. It is restricted to quantities that perform an 
+operative role in the generation, transmission, maintenance, or transformation of 
+system behavior. Energy, in this sense, is not a metaphor for importance. It is the 
+structured capacity by which systems move, persist, reorganize, or impose direction. 
+
+This definition is necessary because the objects to which the framework is applied do 
+not share a single material substrate. In an electrical network, energy may be literal 
+power transfer. In a military system, it may appear as logistics, force projection, sensing 
+capacity, command bandwidth, and munitions availability. In a legal system, it may 
+appear as authority, compliance, procedural force, evidentiary momentum, and 
+institutional legitimacy. In an artificial intelligence system, it may appear as 
+computation, representational transformation, gradient pressure, memory allocation, 
+inference throughput, and deployment burden. In an economic system, it may appear as 
+capital, labor capacity, logistical throughput, and coordination force. These are not 
+identical substances. They are comparable because they occupy analogous structural 
+roles within organized systems. 
+Accordingly, the framework does not assume that all systems are reducible to one 
+homogeneous energetic medium. It assumes something narrower and more useful: that 
+complex systems may be studied through the organization of effective force across 
+source, destination, differential pressure, route, obstruction, storage, conversion, and 
+loss. This is a structural claim rather than a material one. It permits a common 
+methodology without erasing domain differences. What remains invariant across 
+domains is not the carrier of energy, but the logic of energetic organization. 
+Three clarifications follow from this definition. First, energy must be understood 
+relationally rather than absolutely. A quantity becomes methodologically relevant when 
+it participates in directional transfer, comparative pressure, constraint, or 
+transformation inside the system. Second, energy must be understood structurally 
+rather than atomistically. It does not appear only as an isolated amount, but as part of a 
+configuration consisting of sources, sinks, gradients, paths, barriers, and associated 
+mechanisms of storage, conversion, and loss. Third, energy must be understood 
+dynamically rather than statically. Even when it is stored or blocked, it remains part of a 
+larger field of possible movement, delayed release, or redirected transfer. 
+This conceptual position distinguishes the present framework from several neighboring 
+approaches. It differs from a purely semantic treatment of complex systems because it 
+does not begin with symbols or classifications. It differs from decision-centered 
+approaches because it does not begin with the final act of selection. It differs from 
+standard network analysis because connectivity alone is insufficient; what matters is 
+not only whether a link exists, but whether effective force can move across it, at what 
+cost, under what barriers, with what degree of loss, and with what recovery potential. It 
+differs from loose metaphorical appeals to thermodynamics because the present 
+
+framework requires explicit structural roles, explicit operators, and explicit evaluative 
+criteria. 
+The methodological consequence is direct. Once energy is defined as the operative 
+object of analysis, the first-order questions of the framework become stable across 
+domains. What effective energy is present in the system. Where does it originate. 
+Toward what sink does it move. What gradient drives the movement. Through what 
+path does it travel. What barriers shape, delay, or regulate the transfer. Where is force 
+lost, leaked, stored, or converted. Under what conditions does the resulting 
+organization remain stable or become fragile. These questions define the conceptual 
+boundary of EP Energy Methodology and prepare the transition to formal 
+representation. 
+The next step is to define the primitive energetic roles that make these questions 
+mathematically expressible. Once those roles are fixed, the framework can move from 
+conceptual foundation to notation, formal decomposition, and structured analysis. 
+C. Primitive Layer and Basic Energy Unit 
+The first formal layer of EP Energy Methodology is the primitive layer. Its role is to 
+define the minimum set of structural positions required for representing energetic 
+organization in a complex system. These primitives are not domain-specific labels. They 
+are formal roles that may be instantiated differently across physical, institutional, 
+computational, military, legal, or economic systems. A system becomes energetically 
+legible once these roles are identified and related to one another. 
+Let a complex system be denoted by 𝒮. The primitive layer of 𝒮is defined as a structured 
+set 
+𝒫(𝒮)= { 𝐬, 𝐭, 𝐠, 𝐩, 𝐛, 𝓵, 𝐦, 𝐜 }, 
+ 
+where 𝐬denotes source, 𝐭denotes sink, 𝐠denotes gradient, 𝐩denotes path, 𝐛denotes 
+barrier, 𝓵denotes loss, 𝐦denotes storage, and 𝐜denotes converter. The first six 
+primitives constitute the minimal analytic core. Storage and converter extend the model 
+to temporally buffered and heterogeneously transformed systems. 
+This section introduces each primitive formally and then compresses the core structure 
+into a basic energy unit suitable for later representation, operator design, and 
+optimization. The purpose is not to reduce all systems to one material substrate. It is to 
+
+define a common grammar through which structurally comparable energetic 
+organization may be described. 
+1. Source and Sink 
+A source is the origin from which effective energy becomes available to the system. A 
+sink is the destination toward which that energy moves or at which it is consumed. 
+These two primitives define directional polarity. Without them, the system may contain 
+capacity, but it does not yet contain a methodologically identifiable transfer structure. 
+Let the set of source nodes be denoted by 
+𝑆 = {𝑠1, 𝑠2, … , 𝑠𝑚}, 
+ 
+and the set of sink nodes by 
+𝑇 = {𝑡1, 𝑡2, … , 𝑡𝑛}. 
+ 
+A source 𝑠𝑖 is associated with an available energetic quantity 𝐸𝑖
+src ≥ 0, and a sink 𝑡𝑗 is 
+associated with a demanded or absorbable energetic quantity 𝐸𝑗
+snk ≥ 0. In the simplest 
+case, a directed energetic transfer is meaningful only when some 𝑠𝑖 ∈ 𝑆and some 𝑡𝑗 ∈ 𝑇 
+are linked through a nonzero gradient and at least one viable path. 
+The net energetic imbalance of the system may be written as 
+Δ𝐸(𝒮)= ∑𝐸𝑖
+src
+𝑚
+𝑖=1
+− ∑𝐸𝑗
+snk
+𝑛
+𝑗=1
+. 
+ 
+This quantity does not by itself determine actual flow. It only indicates whether the 
+system contains aggregate energetic surplus, deficit, or approximate balance at the level 
+of source-sink totals. Actual movement depends on gradient, path structure, barriers, 
+and loss. 
+2. Gradient and Directionality 
+Gradient is the differential condition that drives transfer between source and sink. It 
+may correspond to pressure difference, demand imbalance, urgency asymmetry, 
+potential difference, scarcity gap, or any structured inequality that induces directional 
+
+movement. In EP, gradient is not restricted to geometric slope. It is the formal driver of 
+directional transfer. 
+For a source-sink pair (𝑠𝑖, 𝑡𝑗), define the energetic gradient 
+𝑔𝑖𝑗 = Γ(𝑠𝑖, 𝑡𝑗), 
+ 
+where Γis a domain-dependent gradient mapping. In the simplest scalar form, one may 
+write 
+𝑔𝑖𝑗 = 𝜙(𝑠𝑖)− 𝜙(𝑡𝑗), 
+ 
+where 𝜙(⋅)is an energetic potential function over system nodes. Positive 𝑔𝑖𝑗indicates a 
+directional tendency from 𝑠𝑖toward 𝑡𝑗, while nonpositive 𝑔𝑖𝑗indicates either no transfer 
+pressure or reversed pressure under the current representation. 
+Gradient alone does not guarantee actual transmission. It only defines transfer 
+pressure. The realized flow between two nodes requires path viability. This distinction 
+is central. A system may contain strong gradients and still fail to move energy 
+effectively because its paths are blocked, fragmented, excessively lossy, or 
+institutionally prohibited. 
+3. Path Structure 
+A path is the route through which energy travels from source to sink. Paths may be 
+physical, computational, institutional, procedural, legal, logistical, or social. What 
+matters formally is that a path is an ordered sequence of admissible transfer relations 
+connecting a source to a sink. 
+Let the energetic system eventually be represented as a directed graph 𝐺𝐸 = (𝑉, 𝐸), 
+where 𝑉is the set of energetic nodes and 𝐸is the set of directed transfer edges. Then a 
+path from 𝑠𝑖to 𝑡𝑗is defined as 
+𝑃𝑖𝑗 = (𝑣0, 𝑣1, … , 𝑣𝑘), 
+ 
+such that 
+𝑣0 = 𝑠𝑖, 𝑣𝑘 = 𝑡𝑗, (𝑣𝑟−1, 𝑣𝑟)∈ 𝐸 for all 𝑟 = 1, … , 𝑘. 
+
+ 
+The admissible path set between 𝑠𝑖and 𝑡𝑗is denoted 
+Π𝑖𝑗 = {𝑃𝑖𝑗
+(1), 𝑃𝑖𝑗
+(2), …  }. 
+ 
+The existence of multiple admissible paths is methodologically important. It implies 
+that flow organization is not a single-line problem. It is a structured competition among 
+routes with different cost, resistance, capacity, stability, and recovery properties. 
+The path length of 𝑃𝑖𝑗may be defined combinatorially as 
+𝐿path(𝑃𝑖𝑗)= 𝑘, 
+ 
+or more generally as a weighted sum 
+𝐿path(𝑃𝑖𝑗)= ∑𝑤𝑢𝑣
+(𝑢,𝑣)∈𝑃𝑖𝑗
+, 
+ 
+where 𝑤𝑢𝑣 is a domain-relevant edge length, stage cost, temporal delay, or 
+transformation burden. 
+4. Barrier and Resistance 
+A barrier is any condition that restricts, delays, filters, throttles, regulates, or blocks 
+energetic transfer. In one system a barrier may be physical resistance. In another it may 
+be institutional authorization, conversion difficulty, adversarial interference, 
+procedural delay, or security gating. EP treats barrier as a primary structural object 
+because complex systems are shaped not only by channels of movement but also by 
+conditions of obstruction. 
+For each directed edge (𝑢, 𝑣)∈ 𝐸, define a barrier coefficient 
+𝑏𝑢𝑣 ≥ 0. 
+ 
+A larger 𝑏𝑢𝑣indicates greater obstruction to transfer. In a path 𝑃𝑖𝑗, the aggregate barrier 
+may be written as 
+
+𝐵(𝑃𝑖𝑗)= ∑𝑏𝑢𝑣
+(𝑢,𝑣)∈𝑃𝑖𝑗
+, 
+ 
+or, if the dominant obstruction governs the route, as 
+𝐵max(𝑃𝑖𝑗)= max⁡
+(𝑢,𝑣)∈𝑃𝑖𝑗
+𝑏𝑢𝑣. 
+ 
+These two forms correspond to different structural interpretations. The additive form 
+models cumulative friction. The maximum form models bottleneck-dominated transfer. 
+Different domains may require one or both. 
+Barrier is analytically distinct from gradient. Gradient supplies transfer pressure. 
+Barrier limits the realization of that pressure. The ratio between them already suggests 
+a first approximation of path viability. For example, one may define an unnormalized 
+viability score 
+𝜔̃(𝑃𝑖𝑗)= 𝐺(𝑃𝑖𝑗)
+1 + 𝐵(𝑃𝑖𝑗), 
+ 
+where 𝐺(𝑃𝑖𝑗)is an aggregate gradient along the path. Later sections will refine this into 
+a more explicit routing formulation. 
+5. Loss and Dissipation 
+Loss is the portion of energy that fails to arrive at the sink in usable form. It includes 
+leakage, degradation, delay-induced erosion, conversion waste, internal dissipation, and 
+structurally nonproductive expenditure. Loss is not an accidental afterthought. It is one 
+of the defining quantities of system performance. 
+For each edge (𝑢, 𝑣)∈ 𝐸, let 𝜆𝑢𝑣 ∈ [0,1]denote the loss coefficient. If 𝑓𝑢𝑣is the 
+transmitted flow on that edge, then the lost amount on that edge is 
+ℓ𝑢𝑣 = 𝜆𝑢𝑣𝑓𝑢𝑣. 
+ 
+The retained amount after passing through (𝑢, 𝑣)is therefore 
+𝑓𝑢𝑣
+out = (1 − 𝜆𝑢𝑣)𝑓𝑢𝑣. 
+
+ 
+For a full path 𝑃𝑖𝑗, the total additive loss may be written as 
+ℒ(𝑃𝑖𝑗)= ∑𝜆𝑢𝑣
+(𝑢,𝑣)∈𝑃𝑖𝑗
+𝑓𝑢𝑣. 
+ 
+If the same unit of flow is propagated sequentially through the path, then the end-to-
+end retained fraction becomes 
+𝜌(𝑃𝑖𝑗)= ∏ (1 −
+(𝑢,𝑣)∈𝑃𝑖𝑗
+𝜆𝑢𝑣), 
+ 
+and the effective delivered flow at the sink is 
+𝑓𝑖𝑗
+deliv = 𝑓𝑖𝑗
+init 𝜌(𝑃𝑖𝑗). 
+ 
+This multiplicative formulation is especially useful because it captures the 
+compounding nature of repeated degradation across long or complex routes. 
+6. Storage and Temporal Buffering 
+Storage is the capacity of a system to preserve energy across time for later release, 
+redistribution, or stabilization. Systems without storage are highly dependent on 
+immediate continuity of transfer. Systems with storage possess temporal depth and 
+therefore greater resilience under interruption, surge, or path instability. 
+Let 𝑚𝑣(𝑡) denote the stored energetic quantity at node 𝑣at time 𝑡. A general storage 
+update rule may be written as 
+𝑚𝑣(𝑡 + 1)= 𝑚𝑣(𝑡)+ ∑𝑓𝑢𝑣
+𝑢:(𝑢,𝑣)∈𝐸
+(𝑡)− ∑𝑓𝑣𝑤
+𝑤:(𝑣,𝑤)∈𝐸
+(𝑡)− 𝑑𝑣(𝑡), 
+ 
+where 𝑑𝑣(𝑡) denotes dissipation, decay, or local consumption at node 𝑣. If node 𝑣has a 
+storage capacity 𝑀𝑣, then admissible storage must satisfy 
+0 ≤ 𝑚𝑣(𝑡)≤ 𝑀𝑣. 
+
+ 
+Storage introduces a time-indexed state variable into the framework. This is important 
+because later notions such as stability under load, recovery capacity, and adaptive 
+reallocation cannot be handled adequately in a purely static formulation. The present 
+paper does not yet develop the full temporal theory, but the primitive must be defined 
+at this stage because it is part of the formal grammar of energetic systems. 
+7. Conversion Across Energetic Forms 
+A converter is a node or process through which one energetic form becomes another. 
+Conversion is central to complex systems because transfer rarely occurs through one 
+unchanged medium from beginning to end. Data may become model weights. Credit 
+may become infrastructure. Fuel may become motion. Authority may become 
+enforceable action. EP therefore requires a primitive that captures transformed 
+continuation of flow. 
+Let 𝒦 denote the set of energetic forms, and let 𝐸𝑣
+(𝑎) denote the quantity of form 𝑎 ∈
+𝒦at node 𝑣. A converter at node 𝑣from form 𝑎to form 𝑏may be represented as 
+𝐸𝑣
+(𝑏) = 𝜒𝑣
+𝑎→𝑏𝐸𝑣
+(𝑎), 
+ 
+where 𝜒𝑣
+𝑎→𝑏 ∈ [0,1] is the conversion efficiency. The lost quantity during conversion is 
+ℓ𝑣
+𝑎→𝑏 = (1 − 𝜒𝑣
+𝑎→𝑏)𝐸𝑣
+(𝑎). 
+ 
+This notation allows EP to represent systems in which a transfer path includes inter-
+form transitions rather than only same-form propagation. It also prepares the way for 
+layered energetic representations in which different subsystems operate on partially 
+distinct energetic carriers. 
+8. The Basic Energy Unit 
+The full primitive layer is rich enough to represent complex organization, but 
+methodology requires a compact analytic core. EP therefore defines a basic energy unit 
+composed of six elements: source, sink, gradient, path, barrier, and loss. This unit is the 
+minimum configuration required to describe directed energetic transfer with 
+structured constraint. 
+
+Define the 𝑟-th basic energy unit as 
+𝑢𝑟 = (𝑠𝑟, 𝑡𝑟, 𝑔𝑟, 𝑃𝑟, 𝐵𝑟, ℒ𝑟), 
+ 
+where 𝑠𝑟 is a source, 𝑡𝑟 is a sink, 𝑔𝑟is the effective gradient, 𝑃𝑟 is a selected path or path 
+family, 𝐵𝑟 is the aggregate barrier measure, and ℒ𝑟 is the associated loss measure. In 
+more explicit form, one may write 
+𝑢𝑟 = (𝑠𝑟, 𝑡𝑟, Γ(𝑠𝑟, 𝑡𝑟), 𝑃𝑟, 𝐵(𝑃𝑟), ℒ(𝑃𝑟)). 
+ 
+This six-part unit serves as the minimal analytic kernel of EP methodology. It provides a 
+stable answer to the first methodological questions posed to any system: where energy 
+originates, where it is directed, what pressure drives it, through what route it moves, 
+what obstructs it, and what is lost in transfer. 
+Storage and converter remain indispensable, but they are treated as extension 
+primitives rather than elements of the minimum kernel. This distinction is 
+methodological rather than ontological. The point is to establish a compact unit that can 
+be repeated, compared, aggregated, and optimized across many domains before the 
+fuller temporal and multi-form structure is introduced. 
+9. Aggregation of Energy Units 
+A complex system does not contain a single energy unit. It contains an organized set of 
+such units whose interactions generate the system-level energetic field. Let 
+𝒰(𝒮)= {𝑢1, 𝑢2, … , 𝑢𝑁} 
+ 
+denote the set of all relevant basic energy units in system 𝒮. The system may then be 
+interpreted as an arrangement of interacting transfer structures, rather than as a 
+monolithic whole. 
+At this level, a first aggregate descriptor of the system may be written as 
+𝐔𝒮 = ∑𝜔𝑟
+𝑁
+𝑟=1
+𝑢𝑟, 
+ 
+
+where 𝜔𝑟 is a relevance or intensity weight attached to unit 𝑢𝑟. This expression is 
+schematic rather than fully algebraic, since the components of 𝑢𝑟 are heterogeneous. Its 
+value lies in emphasizing that system-level analysis arises from the structured 
+aggregation of many local energy units rather than from one undifferentiated notion of 
+flow. 
+The next step is to translate this primitive and unit structure into a formal system 
+representation. Once the system is represented as an energetic graph with explicit node 
+and edge attributes, the framework can define operators more precisely and begin to 
+formulate routing, stability, and optimization in a mathematically disciplined way. 
+D. Representation Layer 
+The primitive layer defines the formal roles of energetic organization. The next task is 
+to represent those roles within a unified structural model. In EP Energy Methodology, 
+the first general representation is an energetic graph, which treats a complex system as 
+a directed structure of nodes, edges, attributes, and transferable quantities. This 
+representation is not introduced as a mere visualization device. It is the first formal 
+substrate on which operator design, path analysis, loss propagation, stability testing, 
+and optimization can be built. 
+Define the energetic graph of system 𝒮 as 
+𝐺𝐸(𝒮)= (𝑉, 𝐸, Φ𝑉, Φ𝐸), 
+ 
+where 𝑉is the set of energetic nodes, 𝐸 ⊆ 𝑉 × 𝑉 is the set of directed energetic edges, 
+Φ𝑉 is the node attribute map, and Φ𝐸is the edge attribute map. The purpose of this 
+representation is to make energetic primitives mathematically tractable without 
+collapsing domain heterogeneity. It allows a legal system, a computational architecture, 
+a logistical network, or a military structure to be represented through the same formal 
+grammar while preserving domain-specific meaning in the attribute maps. 
+At this stage, EP does not require that all systems be represented at a single scale. A 
+node may represent a component, an institution, a process, a module, a jurisdiction, a 
+storage site, a command unit, or any other element that functions as an energetic locus. 
+Similarly, an edge may represent physical transfer, procedural transfer, informational 
+propagation, authority transmission, or resource allocation. The graph is therefore not a 
+
+commitment to one ontology of objects. It is a commitment to one ontology of 
+structured energetic relations. 
+1. Node Attribute Structure 
+Each node in 𝑉carries attributes that specify its energetic role and state. Formally, 
+define the node attribute map 
+Φ𝑉: 𝑉 → 𝒜𝑉, 
+ 
+where 𝒜𝑉 is the space of admissible node attributes. For a node 𝑣 ∈ 𝑉, write 
+Φ𝑉(𝑣)= (𝜃𝑣, 𝜋𝑣, 𝑚𝑣, 𝑀𝑣, 𝜅𝑣, 𝜇𝑣, 𝜉𝑣), 
+ 
+where 𝜃𝑣 is the node type, 𝜋𝑣is the energetic potential, 𝑚𝑣is the current stored quantity, 
+𝑀𝑣 is the storage capacity, 𝜅𝑣is the local conversion profile, 𝜇𝑣is the local dissipation 
+rate, and 𝜉𝑣is the node stability state. 
+The type variable 𝜃𝑣 may take values in a role set such as 
+Θ = {source,sink,intermediate,storage,converter,hybrid}. 
+ 
+This classification does not exhaust the meaning of the node. It locates its primary 
+structural role. A hybrid node is allowed because many real systems contain nodes that 
+simultaneously store, convert, distribute, and absorb energy. 
+The energetic potential 𝜋𝑣is used to define directional gradients across edges. In the 
+scalar case, 𝜋𝑣 ∈ ℝ. In richer formulations, 𝜋𝑣may be a vector or tensor, especially when 
+multiple energetic forms or competing pressures coexist. The present paper begins 
+with the scalar case for clarity. The stored quantity 𝑚𝑣and storage capacity 𝑀𝑣satisfy 
+0 ≤ 𝑚𝑣 ≤ 𝑀𝑣. 
+ 
+The local dissipation rate 𝜇𝑣 ∈ [0,1]measures the share of arriving energy that is 
+consumed, degraded, or leaked at the node independently of outgoing edge transfer. 
+The node stability state 𝜉𝑣may be represented as a scalar in [0, 1], with larger values 
+indicating greater ability to sustain throughput under perturbation. 
+
+2. Edge Attribute Structure 
+Each directed edge (𝑢, 𝑣)∈ 𝐸carries attributes that determine how energy can move 
+between nodes. Formally, define 
+Φ𝐸: 𝐸 → 𝒜𝐸, 
+ 
+where 𝒜𝐸is the space of admissible edge attributes. For each edge (𝑢, 𝑣), write 
+Φ𝐸(𝑢, 𝑣)= (𝑐𝑢𝑣, 𝑟𝑢𝑣, 𝑏𝑢𝑣, 𝜆𝑢𝑣, 𝜏𝑢𝑣, 𝜎𝑢𝑣, 𝜒𝑢𝑣), 
+ 
+where 𝑐𝑢𝑣is the transfer capacity, 𝑟𝑢𝑣is the edge resistance, 𝑏𝑢𝑣 is the barrier coefficient, 
+𝜆𝑢𝑣 is the loss coefficient, 𝜏𝑢𝑣is the transfer delay, 𝜎𝑢𝑣 is the edge stability coefficient, 
+and 𝜒𝑢𝑣 is the conversion efficiency if the edge includes energetic transformation. 
+The capacity satisfies 
+𝑐𝑢𝑣 ≥ 0, 
+ 
+and bounds admissible flow by 
+0 ≤ 𝑓𝑢𝑣 ≤ 𝑐𝑢𝑣. 
+ 
+The resistance 𝑟𝑢𝑣 captures generic opposition to transfer, while the barrier 
+𝑏𝑢𝑣captures thresholded, permission-based, regulatory, or structurally discrete 
+obstruction. The distinction is useful because some routes are continuously resistive 
+while others are conditionally blocked. The loss coefficient 𝜆𝑢𝑣 ∈ [0,1] measures 
+proportional degradation during transfer, and the delay 𝜏𝑢𝑣 ≥ 0 measures temporal 
+burden or propagation lag. The stability coefficient 𝜎𝑢𝑣 ∈ [0,1]captures the reliability of 
+the edge under load or disturbance. 
+The conversion coefficient 𝜒𝑢𝑣 ∈ [0,1] is relevant when transfer across the edge entails 
+a change of energetic form. If no form change occurs, one may set 𝜒𝑢𝑣 = 1. In later 
+multi-form formulations, 𝜒𝑢𝑣may become a matrix rather than a scalar. 
+
+3. Adjacency, Incidence, and Energetic Topology 
+The topology of 𝐺𝐸 may be represented in standard matrix form. Define the adjacency 
+matrix 𝐴 ∈ {0,1}∣𝑉∣×∣𝑉∣ by 
+𝐴𝑢𝑣 = {1, (𝑢, 𝑣)∈ 𝐸,
+0, otherwise. 
+ 
+To incorporate weighted transfer properties, define a weighted energetic adjacency 
+matrix 𝑊 with entries 
+𝑊𝑢𝑣 = 𝐴𝑢𝑣 𝜔𝑢𝑣, 
+ 
+where 𝜔𝑢𝑣 is an edge viability weight to be defined below. The use of 𝑊 allows the 
+graph to encode not only existence of transfer relation but also its energetic quality. 
+The incidence structure is also useful. Let 𝐵 ∈ ℝ∣𝑉∣×∣𝐸∣ denote the directed incidence 
+matrix, with 
+𝐵𝑣,𝑒 = {
+−1, if 𝑒 = (𝑣,⋅),
+1, if 𝑒 = (⋅, 𝑣),
+0, otherwise.
+ 
+ 
+If 𝐟 ∈ ℝ∣𝐸∣ is the edge-flow vector, then the net inflow at nodes is 
+𝐵𝐟. 
+ 
+This notation becomes important when the framework moves from local transfer 
+relations to global conservation, storage update, and reallocation constraints. 
+The graph topology does not by itself determine system behavior. It only provides the 
+support on which potentials, gradients, barriers, capacities, and flows can be defined. In 
+EP, topology is therefore necessary but not sufficient. A path may exist graph-
+theoretically and still be energetically nonviable because barrier, resistance, instability, 
+or loss overwhelms transfer pressure. 
+
+4. Gradient Field on the Graph 
+Once node potentials are defined, a gradient field can be induced over directed edges. 
+For each edge (𝑢, 𝑣)∈ 𝐸, define the edge gradient 
+𝑔𝑢𝑣 = 𝜋𝑢 − 𝜋𝑣. 
+ 
+A positive value of 𝑔𝑢𝑣indicates directional energetic pressure from 𝑢toward 𝑣. A 
+negative value indicates reverse pressure. In some systems, only positive-gradient 
+transfer is admissible. In others, the edge may still support transfer under externally 
+imposed routing, but at elevated cost. The framework allows both interpretations. 
+For a path 𝑃 = (𝑣0, 𝑣1, … , 𝑣𝑘), define the cumulative path gradient as 
+𝐺(𝑃)= ∑𝑔𝑣𝑟−1𝑣𝑟
+𝑘
+𝑟=1
+. 
+ 
+If the node potential is conservative, then 
+𝐺(𝑃)= 𝜋𝑣0 − 𝜋𝑣𝑘. 
+ 
+However, many real systems are not conservative in this strong sense, especially when 
+local injections, temporal controls, switching permissions, or nonuniform conversion 
+occur. In those cases, the cumulative edge gradient remains the more general 
+representation. 
+A normalized edge pressure may be written as 
+𝑔̂ 𝑢𝑣 = max⁡(𝑔𝑢𝑣, 0)
+1 + 𝑟𝑢𝑣 + 𝑏𝑢𝑣
+, 
+ 
+which already combines directional tendency with transfer obstruction. This 
+normalized form is not yet the full viability measure, but it anticipates it. 
+
+5. Edge Flow Equations 
+EP requires a formal distinction between potential transfer and realized transfer. 
+Potential transfer is encoded in gradients and edge attributes. Realized transfer is 
+encoded in edge flows. Let 
+𝑓𝑢𝑣(𝑡)≥ 0 
+ 
+denote the energetic flow on edge (𝑢, 𝑣)at time 𝑡. In the static case, the time index may 
+be omitted. 
+A first-order constitutive form for realized flow is 
+𝑓𝑢𝑣 = 𝐴𝑢𝑣 𝜔𝑢𝑣 max⁡(𝑔𝑢𝑣, 0), 
+ 
+where 𝜔𝑢𝑣 is the effective edge viability weight. To respect capacity constraints, one 
+may write 
+𝑓𝑢𝑣 = min⁡  ⁣{𝑐𝑢𝑣, 𝐴𝑢𝑣 𝜔𝑢𝑣 max⁡(𝑔𝑢𝑣, 0)}. 
+ 
+This equation expresses a basic EP principle: flow does not arise from connectivity 
+alone, nor from potential difference alone. It arises from the interaction of directional 
+pressure, structural viability, and capacity. 
+A more general edge flow law may include nonlinear response: 
+𝑓𝑢𝑣 = 𝐴𝑢𝑣 𝑐𝑢𝑣 𝜓 ⁣(𝑔𝑢𝑣, 𝑟𝑢𝑣, 𝑏𝑢𝑣, 𝜆𝑢𝑣, 𝜎𝑢𝑣), 
+ 
+where 𝜓is a bounded transfer response function satisfying 
+0 ≤ 𝜓(⋅)≤ 1. 
+ 
+For example, one admissible form is 
+𝜓 = max⁡(𝑔𝑢𝑣, 0)
+1 + 𝛼𝑟𝑢𝑣 + 𝛽𝑏𝑢𝑣 + 𝛾𝜆𝑢𝑣 + 𝛿(1 − 𝜎𝑢𝑣), 
+ 
+
+with nonnegative weighting parameters 𝛼, 𝛽, 𝛾, 𝛿. This allows different systems to 
+express different sensitivities to resistance, barrier, loss, and instability. 
+6. Viability Weights 
+The viability weight 𝜔𝑢𝑣 summarizes how usable an edge is as a transfer channel. It is a 
+central bridge between primitive description and routing analysis. Define 
+𝜔𝑢𝑣 = Ω ⁣(𝑐𝑢𝑣, 𝑟𝑢𝑣, 𝑏𝑢𝑣, 𝜆𝑢𝑣, 𝜏𝑢𝑣, 𝜎𝑢𝑣, 𝜒𝑢𝑣), 
+ 
+where Ωis a monotone function increasing in 𝑐𝑢𝑣, 𝜎𝑢𝑣, 𝜒𝑢𝑣and decreasing in 
+𝑟𝑢𝑣, 𝑏𝑢𝑣, 𝜆𝑢𝑣, 𝜏𝑢𝑣. 
+A useful normalized form is 
+𝜔𝑢𝑣 = 𝑐𝑢𝑣 𝜎𝑢𝑣 𝜒𝑢𝑣
+(1 + 𝑟𝑢𝑣)(1 + 𝑏𝑢𝑣)(1 + 𝜏𝑢𝑣)(1 + 𝜆𝑢𝑣). 
+ 
+This form is not unique, but it captures the intended logic clearly. Transfer viability 
+rises with capacity, stability, and conversion efficiency, and falls with resistance, 
+barrier, delay, and loss. If all quantities are normalized appropriately, 𝜔𝑢𝑣may also be 
+rescaled into [0, 1]. 
+At the path level, define path viability as the multiplicative composition of edge 
+viabilities: 
+𝜔(𝑃)= ∏ 𝜔𝑢𝑣
+(𝑢,𝑣)∈𝑃
+. 
+ 
+A path with many moderately weak edges will therefore be penalized more strongly 
+than a short path with a few high-quality edges. This is desirable because viability in 
+complex systems often compounds rather than averaging out. An alternative additive-
+penalty form may also be used: 
+log⁡ 𝜔(𝑃)= ∑log⁡
+(𝑢,𝑣)∈𝑃
+𝜔𝑢𝑣. 
+ 
+This logarithmic expression becomes useful in optimization and path comparison. 
+
+7. Delivered Flow and Path Retention 
+A path is not only viable or nonviable. It also determines how much of the initiated flow 
+reaches the sink. Let 𝑓init(𝑃)denote the flow inserted into path 𝑃. If edge losses are 
+multiplicative, then the retained share at the end of the path is 
+𝜌(𝑃)= ∏ (1 −
+(𝑢,𝑣)∈𝑃
+𝜆𝑢𝑣). 
+ 
+The delivered flow at the terminal node is then 
+𝑓deliv(𝑃)= 𝑓init(𝑃) 𝜌(𝑃). 
+ 
+The total loss along the path becomes 
+ℒ(𝑃)= 𝑓init(𝑃)− 𝑓deliv(𝑃)= 𝑓init(𝑃)(1 − 𝜌(𝑃)). 
+ 
+If conversion is also present, then the net retained share becomes 
+𝜌𝜒(𝑃)= ∏ (1 −
+(𝑢,𝑣)∈𝑃
+𝜆𝑢𝑣)𝜒𝑢𝑣, 
+ 
+and 
+𝑓𝜒
+deliv(𝑃)= 𝑓init(𝑃) 𝜌𝜒(𝑃). 
+ 
+This expression is important because it shows directly that a path may be topologically 
+present and even gradient-favorable, yet still be methodologically poor because it 
+destroys too much of the energy it is meant to transmit. 
+8. Node Balance and System Conservation 
+At each node, flow must satisfy a balance relation modified by storage, conversion, and 
+local dissipation. Let 𝐼(𝑣)denote the set of incoming neighbors of 𝑣, and 𝑂(𝑣)the set of 
+outgoing neighbors. Then the node balance equation at time 𝑡may be written as 
+
+𝑚𝑣(𝑡 + 1)− 𝑚𝑣(𝑡)= ∑(1 −
+𝑢∈𝐼(𝑣)
+𝜆𝑢𝑣)𝜒𝑢𝑣𝑓𝑢𝑣(𝑡)− ∑𝑓𝑣𝑤
+𝑤∈𝑂(𝑣)
+(𝑡)− 𝑑𝑣(𝑡)+ 𝑞𝑣(𝑡), 
+ 
+where 𝑑𝑣(𝑡)is local dissipation or consumption at node 𝑣, and 𝑞𝑣(𝑡)is exogenous 
+injection or withdrawal. If 𝑣is not a storage node, one may set 𝑚𝑣(𝑡)≡ 0, reducing the 
+equation to an instantaneous balance relation. 
+In steady state, the balance condition becomes 
+∑(1 −
+𝑢∈𝐼(𝑣)
+𝜆𝑢𝑣)𝜒𝑢𝑣𝑓𝑢𝑣 − ∑𝑓𝑣𝑤
+𝑤∈𝑂(𝑣)
+− 𝑑𝑣 + 𝑞𝑣 = 0. 
+ 
+This equation already shows how EP extends beyond pure network flow theory. 
+Standard conservation is modified here by loss, conversion, dissipation, and external 
+intervention. These are not secondary corrections. They are part of the central 
+structure of the methodology. 
+At the system level, one may write the aggregate balance relation 
+∑(
+𝑣∈𝑉
+𝑚𝑣(𝑡 + 1)− 𝑚𝑣(𝑡))
+= ∑𝑞𝑣
+𝑣∈𝑉
+(𝑡)− ∑𝜆𝑢𝑣
+(𝑢,𝑣)∈𝐸
+𝑓𝑢𝑣(𝑡)− ∑𝑑𝑣
+𝑣∈𝑉
+(𝑡)− ∑(1 −
+(𝑢,𝑣)∈𝐸
+𝜒𝑢𝑣)𝑓𝑢𝑣(𝑡), 
+ 
+which states that change in total stored energy equals exogenous injection minus edge 
+loss, node dissipation, and conversion loss. 
+9. Path Cost and Transfer Burden 
+EP requires a formal representation of the burden of transfer. Let the cost of traversing 
+edge (𝑢, 𝑣)be 
+𝜅𝑢𝑣 = 𝛼1𝑟𝑢𝑣 + 𝛼2𝑏𝑢𝑣 + 𝛼3𝜆𝑢𝑣 + 𝛼4𝜏𝑢𝑣 + 𝛼5(1 − 𝜎𝑢𝑣), 
+ 
+where 𝛼1, … , 𝛼5 ≥ 0are weighting parameters. Then the total cost of a path 𝑃is 
+
+𝐶(𝑃)= ∑𝜅𝑢𝑣
+(𝑢,𝑣)∈𝑃
+. 
+ 
+This formulation allows routing to be interpreted not only as shortest-path selection 
+but as a more general energetic burden minimization problem. It also makes clear that 
+the best path is not necessarily the one with the fewest hops. A short path with large 
+barriers, high instability, or severe loss may be much worse than a longer but smoother 
+route. 
+A cost-adjusted effective transfer score for path 𝑃may be defined as 
+Ψ(𝑃)= 𝐺+(𝑃) 𝜔(𝑃) 𝜌𝜒(𝑃)
+1 + 𝐶(𝑃) , 
+ 
+where 
+𝐺+(𝑃)= ∑max⁡(
+(𝑢,𝑣)∈𝑃
+𝑔𝑢𝑣, 0). 
+ 
+This score integrates positive transfer pressure, viability, retention, and cost in a single 
+quantity. It is still preliminary, but it serves as a bridge toward the routing and 
+optimization sections that follow. 
+10. System Representation as Energetic State 
+For later operator design, it is useful to define the energetic state of the system at time 
+𝑡. Let 
+𝐱(𝑡)= (𝝅(𝑡), 𝐦(𝑡), 𝐟(𝑡), 𝝃(𝑡)), 
+ 
+where 𝝅(𝑡) is the vector of node potentials, 𝐦(𝑡) is the vector of stored quantities, 𝐟(𝑡) 
+is the vector of edge flows, and 𝝃(𝑡) is the vector of node stability states. One may then 
+regard the system evolution as a state transition 
+𝐱(𝑡 + 1)= ℱ(𝐱(𝑡), 𝐺𝐸, 𝐪(𝑡)), 
+ 
+where ℱis the energetic update operator and 𝐪(𝑡)is the external input vector. 
+
+The present paper does not yet specify ℱfully. That level belongs to later work in 
+dynamic energetic architecture. For the current methodology paper, it is sufficient to 
+note that the representation layer already supports such a transition. This is important 
+because it shows that EP is not confined to static description. It already contains the 
+formal ingredients needed for a dynamical systems formulation. 
+11. From Representation to Operation 
+At this point, the energetic graph has become more than a visual diagram. It now 
+contains nodes with potential, storage, type, dissipation, and stability; edges with 
+capacity, resistance, barrier, loss, delay, stability, and conversion; path-level measures 
+of viability, retention, and cost; and system-level balance equations that connect local 
+transfer to global organization. This is the first formal substrate on which EP operations 
+can be defined. 
+The next section therefore turns from representation to action. Once a system has been 
+written as an energetic graph, the framework must specify how it is to be read, 
+compressed, traced, routed, stabilized, and reorganized. That task belongs to the 
+operator layer. 
+E. Operator Layer 
+The operator layer defines the admissible analytic actions that EP performs on the 
+energetic representation of a system. If the primitive layer provides the grammar and 
+the representation layer provides the formal substrate, the operator layer provides the 
+methodology in motion. It is through operators that the framework becomes executable 
+rather than merely descriptive. Each operator acts on the energetic graph 𝐺𝐸, the 
+system state 𝐱(𝑡), or the derived family of paths and units. Together, these operators 
+specify how EP identifies relevant structure, traces viable transfer, compresses 
+complexity, evaluates concentrations, stabilizes fragile configurations, and reorganizes 
+flow. 
+Formally, let 𝔒denote the operator set of EP: 
+𝔒 = {𝒟, ℳ, 𝒯, 𝒞, ℛ, 𝒬, ℋ, 𝒮, 𝒳, 𝒜}, 
+ 
+where 𝒟is detect, ℳis map, 𝒯is trace, 𝒞is compress, ℛis route, 𝒬is concentrate, ℋis 
+dissipate, 𝒮is stabilize, 𝒳is redirect, and 𝒜is reallocate. The notation is chosen only for 
+convenience. What matters is that each operator maps one formally represented 
+
+energetic object into another such object, into a derived measure, or into a redesigned 
+configuration. 
+The operators are not assumed to be mutually exclusive. In practical analysis, they are 
+often composed. Detection precedes mapping, mapping supports tracing, tracing 
+informs routing, routing exposes concentrations, concentration reveals the need for 
+dissipation or stabilization, and stabilization may require redirection and reallocation. 
+For that reason, the operators should be read as a structured family rather than as 
+isolated procedures. 
+1. Detection Operator 
+The detection operator identifies which parts of a complex system are methodologically 
+relevant as energetic objects. In many real systems, not every node, edge, process, or 
+symbolic distinction belongs to the active energetic layer. Detection is therefore the 
+formal operation by which the framework filters the system into its operative energetic 
+subset. 
+Let 𝒴denote the raw system description, which may contain entities, relations, signals, 
+procedures, constraints, documents, or subsystems. The detection operator is defined 
+as 
+𝒟: 𝒴 → 𝐺𝐸
+(0), 
+ 
+where 𝐺𝐸
+(0)is the initial energetic graph extracted from the raw system description. 
+More explicitly, 
+𝒟(𝒴)= (𝑉(0), 𝐸(0), Φ𝑉
+(0), Φ𝐸
+(0)). 
+ 
+This operator performs two tasks simultaneously. First, it selects energetic candidates 
+from the raw system. Second, it assigns them preliminary roles and attributes. In a legal 
+system, detection may identify courts, procedures, evidentiary channels, compliance 
+nodes, and enforcement routes. In a machine learning system, it may identify compute 
+nodes, memory bottlenecks, gradient channels, deployment gates, and inference sinks. 
+In a military system, it may identify supply depots, sensing nodes, command relays, 
+transport paths, and firepower destinations. 
+A formal detection score may be assigned to each candidate object 𝑦 ∈ 𝒴. Let 
+
+𝛿(𝑦)∈ [0,1] 
+ 
+denote its energetic relevance score. Then the detected node set may be written as 
+𝑉(0) = { 𝑦 ∈ 𝒴 ∣ 𝛿(𝑦)≥ 𝜏𝐷 }, 
+ 
+where 𝜏𝐷is a detection threshold. Similarly, for a candidate relation (𝑦𝑖, 𝑦𝑗), let 
+𝛿𝐸(𝑦𝑖, 𝑦𝑗)∈ [0,1] 
+ 
+denote its edge relevance score, and define 
+𝐸(0) = { (𝑦𝑖, 𝑦𝑗)∣ 𝛿𝐸(𝑦𝑖, 𝑦𝑗)≥ 𝜏𝐸 }. 
+ 
+The purpose of these definitions is not to specify one universal detector, but to make 
+clear that EP begins with a formally defined selection problem rather than with 
+unrestricted description. 
+2. Mapping Operator 
+Once energetic objects are detected, the mapping operator organizes them into an 
+explicit structural representation. Mapping takes a preliminary graph and produces a 
+refined energetic graph with typed nodes, weighted edges, and attribute assignments. If 
+detection determines what belongs to the energetic layer, mapping determines how 
+that layer is structurally written. 
+Define the mapping operator as 
+ℳ: 𝐺𝐸
+(0) → 𝐺𝐸, 
+ 
+with 
+ℳ(𝑉(0), 𝐸(0), Φ𝑉
+(0), Φ𝐸
+(0))= (𝑉, 𝐸, Φ𝑉, Φ𝐸). 
+ 
+In practice, ℳfills in or normalizes node and edge attributes, resolves scale, imposes 
+directionality, and converts raw structural relations into a consistent energetic graph. 
+
+Mapping may also expand implicit relations. For example, a procedural dependency 
+may be mapped into an energetic edge only after recognizing that it transmits delay, 
+authority, or information burden. 
+A formal attribute completion view of mapping may be written as 
+Φ𝑉 = ℳ𝑉(𝑉(0), 𝐸(0), Φ𝑉
+(0), Φ𝐸
+(0)), Φ𝐸 = ℳ𝐸(𝑉(0), 𝐸(0), Φ𝑉
+(0), Φ𝐸
+(0)). 
+ 
+This decomposition highlights that node mapping and edge mapping need not be 
+identical procedures. A node may need to be typed, assigned potential, and assigned 
+storage capacity. An edge may need to be given direction, capacity, resistance, barrier, 
+loss, delay, and conversion profile. 
+At the output of mapping, the system becomes mathematically navigable. Without ℳ, 
+the framework has detected ingredients but not yet produced a coherent object of 
+analysis. The mapping operator therefore marks the transition from energetic 
+recognition to formal representability. 
+3. Tracing Operator 
+The tracing operator follows the movement of effective force through an already 
+represented energetic graph. It answers a question more specific than structural 
+existence: given the graph and its current state, where does energy actually move, 
+through which routes, with what attenuation, and toward which sinks. Tracing is 
+necessary because a graph may contain many admissible paths, while only a subset is 
+active, dominant, or dynamically relevant. 
+Define the tracing operator as 
+𝒯: (𝐺𝐸, 𝐱)→ 𝔉, 
+ 
+where 𝔉is the set of traced energetic flows. One may write 
+𝔉 = {(𝑃𝑟, 𝑓𝑟, 𝜌𝑟, 𝐶𝑟)}𝑟=1
+𝑁𝐹 , 
+ 
+where each traced element records a path 𝑃𝑟, an associated flow magnitude 𝑓𝑟, a 
+retention factor 𝜌𝑟, and a path cost 𝐶𝑟. The operator thus converts the static or partially 
+
+dynamic energetic graph into an explicit family of realized or plausible transfer 
+trajectories. 
+Given a source 𝑠and sink 𝑡, the traced flow family between them may be defined as 
+𝒯𝑠,𝑡(𝐺𝐸, 𝐱)= {𝑃 ∈ Π𝑠𝑡  ∣  𝜔(𝑃)> 0,  𝐺+(𝑃)> 0}. 
+ 
+In stronger form, one may restrict to a thresholded active path family 
+𝒯𝑠,𝑡
+∗ (𝐺𝐸, 𝐱)= {𝑃 ∈ Π𝑠𝑡  ∣  Ψ(𝑃)≥ 𝜏𝑇}, 
+ 
+where Ψ(𝑃)is the effective transfer score introduced earlier. This formulation is useful 
+because it treats tracing as a selective process. The operator does not merely list all 
+graph-theoretic paths. It identifies the energetically relevant ones. 
+At the system scale, tracing may also produce an edge participation map. Define the 
+traced edge intensity 
+𝜁𝑢𝑣 = ∑𝑓deliv
+𝑃∋(𝑢,𝑣)
+(𝑃), 
+ 
+where the sum ranges over traced paths containing edge (𝑢, 𝑣). This quantity reveals 
+which edges carry meaningful energetic burden and therefore helps expose bottlenecks, 
+critical corridors, and concentration risks. 
+4. Compression Operator 
+Complex systems typically contain too many nodes, edges, and paths to be treated at 
+full resolution throughout the entire analytic process. The compression operator 
+reduces energetic complexity while preserving structurally important relations. 
+Compression is not the destruction of detail. It is the formal reduction of a large 
+energetic configuration into a smaller one that retains the features needed for analysis, 
+comparison, and design. 
+Define the compression operator as 
+𝒞: 𝐺𝐸 → 𝐺̃𝐸, 
+ 
+
+where 𝐺̃𝐸is a reduced energetic graph. The reduced graph may have fewer nodes, fewer 
+edges, aggregated modules, or lower-dimensional state representation. In general, 
+𝐺̃𝐸 = (𝑉̃, 𝐸̃, Φ̃𝑉, Φ̃𝐸), ∣ 𝑉̃∣≤∣ 𝑉 ∣, ∣ 𝐸̃∣≤∣ 𝐸 ∣. 
+ 
+One way to formalize compression is through partitioning. Let 
+𝒫𝑉 = {𝑉1, … , 𝑉𝐾} 
+ 
+be a partition of 𝑉. Then each compressed node 𝑣̃𝑘corresponds to a block 𝑉𝑘. A simple 
+aggregate potential may be defined as 
+𝜋̃𝑘 = 1
+∣ 𝑉𝑘 ∣ ∑𝜋𝑣
+𝑣∈𝑉𝑘
+, 
+ 
+while aggregate storage and capacity may be written as 
+𝑚̃𝑘 = ∑𝑚𝑣
+𝑣∈𝑉𝑘
+, 𝑀̃𝑘 = ∑𝑀𝑣
+𝑣∈𝑉𝑘
+. 
+ 
+Similarly, the compressed edge from block 𝑉𝑖to block 𝑉𝑗may receive aggregate weight 
+𝜔̃𝑖𝑗 = ∑ ∑𝜔𝑢𝑣
+𝑣∈𝑉𝑗
+𝑢∈𝑉𝑖
+, 
+ 
+or some normalized alternative depending on the application. 
+A good compression operator should preserve energetic invariants approximately. For 
+example, if ℐ(𝐺𝐸)denotes a set of invariants such as total delivered flow, total loss, 
+major bottlenecks, or dominant source-sink structure, one seeks 
+ℐ(𝐺̃𝐸)≈ ℐ(𝐺𝐸). 
+ 
+
+This is a central reason why compression matters. It provides a bridge between formal 
+richness and methodological tractability. 
+5. Routing Operator 
+The routing operator selects or ranks transfer paths in the energetic graph. Routing is 
+one of the central actions of EP because complex systems rarely present one uniquely 
+determined route from source to sink. Instead, they present families of admissible paths 
+with different viability, loss, delay, stability, and burden profiles. Routing transforms 
+this plurality into ordered preference, selected paths, or distributed transfer 
+assignments. 
+Define the routing operator as 
+ℛ: (𝐺𝐸, 𝐱, 𝑆, 𝑇)→ 𝔓𝑅, 
+ 
+where 𝔓𝑅is a routing policy or routed path family. For a single source-sink pair (𝑠, 𝑡), 
+the selected path may be defined by 
+𝑃𝑠𝑡
+∗ = arg⁡ max⁡
+𝑃∈Π𝑠𝑡
+Ψ(𝑃), 
+ 
+where Ψ(𝑃)is the effective transfer score 
+Ψ(𝑃)= 𝐺+(𝑃) 𝜔(𝑃) 𝜌𝜒(𝑃)
+1 + 𝐶(𝑃) . 
+ 
+This choice reflects one natural EP routing criterion: prefer paths with strong positive 
+gradient, high viability, strong retention, and low transfer burden. 
+More generally, routing may produce a distribution over paths rather than a single path. 
+Let 𝜚(𝑃)denote the routing weight assigned to path 𝑃. Then 
+∑𝜚(𝑃)= 1,
+𝑃∈Π𝑠𝑡
+𝜚(𝑃)≥ 0, 
+ 
+and one may define a soft routing law 
+
+𝜚(𝑃)= exp⁡{𝛽Ψ(𝑃)}
+∑ exp⁡{𝛽Ψ(𝑄)}𝑄∈Π𝑠𝑡
+, 
+ 
+where 𝛽 > 0 controls concentration of routing preference. This formulation is useful 
+because many real systems do not commit all throughput to one path. They distribute it 
+across several routes according to relative quality. 
+For multiple sources and sinks, routing may be written as an optimization over edge 
+flows: 
+ 
+subject to capacity, balance, and admissibility constraints. Later sections will place this 
+inside a broader objective framework. 
+6. Concentration Operator 
+The concentration operator identifies how strongly energetic throughput is clustered in 
+particular nodes, edges, corridors, or subsystems. Concentration is important because 
+high concentration often produces a dual effect. It may improve speed and force under 
+ordinary conditions while increasing fragility, bottleneck risk, and catastrophic failure 
+under perturbation. 
+Define the node concentration share 
+𝑞𝑣 =
+∑ 𝑓𝑢𝑣𝑢:(𝑢,𝑣)∈𝐸 + ∑ 𝑓𝑣𝑤𝑤:(𝑣,𝑤)∈𝐸
+∑ 𝑓𝑖𝑗
+(𝑖,𝑗)∈𝐸
+. 
+ 
+Then a simple concentration measure is the maximum share 
+𝑄max = max⁡
+𝑣∈𝑉
+𝑞𝑣. 
+ 
+A larger 𝑄maxindicates that a single node carries a larger proportion of total energetic 
+burden. One may also define an edge-level concentration share 
+
+
+𝑞𝑢𝑣 = 𝑓𝑢𝑣
+∑ 𝑓𝑖𝑗
+(𝑖,𝑗)∈𝐸
+, 𝑄max
+⁡ = max⁡
+(𝑢,𝑣)∈𝐸
+𝑞𝑢𝑣. 
+ 
+To obtain a fuller distributional measure, one may use a Herfindahl-type concentration 
+index: 
+𝐻𝑉 = ∑𝑞𝑣
+2
+𝑣∈𝑉
+, 𝐻𝐸 = ∑𝑞𝑢𝑣
+2
+(𝑢,𝑣)∈𝐸
+. 
+ 
+The concentration operator may therefore be defined as 
+𝒬: (𝐺𝐸, 𝐟)→ (𝐪𝑉, 𝐪𝐸, 𝐻𝑉, 𝐻𝐸, 𝑄max, 𝑄max
+⁡ ). 
+ 
+This output is methodologically useful because it identifies whether the energetic 
+organization of the system is distributed, moderately centralized, or dangerously 
+dependent on a narrow set of carriers. 
+7. Dissipation Operator 
+The dissipation operator measures and, where appropriate, designs the controlled 
+release or unavoidable loss of energetic pressure. Dissipation should not be understood 
+only as waste. In some systems, controlled dissipation is a stability mechanism. It 
+prevents local overload, uncontrolled escalation, or destructive accumulation. EP 
+therefore treats dissipation as both a diagnostic and a design category. 
+Let the local node dissipation be 𝑑𝑣, and the edge loss be ℓ𝑢𝑣 = 𝜆𝑢𝑣𝑓𝑢𝑣. The total system 
+dissipation is 
+𝐷sys = ∑𝑑𝑣
+𝑣∈𝑉
++ ∑ℓ𝑢𝑣
+(𝑢,𝑣)∈𝐸
+. 
+ 
+Define the dissipation operator as 
+ℋ: (𝐺𝐸, 𝐟, 𝐦)→ 𝐝∗, 
+ 
+
+where 𝐝∗ is a dissipation profile or recommendation profile. In purely diagnostic mode, 
+ℋreturns the current dissipation distribution 
+𝐝obs = (𝑑𝑣, ℓ𝑢𝑣)𝑣∈𝑉,(𝑢,𝑣)∈𝐸. 
+ 
+In design mode, ℋmay seek a controlled redistribution of dissipation such that 
+overload is reduced subject to acceptable total loss. For example, one may solve 
+min⁡
+𝐝
+   ∑(
+𝑣∈𝑉
+𝜑𝑣 − 𝑑𝑣)2 + 𝜂 ∑𝑑𝑣
+𝑣∈𝑉
+, 
+ 
+where 𝜑𝑣 is the excess pressure or congestion at node 𝑣, and 𝜂 trades off overload 
+reduction against total dissipation cost. This captures the idea that some dissipation is 
+beneficial when it prevents larger structural failure. 
+8. Stabilization Operator 
+The stabilization operator seeks configurations under which the energetic system 
+remains viable despite load, fluctuation, edge degradation, node failure, or redirected 
+demand. Stabilization is not equivalent to freezing the system. It is the design or 
+evaluation of conditions under which effective transfer can persist through disturbance. 
+Let ℰfail denote a perturbation ensemble, such as node removals, edge failures, load 
+spikes, or barrier increases. Let Φ(𝐺𝐸, 𝜀) denote the perturbed graph under disturbance 
+𝜀 ∈ ℰfail. Define a system performance functional 𝔍(𝐺𝐸), such as total delivered flow. 
+Then a natural stability measure is 
+Stab(𝐺𝐸)= 𝔼𝜀∼ℰfail [𝔍(Φ(𝐺𝐸, 𝜀))
+𝔍(𝐺𝐸) ] . 
+ 
+This ratio measures the expected performance retained under perturbation. A system 
+with high retained fraction is more stable. 
+The stabilization operator may then be written as 
+𝒮: 𝐺𝐸 → 𝐺𝐸
+stab, 
+ 
+where 𝐺𝐸
+stabis a modified configuration satisfying 
+
+Stab(𝐺𝐸
+stab)≥ Stab(𝐺𝐸). 
+ 
+The operator may act by increasing redundancy, adding storage, lowering 
+concentration, introducing backup edges, reducing barrier bottlenecks, or 
+redistributing flows. In constrained form, one may write 
+𝐺𝐸
+stab = arg⁡ max⁡
+𝐺′∈𝒩(𝐺𝐸)
+Stab(𝐺′)− 𝜆mod CostMod(𝐺′, 𝐺𝐸), 
+ 
+where 𝒩(𝐺𝐸) is a neighborhood of admissible modifications and CostModmeasures 
+intervention burden. 
+9. Redirection Operator 
+The redirection operator changes transfer routes when the current ones become 
+inadequate. In many systems, a path is not globally bad yet becomes locally unsuitable 
+under changing conditions such as congestion, attack, policy change, delay, barrier 
+escalation, or sink shift. Redirection handles such cases without necessarily reallocating 
+the underlying source structure. 
+Define the redirection operator as 
+𝒳: (𝐺𝐸, 𝐱, Δ)→ 𝔓𝑅
+′ , 
+ 
+where Δdenotes the triggering change set and 𝔓𝑅
+′ is the updated routing policy. If the 
+original selected path between 𝑠and 𝑡is 𝑃𝑠𝑡
+∗ , and Δmodifies costs, barriers, or 
+availability, then redirection produces 
+𝑃𝑠𝑡
+′ = arg⁡ max⁡
+𝑃∈Π𝑠𝑡
+′ ΨΔ(𝑃), 
+ 
+where Π𝑠𝑡
+′ and ΨΔare the post-change admissible set and scoring rule. This is a local but 
+important operation. It states that when the environment changes, the method should 
+not only observe deterioration; it should produce a new route. 
+A useful redirection quantity is rerouting regret: 
+ℛregret = ΨΔ(𝑃𝑠𝑡
+′ )− ΨΔ(𝑃𝑠𝑡
+∗ ), 
+ 
+
+where 𝑃𝑠𝑡
+∗ is evaluated under the changed environment. A large positive value indicates 
+that failing to redirect would impose substantial performance loss. 
+10. Reallocation Operator 
+The reallocation operator acts at a broader structural level than redirection. Whereas 
+redirection changes routes for existing transfer relations, reallocation changes the 
+distribution of energetic supply, storage, or throughput across the system itself. It is 
+therefore closer to strategic redesign than tactical rerouting. 
+Let 𝐮denote a vector of allocable energetic resources across nodes or subsystems. The 
+reallocation operator is defined as 
+𝒜: (𝐺𝐸, 𝐮)→ 𝐮∗, 
+ 
+where 𝐮∗ is a revised allocation satisfying system constraints. One general form is 
+𝐮∗ = arg⁡ max⁡
+𝐮′∈𝒰adm
+𝔉alloc(𝐺𝐸, 𝐮′) 
+ 
+for some allocation objective 𝔉alloc. For example, if the aim is to maximize delivered 
+flow subject to budget, one may write 
+max⁡
+𝐮′   𝔍(𝐺𝐸; 𝐮′) 
+ 
+subject to 
+∑𝑢𝑣
+′
+𝑣∈𝑉
+≤ 𝑈tot, 𝑢𝑣
+′ ≥ 0. 
+ 
+Reallocation may change source strengths, storage capacities, redundancy levels, 
+defensive hardening, or priority distribution among sinks. In that sense it is one of the 
+highest-level EP operators. It does not only respond to the current flow field. It changes 
+the field’s structural conditions. 
+A marginal utility view is also useful. If 
+∂𝔍
+∂𝑢𝑣
+ 
+
+ 
+measures the performance gain from additional allocation at node 𝑣, then reallocation 
+tends to shift resources away from low-marginal-gain regions and toward high-
+marginal-gain or high-risk-critical regions, subject to policy or governance constraints. 
+11. Operator Composition 
+The full methodological value of the operator layer appears when the operators are 
+composed. A basic EP analytic cycle may be written schematically as 
+𝐺𝐸
+op = (𝒜 ∘ 𝒳 ∘ 𝒮 ∘ ℋ ∘ 𝒬 ∘ ℛ ∘ 𝒞 ∘ 𝒯 ∘ ℳ ∘ 𝒟)(𝒴), 
+ 
+where composition is read from right to left. This expression should not be interpreted 
+as a rigid requirement that all operators always appear in exactly this order. It states 
+only that EP possesses a compositional structure. Detection leads to mapping; mapping 
+supports tracing; tracing supports compression and routing; routing exposes 
+concentration and dissipation problems; these in turn motivate stabilization, 
+redirection, and reallocation. 
+The operator cycle may also be partial. In some applications, only a diagnostic sequence 
+is needed: 
+𝒯 ∘ ℳ ∘ 𝒟. 
+ 
+In others, the full design sequence becomes necessary: 
+𝒜 ∘ 𝒳 ∘ 𝒮 ∘ ℛ ∘ 𝒯 ∘ ℳ ∘ 𝒟. 
+ 
+This compositional flexibility is important because it shows that EP is not a single 
+algorithm. It is a formal methodology with a family of interoperable operators. 
+12. From Operators to Pipeline 
+The operator layer defines what EP can do to an energetic system. The next task is to 
+define the disciplined sequence in which these actions are typically organized. Not 
+every operator should be applied at every moment, and not every analysis benefits 
+from the same ordering. Nevertheless, the methodology requires a canonical pipeline 
+that specifies the standard progression from energetic identification to redesign. 
+
+That canonical progression is the subject of the next section. It translates the operator 
+family into a repeatable analytic workflow and thereby gives EP the form of a full 
+methodology rather than only a set of formal tools. 
+F. Canonical Pipeline 
+The canonical pipeline defines the standard sequence through which EP Energy 
+Methodology proceeds from raw system description to energetic redesign. If the 
+primitive layer specifies what is being represented, and the operator layer specifies 
+what can be done to that representation, the pipeline specifies the disciplined order in 
+which those actions are normally organized. Its purpose is methodological regularity. A 
+framework with primitives and operators but without a standard sequence remains 
+structurally rich but procedurally loose. The canonical pipeline gives EP an ordered 
+method of entry, diagnosis, comparison, and intervention. 
+Formally, let the EP pipeline be denoted by 
+𝒫EP = (ℐ, ℒ, 𝒢, 𝒩, 𝒦, 𝒴, 𝒰, 𝒵), 
+ 
+where ℐ is identify energy form, ℒis locate source and sink, 𝒢 is map gradients and 
+barriers, 𝒩 is enumerate possible paths, 𝒦 is estimate transfer cost, 𝒴 is measure loss 
+and leakage, 𝒰 is test stability under pressure, and 𝒵 is select or engineer improved 
+flow. These stages correspond to the core analytic progression of the method. They do 
+not replace the operator layer. They organize it into a repeatable procedure. 
+The pipeline should be understood as canonical rather than absolutely rigid. Different 
+domains may require recursion, branching, or partial execution. Some systems require 
+repeated alternation between tracing and routing. Others require that stability testing 
+begin earlier because the system is already under hostile load. The value of the pipeline 
+lies in its role as the default methodological order. It establishes the normal logic by 
+which EP analysis moves from energetic recognition toward structural redesign. 
+1. Identifying the Energetic Form 
+The first stage of the pipeline is the identification of the operative energetic form. A 
+system may describe itself through goals, rules, outputs, or symbolic classifications, yet 
+the effective force that actually drives its behavior may lie elsewhere. For this reason, 
+EP begins by identifying which quantity or set of quantities functions as energy in the 
+methodological sense introduced earlier. 
+
+Let the raw system description be 𝒴. The identification stage is a mapping 
+ℐ: 𝒴 → 𝒦act, 
+ 
+where 𝒦act ⊆ 𝒦is the set of active energetic forms relevant to the system. In a simple 
+case, 𝒦actmay be a singleton. In a more complex case, it may contain several coupled 
+forms such as information throughput, command bandwidth, resource stock, and 
+legitimacy pressure. 
+A formal relevance score may be assigned to each candidate energetic form 𝑘 ∈ 𝒦. Let 
+𝜄(𝑘 ∣ 𝒴)∈ [0,1] 
+ 
+denote the identification score of form 𝑘given system description 𝒴. Then the active 
+form set may be defined by thresholding: 
+𝒦act = { 𝑘 ∈ 𝒦 ∣ 𝜄(𝑘 ∣ 𝒴)≥ 𝜏𝐼 }, 
+ 
+where 𝜏𝐼is the identification threshold. This expression makes clear that the first step of 
+EP is not the assumption of one pre-given energy type. It is the formal selection of the 
+operative form or forms relevant to system behavior. 
+This stage is methodologically decisive because every subsequent definition of source, 
+sink, gradient, barrier, and loss depends upon it. A mistaken identification of the active 
+energetic form will distort the entire analysis. A legal institution misread as a purely 
+semantic system, or a machine-learning architecture misread as a purely 
+representational system without throughput and compute burden, will produce 
+misleading structural conclusions. The first stage therefore serves as a control on 
+category error. 
+2. Locating Sources and Sinks 
+Once the active energetic form has been identified, the next stage is to locate sources 
+and sinks. This stage establishes the directional polarity of the system. Without it, 
+gradients and paths cannot be defined in an operationally meaningful way. 
+Define the source-location operator 
+ℒ𝑆: 𝒴 × 𝒦act → 𝑆, 
+
+ 
+and the sink-location operator 
+ℒ𝑇: 𝒴 × 𝒦act → 𝑇. 
+ 
+The full source-sink location stage may then be written as 
+ℒ(𝒴, 𝒦act)= (𝑆, 𝑇). 
+ 
+As before, this operation may be threshold-based. Let 𝜍(𝑣)denote the source-likelihood 
+score of node 𝑣, and 𝜏(𝑣)denote the sink-likelihood score. Then 
+𝑆 = { 𝑣 ∈ 𝑉 ∣ 𝜍(𝑣)≥ 𝜏𝑆 }, 𝑇 = { 𝑣 ∈ 𝑉 ∣ 𝜏(𝑣)≥ 𝜏𝑇 }. 
+ 
+In some systems, the same node may belong to both 𝑆and 𝑇for different energetic forms 
+or at different times. The framework allows this through hybrid nodes. In that case, 
+source and sink are not absolute ontological classes but role assignments under a given 
+analytic frame. 
+Once source and sink sets have been determined, the system’s gross directional 
+structure may be summarized by the source-sink incidence relation 
+ℛ𝑆𝑇 = { (𝑠, 𝑡)∈ 𝑆 × 𝑇 ∣ Π𝑠𝑡 ≠ ∅ }, 
+ 
+that is, the set of source-sink pairs connected by at least one admissible path. This 
+relation is a preliminary energetic skeleton. It says which transfer polarities are even 
+structurally possible before gradients, barriers, and costs are introduced. 
+3. Mapping Gradients and Barriers 
+The third stage maps gradients and barriers. This step transforms the source-sink 
+skeleton into a directional field of pressure and obstruction. Without it, transfer 
+remains formally possible but dynamically uncharacterized. 
+Given the energetic graph 𝐺𝐸 = (𝑉, 𝐸, Φ𝑉, Φ𝐸), define the gradient mapping 
+𝒢𝑔: 𝐺𝐸 → 𝐆, 
+ 
+
+where 𝐆 = (𝑔𝑢𝑣)(𝑢,𝑣)∈𝐸 is the edge-gradient field with 
+𝑔𝑢𝑣 = 𝜋𝑢 − 𝜋𝑣. 
+ 
+Similarly, define the barrier mapping 
+𝒢𝑏: 𝐺𝐸 → 𝐁, 
+ 
+where 𝐁 = (𝑏𝑢𝑣)(𝑢,𝑣)∈𝐸. The combined stage is then 
+𝒢(𝐺𝐸)= (𝐆, 𝐁). 
+ 
+For each source-sink pair (𝑠, 𝑡), this stage makes it possible to define a path-level 
+directional-obstructive profile. For a path 𝑃 ∈ Π𝑠𝑡, 
+𝐺(𝑃)= ∑𝑔𝑢𝑣
+(𝑢,𝑣)∈𝑃
+, 𝐵(𝑃)= ∑𝑏𝑢𝑣
+(𝑢,𝑣)∈𝑃
+. 
+ 
+A basic path pressure ratio may be written as 
+Θ(𝑃)= 𝐺+(𝑃)
+1 + 𝐵(𝑃), 
+ 
+where 
+𝐺+(𝑃)= ∑max⁡(
+(𝑢,𝑣)∈𝑃
+𝑔𝑢𝑣, 0). 
+ 
+This quantity is not yet a full routing score, but it serves as an intermediate descriptor. 
+It shows whether a path is strongly driven and weakly obstructed, weakly driven and 
+heavily obstructed, or somewhere in between. 
+This stage is also the point at which hidden structural asymmetry often becomes visible. 
+Two systems with similar topologies may have very different energetic organizations 
+because their gradients and barriers are distributed differently. One may contain strong 
+
+sources but severe chokepoints. Another may contain moderate sources but smooth, 
+low-barrier propagation. The pipeline treats these differences as primary. 
+4. Enumerating Admissible Paths 
+Once gradients and barriers have been mapped, the next task is to enumerate 
+admissible paths. This stage moves from local edge structure to route structure. The 
+central question is no longer whether any connection exists between source and sink, 
+but which structured sequences of transfer are possible and relevant. 
+For each (𝑠, 𝑡)∈ ℛ𝑆𝑇, let 
+Π𝑠𝑡 = {𝑃𝑠𝑡
+(1), 𝑃𝑠𝑡
+(2), …  } 
+ 
+denote the set of admissible paths from 𝑠to 𝑡. The enumeration operator is defined as 
+𝒩: (𝐺𝐸, 𝑆, 𝑇)→ {Π𝑠𝑡}(𝑠,𝑡)∈ℛ𝑆𝑇. 
+ 
+In practice, admissibility may be constrained by node type, barrier thresholds, 
+maximum length, conversion compatibility, governance permission, or stability 
+requirements. Accordingly, one often works not with all graph-theoretic paths but with 
+a filtered admissible set 
+Π𝑠𝑡
+adm = {𝑃 ∈ Π𝑠𝑡   ∣   𝐵(𝑃)≤ 𝛽max,  𝐿path(𝑃)≤ 𝐿max,  𝜔(𝑃)≥ 𝜔min}. 
+ 
+This formal restriction is important because real systems usually do not treat every 
+mathematically possible route as meaningfully usable. A route may exist yet be too 
+slow, too restricted, too fragile, too costly, or too lossy to matter. 
+Enumeration also prepares later stages of selection and engineering. Without an 
+explicit path family, routing reduces to an intuition rather than a formal comparison. By 
+contrast, once Π𝑠𝑡
+admis defined, the method can compare paths by gradient, cost, 
+viability, loss, delay, or resilience. 
+A useful summary quantity at this stage is path diversity: 
+𝐷𝑠𝑡 =∣ Π𝑠𝑡
+adm ∣, 
+ 
+
+which measures how many structurally admissible routes exist between 𝑠and 𝑡. Low 
+𝐷𝑠𝑡 indicates route dependence and possible fragility. High 𝐷𝑠𝑡 indicates flexibility, 
+though not necessarily efficiency. 
+5. Estimating Transfer Cost 
+After path enumeration, the pipeline estimates transfer cost. Cost in EP is not a single 
+universal scalar. It is a structured burden associated with moving effective force 
+through a given route. This burden may include resistance, barrier, delay, instability, 
+conversion friction, governance burden, and loss exposure. 
+Let the edge cost function be 
+𝜅𝑢𝑣 = 𝛼1𝑟𝑢𝑣 + 𝛼2𝑏𝑢𝑣 + 𝛼3𝜆𝑢𝑣 + 𝛼4𝜏𝑢𝑣 + 𝛼5(1 − 𝜎𝑢𝑣), 
+ 
+as introduced earlier. Then for any admissible path 𝑃, the total transfer cost is 
+𝐶(𝑃)= ∑𝜅𝑢𝑣
+(𝑢,𝑣)∈𝑃
+. 
+ 
+The cost estimation stage is therefore the mapping 
+𝒦: {Π𝑠𝑡
+adm} → {𝐶(𝑃)}𝑃∈Π𝑠𝑡
+adm. 
+ 
+In systems with heterogeneous energetic forms, this may be extended by including 
+conversion burden: 
+𝜅𝑢𝑣
+𝜒 = 𝜅𝑢𝑣 + 𝛼6(1 − 𝜒𝑢𝑣), 
+ 
+so that 
+𝐶𝜒(𝑃)= ∑𝜅𝑢𝑣
+𝜒
+(𝑢,𝑣)∈𝑃
+. 
+ 
+The method distinguishes cost from loss because a path may be expensive without 
+being highly dissipative, and highly dissipative without being administratively or 
+temporally expensive. This distinction matters. A military detour may preserve force 
+
+but cost time. A legal shortcut may save time but produce legitimacy loss. A 
+computational route may be fast but unstable. Cost estimation therefore remains its 
+own stage rather than being absorbed into one general quality score too early. 
+A useful normalized burden index for a path is 
+𝐶̂(𝑃)= 𝐶(𝑃)
+𝐿path(𝑃)+ 1 , 
+ 
+which measures average burden per stage. This helps distinguish a long smooth route 
+from a short harsh one. 
+6. Measuring Loss and Leakage 
+The sixth stage measures loss and leakage. Cost estimates the burden of transfer. Loss 
+measures how much effective energy fails to arrive productively. This stage is necessary 
+because even a feasible and relatively low-cost path may still perform poorly if it 
+destroys too much of the energy it carries. 
+For a path 𝑃, the multiplicative retention factor is 
+𝜌(𝑃)= ∏ (1 −
+(𝑢,𝑣)∈𝑃
+𝜆𝑢𝑣), 
+ 
+or, with conversion, 
+𝜌𝜒(𝑃)= ∏ (1 −
+(𝑢,𝑣)∈𝑃
+𝜆𝑢𝑣)𝜒𝑢𝑣. 
+ 
+If 𝑓init(𝑃) is the initial injected flow, then delivered flow is 
+𝑓deliv(𝑃)= 𝑓init(𝑃)𝜌𝜒(𝑃), 
+ 
+and total path loss is 
+ℒ(𝑃)= 𝑓init(𝑃)− 𝑓deliv(𝑃). 
+ 
+
+The loss-measurement stage is thus the mapping 
+𝒴: {Π𝑠𝑡
+adm} → {ℒ(𝑃), 𝜌𝜒(𝑃)}𝑃∈Π𝑠𝑡
+adm. 
+ 
+At the graph level, one may define total leakage as 
+ℒsys = ∑𝜆𝑢𝑣
+(𝑢,𝑣)∈𝐸
+𝑓𝑢𝑣 + ∑𝑑𝑣
+𝑣∈𝑉
++ ∑(1 −
+(𝑢,𝑣)∈𝐸
+𝜒𝑢𝑣)𝑓𝑢𝑣. 
+ 
+This expression includes edge loss, node dissipation, and conversion loss. It allows the 
+system to be compared not only by whether transfer occurs, but by how much of the 
+initiating force survives the process. 
+A useful efficiency ratio at this stage is 
+𝜂sys =
+∑𝐸𝑡
+arriv
+𝑡∈𝑇
+∑𝐸𝑠src𝑠∈𝑆
+, 
+ 
+where 𝐸𝑡
+arriv is the energy reaching sink 𝑡, and 𝐸𝑠
+src is the energy supplied at source 𝑠. 
+This quantity will later become part of the evaluation layer. 
+7. Testing Stability Under Pressure 
+The seventh stage subjects the system to pressure. Up to this point, the method has 
+identified energetic form, located directional polarity, mapped gradients and barriers, 
+enumerated paths, estimated cost, and measured loss. These are necessary but still 
+incomplete, because a configuration that appears viable under ordinary conditions may 
+fail under perturbation, surge, attack, blockage, or temporal compression. 
+Let ℰpressdenote an ensemble of pressure scenarios. Each scenario 𝜀 ∈ ℰpressmodifies 
+the graph or state by changing capacities, barriers, delays, source loads, sink demands, 
+or edge availability. Let the perturbed system be 
+𝐺𝐸
+(𝜀) = Φ(𝐺𝐸, 𝜀). 
+ 
+The stability-testing stage is the mapping 
+
+𝒰: 𝐺𝐸 × ℰpress → ℝ𝑑, 
+ 
+where the output is a vector of retained-performance measures under the scenario 
+ensemble. For example, if 𝔍denotes total delivered flow, then the mean retained-flow 
+stability is 
+Stabflow(𝐺𝐸)= 𝔼𝜀∼ℰpress [𝔍(𝐺𝐸
+(𝜀))
+𝔍(𝐺𝐸)] . 
+ 
+One may similarly define sink satisfaction stability, path viability stability, or coherence 
+stability under pressure. The key point is that performance is not evaluated only in the 
+nominal state. It is evaluated across structured stress conditions. 
+A scenario may represent node failure, barrier escalation, latency shock, sudden 
+demand spike, adversarial disruption, or conversion degradation. By treating these as 
+formal perturbations, the pipeline makes robustness a standard analytic stage rather 
+than an afterthought. This is particularly important in systems whose ordinary 
+efficiency depends on concentration and tight coupling, because such systems often 
+conceal fragility until disturbed. 
+8. Selecting or Engineering Improved Flow 
+The final stage of the canonical pipeline selects or engineers improved energetic 
+organization. This is the design phase of EP. Earlier stages diagnose the system. The last 
+stage modifies it. The modification may involve choosing better paths, adding storage, 
+redistributing throughput, reducing concentration, lowering barriers, increasing 
+redundancy, or reallocating energetic resources. 
+Let 𝒢admdenote the set of admissible redesigns of 𝐺𝐸. The redesign stage is the operator 
+𝒵: 𝐺𝐸 → 𝐺𝐸
+∗, 
+ 
+where 
+𝐺𝐸
+∗ = arg⁡ max⁡
+𝐺′∈𝒢adm
+𝔍EP(𝐺′), 
+ 
+
+and 𝔍EP is a composite energetic objective to be formalized in the next section. At this 
+stage, it is enough to note that the redesign is guided by quantities already produced in 
+earlier stages: path families, costs, losses, concentration measures, and stability under 
+pressure. 
+In a restricted routing-only setting, the redesign stage may simply produce a new path 
+policy: 
+𝔓𝑅
+∗ = arg⁡ max⁡
+𝔓𝑅
+∑ ∑𝜚(𝑃)Ψ(𝑃).
+𝑃∈Π𝑠𝑡
+adm
+(𝑠,𝑡)∈𝑆×𝑇
+ 
+ 
+In a broader structural setting, redesign may also change capacities, storage, barriers, 
+or node protections: 
+𝐺𝐸
+∗ = arg⁡ max⁡
+𝐺′∈𝒢adm
+(𝛼𝜂(𝐺′)− 𝛽ℒsys(𝐺′)− 𝛾𝐻𝐸(𝐺′)+ 𝛿Stabflow(𝐺′)), 
+ 
+subject to modification constraints. This anticipates the multi-objective structure of the 
+next section. 
+The importance of the final stage lies in its methodological closure. EP does not stop at 
+description, and it does not stop at evaluation. It proceeds to structural intervention. 
+The pipeline is therefore complete only when diagnosis can feed redesign. 
+9. Pipeline Composition 
+The stages of the canonical pipeline may now be composed into a single formal 
+expression. Let the initial raw system description be 𝒴. Then a full EP pass may be 
+written schematically as 
+𝐺𝐸
+∗ = 𝒵 ∘ 𝒰 ∘ 𝒴 ∘ 𝒦 ∘ 𝒩 ∘ 𝒢 ∘ ℒ ∘ ℐ(𝒴). 
+ 
+This expression should not be read as a literal implementation sequence in every 
+context. It is the formal statement of the methodology’s canonical order. The output of 
+one stage becomes the input structure for the next. Identification precedes localization. 
+Localization precedes gradient and barrier mapping. Mapping precedes route 
+
+enumeration. Enumeration precedes cost and loss evaluation. Those in turn precede 
+stability testing, and all of them together support redesign. 
+A recursive form is also often useful. Let 
+𝐺𝐸
+(𝑘+1)
+= 𝒵(𝒰(𝒴(𝒦(𝒩(𝒢(ℒ(ℐ(𝐺𝐸
+(𝑘))))))))), 
+ 
+so that the system is repeatedly analyzed and improved over iterations 𝑘. This 
+recursive view becomes important when EP is later connected to adaptive control, 
+optimization loops, or architecture-level system design. 
+10. From Pipeline to Objective Structure 
+The canonical pipeline establishes the methodological order of EP. It says how the 
+framework proceeds from energetic identification to structural intervention. The next 
+task is to define how success is measured within that process. A methodology that 
+selects or engineers improved flow must specify what counts as improvement. 
+That requires an explicit objective structure together with formal evaluation metrics. 
+The next section therefore introduces the performance quantities by which energetic 
+systems are compared, optimized, and assessed. 
+G. Objective Structure and Evaluation Metrics 
+The objective structure of EP Energy Methodology defines what it means for one 
+energetic organization to perform better than another. Without such a structure, the 
+framework can identify, represent, and redesign a system, but it cannot formally specify 
+the direction of improvement. The present section therefore introduces a set of 
+evaluative metrics together with a composite objective functional. These quantities do 
+not exhaust all possible forms of energetic assessment. They define a first stable 
+evaluative core suitable for comparison, diagnosis, and optimization across domains. 
+The general principle is that an energetic system should be evaluated not by a single 
+scalar alone, but by a structured family of performance measures. Some of these 
+measures reward effective delivery. Others penalize waste, excessive burden, 
+concentration, or fragility. Others capture desirable higher-order properties such as 
+recoverability and coherence. The methodological point is that no single quantity fully 
+captures system quality. A highly efficient system may also be dangerously 
+concentrated. A very stable system may also be prohibitively costly. A loosely 
+
+distributed system may reduce fragility while sacrificing delivery power. EP therefore 
+adopts a multi-objective evaluative structure. 
+Formally, let 𝐺𝐸denote an energetic graph together with its associated state and 
+admissible perturbation ensemble. Let 𝔐(𝐺𝐸)denote the vector of performance metrics 
+extracted from that graph. The aim of this section is to define the major components of 
+𝔐(𝐺𝐸)and then to specify how they may be composed into a total energetic objective. 
+1. Transfer Efficiency 
+The first metric is transfer efficiency. Transfer efficiency measures how much of the 
+energy supplied by the source structure actually reaches the sink structure in usable 
+form. This is the most direct measure of whether the system is able to move effective 
+force from origin to destination without excessive attrition. 
+Let total source supply be 
+𝐸src = ∑𝐸𝑠
+src
+𝑠∈𝑆
+, 
+ 
+and total arrived sink energy be 
+𝐸arr = ∑𝐸𝑡
+arriv
+𝑡∈𝑇
+. 
+ 
+Then transfer efficiency is defined as 
+𝜂tr(𝐺𝐸)= 𝐸arr
+𝐸src
+. 
+ 
+By construction, 
+0 ≤ 𝜂tr(𝐺𝐸)≤ 1 
+ 
+whenever no sink receives more usable energy than is supplied by the sources. A value 
+near one indicates that most energetic input survives transfer and arrives productively. 
+A value near zero indicates severe inefficiency or failure of delivery. 
+
+A pathwise decomposition is also useful. If 𝒫actdenotes the active set of routed source-
+sink paths, then 
+𝐸arr = ∑𝑓deliv
+𝑃∈𝒫act
+(𝑃), 
+ 
+and therefore 
+𝜂tr(𝐺𝐸)=
+∑ 𝑓deliv
+𝑃∈𝒫act
+(𝑃)
+∑ 𝑓init𝑃∈𝒫act (𝑃) . 
+ 
+This pathwise expression is useful because it links the system-level metric directly to 
+the route structure introduced in previous sections. It also prepares the way for 
+attribution analysis, since low transfer efficiency may result from different 
+combinations of loss, conversion inefficiency, congestion, or route misselection. 
+2. System Loss Rate 
+The second metric is the system loss rate. While transfer efficiency measures successful 
+arrival, loss rate measures the proportion of energetic input that is dissipated, leaked, 
+degraded, or destroyed before productive arrival. The two quantities are related but not 
+identical in systems where storage, deferred release, or local retention also matter. 
+Let total system loss be 
+ℒsys = ∑𝜆𝑢𝑣
+(𝑢,𝑣)∈𝐸
+𝑓𝑢𝑣 + ∑𝑑𝑣
+𝑣∈𝑉
++ ∑(1 −
+(𝑢,𝑣)∈𝐸
+𝜒𝑢𝑣)𝑓𝑢𝑣, 
+ 
+where the three terms represent edge loss, node dissipation, and conversion loss 
+respectively. Then the system loss rate is defined as 
+𝜆sys(𝐺𝐸)= ℒsys
+𝐸src
+. 
+ 
+In a strictly closed and non-buffering system, one would approximately have 
+𝜂tr(𝐺𝐸)+ 𝜆sys(𝐺𝐸)≈ 1. 
+
+ 
+In a system with storage accumulation or delayed release, the relationship is more 
+generally 
+𝜂tr(𝐺𝐸)+ 𝜆sys(𝐺𝐸)+ 𝜂buf(𝐺𝐸)= 1, 
+ 
+where 𝜂buf(𝐺𝐸)denotes the buffered or retained fraction: 
+𝜂buf(𝐺𝐸)=
+∑(𝑣∈𝑉 𝑚𝑣(𝑡 + 1)− 𝑚𝑣(𝑡))+
+𝐸src
+. 
+ 
+This distinction is important because a system may temporarily sacrifice immediate 
+arrival in order to build reserve depth. EP therefore treats loss formally rather than 
+conflating it with all non-arrived energy. 
+At the path level, one may define path loss rate 
+𝜆(𝑃)= 1 − 𝜌𝜒(𝑃), 
+ 
+so that 
+ℒ(𝑃)= 𝑓init(𝑃)𝜆(𝑃). 
+ 
+This makes it possible to compare routed paths directly by their attrition profile. 
+3. Path Economy and Transfer Burden 
+The third family of metrics concerns path economy. A system may deliver energy 
+successfully and still do so through routes that are unnecessarily long, heavy, complex, 
+or administratively burdensome. Path economy therefore captures the burden of 
+transfer relative to the achieved delivery. 
+The average active path length is defined as 
+𝐿avg(𝐺𝐸)=
+∑ 𝜚(𝑃) 𝑃∈𝒫act
+𝐿path(𝑃)
+∑ 𝜚(𝑃)𝑃∈𝒫act
+, 
+ 
+
+where 𝜚(𝑃)is the routed weight or throughput share of path 𝑃. If 𝜚is normalized to sum 
+to one, this becomes 
+𝐿avg(𝐺𝐸)= ∑𝜚(𝑃) 
+𝑃∈𝒫act
+𝐿path(𝑃). 
+ 
+This metric captures mean route depth but not route harshness. To incorporate burden, 
+define average path cost as 
+𝐶avg(𝐺𝐸)= ∑𝜚(𝑃) 𝐶(𝑃),
+𝑃∈𝒫act
+ 
+ 
+where 𝐶(𝑃)is the cost function defined earlier: 
+𝐶(𝑃)= ∑𝜅𝑢𝑣
+(𝑢,𝑣)∈𝑃
+. 
+ 
+A useful normalized burden-per-delivery metric is 
+𝜅eff(𝐺𝐸)=
+∑ 𝜚(𝑃) 𝐶(𝑃)𝑃∈𝒫act
+∑ 𝜚(𝑃) 𝑃∈𝒫act
+𝑓deliv(𝑃). 
+ 
+This quantity penalizes systems that require high total transfer burden for a modest 
+amount of delivered energy. In practice, 𝐿avg, 𝐶avg, and 𝜅effcapture complementary 
+aspects of route economy. A short path may still be harsh. A long path may still be 
+smooth. A system that balances length and burden well will show favorable values 
+across all three. 
+4. Concentration Metrics 
+The fourth family of metrics concerns concentration. Concentration measures how 
+narrowly energetic throughput is clustered into particular nodes, edges, corridors, or 
+modules. This is central to EP because concentration mediates the tradeoff between 
+performance and fragility. Systems with extremely distributed flow may be resilient but 
+weak. Systems with extreme concentration may be forceful but brittle. 
+
+Let node concentration shares be 
+𝑞𝑣 =
+∑ 𝑓𝑢𝑣𝑢:(𝑢,𝑣)∈𝐸 + ∑ 𝑓𝑣𝑤𝑤:(𝑣,𝑤)∈𝐸
+∑ 𝑓𝑖𝑗
+(𝑖,𝑗)∈𝐸
+, 
+ 
+and edge concentration shares be 
+𝑞𝑢𝑣 = 𝑓𝑢𝑣
+∑ 𝑓𝑖𝑗
+(𝑖,𝑗)∈𝐸
+. 
+ 
+Then the Herfindahl-type node concentration index is 
+𝐻𝑉(𝐺𝐸)= ∑𝑞𝑣
+2
+𝑣∈𝑉
+, 
+ 
+and the edge concentration index is 
+𝐻𝐸(𝐺𝐸)= ∑𝑞𝑢𝑣
+2
+(𝑢,𝑣)∈𝐸
+. 
+ 
+Higher values indicate greater concentration. If throughput is perfectly concentrated 
+into one node or one edge, the corresponding index approaches one. If throughput is 
+spread evenly, the index decreases toward its minimum given the support size. 
+A simpler bottleneck-oriented metric is the maximum concentration share. At node 
+level, 
+𝑄𝑉
+max(𝐺𝐸)= max⁡
+𝑣∈𝑉
+𝑞𝑣, 
+ 
+and at edge level, 
+𝑄𝐸
+max(𝐺𝐸)= max⁡
+(𝑢,𝑣)∈𝐸
+𝑞𝑢𝑣. 
+ 
+
+These metrics are useful when the analyst wishes to identify not merely the overall 
+distribution but the single most burdened node or edge. In later design stages, a system 
+may seek to minimize one or both concentration measures subject to delivery 
+constraints. 
+5. Stability Under Load 
+The fifth major metric is stability under load. Stability measures the degree to which the 
+system retains functional performance when subjected to perturbation, pressure, or 
+adverse environmental conditions. In EP, stability is not equivalent to static balance. It 
+is a retained-performance property under structured disturbance. 
+Let ℰpressbe a distribution over pressure scenarios 𝜀, and let 𝐺𝐸
+(𝜀) = Φ(𝐺𝐸, 𝜀)denote the 
+perturbed system. Let 𝔍flow(𝐺𝐸)denote total delivered flow: 
+𝔍flow(𝐺𝐸)= ∑𝐸𝑡
+arriv
+𝑡∈𝑇
+. 
+ 
+Then stability under load is defined by 
+Stab(𝐺𝐸)= 𝔼𝜀∼ℰpress [𝔍flow(𝐺𝐸
+(𝜀))
+𝔍flow(𝐺𝐸)] . 
+ 
+When different performance dimensions matter, one may define a vector stability 
+measure: 
+𝐒𝐭𝐚𝐛(𝐺𝐸)= (
+Stabflow(𝐺𝐸)
+Stabsink(𝐺𝐸)
+Stabcoh(𝐺𝐸)
+) , 
+ 
+where the second component may track sink satisfaction retention and the third 
+coherence retention under perturbation. 
+A worst-case variant is also useful: 
+Stabmin(𝐺𝐸)= inf⁡
+𝜀∈ℰpress
+𝔍flow(𝐺𝐸
+(𝜀))
+𝔍flow(𝐺𝐸) . 
+ 
+
+The expected and worst-case forms capture different design philosophies. The expected 
+form reflects average robustness under uncertainty. The worst-case form reflects 
+adversarial or safety-critical requirements. EP accommodates both because different 
+systems face different pressure environments. 
+6. Recovery Capacity 
+The sixth major metric is recovery capacity. Stability measures retained performance 
+during disturbance. Recovery capacity measures the ability of the system to restore 
+performance after disturbance has occurred. These are related but distinct properties. 
+A system may absorb shocks well but recover slowly if damaged. Another may degrade 
+sharply under attack yet recover rapidly through reserves, rerouting, or redundancy. 
+Let 𝐺𝐸
+(𝜀) denote the perturbed system after disturbance 𝜀occurs at time 𝑡0. Let the 
+system evolve under its recovery policy until time 𝑡0 + 𝜏. If 𝔍flow(𝑡) denotes the 
+delivered-flow performance at time 𝑡, define the normalized recovery trajectory 
+𝑅𝜀(𝜏)= 𝔍flow(𝑡0 + 𝜏)
+𝔍flow(𝑡0
+−) , 
+ 
+where 𝑡0
+−denotes the pre-disturbance reference state. 
+A finite-horizon recovery capacity metric may then be defined as 
+Rec𝐻(𝐺𝐸)= 𝔼𝜀∼ℰpress [1
+𝐻 ∫ 𝑅𝜀
+𝐻
+0
+(𝜏) 𝑑𝜏] . 
+ 
+This is the average normalized performance over the recovery horizon 𝐻. Larger values 
+indicate faster and more complete recovery. 
+A threshold-based recovery time may also be defined. For a target fraction 𝜌rec ∈ (0,1], 
+let 
+𝜏rec(𝜀)= inf⁡{𝜏 ≥ 0  |  𝑅𝜀(𝜏)≥ 𝜌rec}. 
+ 
+Then the expected recovery speed is 
+RecTime(𝐺𝐸)= 𝔼𝜀∼ℰpress[𝜏rec(𝜀)]. 
+
+ 
+EP may treat high recovery capacity either as large Rec𝐻or as small RecTime, depending 
+on whether the formulation rewards recovered area or penalizes time-to-recovery. 
+7. Systemic Coherence 
+The seventh major metric is systemic coherence. Coherence measures the degree to 
+which different energetic streams, subsystems, or paths remain mutually compatible 
+rather than interfering destructively with one another. In EP, coherence is not merely 
+similarity. It is structurally aligned coexistence among multiple flows. 
+Let 𝒫act = {𝑃1, … , 𝑃𝑀} denote the active routed path family. For each path 𝑃𝑖, let 
+𝑓𝑖denote its effective delivered flow and let 𝐳𝑖denote a path signature vector encoding 
+relevant structural properties such as sink class, timing profile, energetic form, and 
+routing region. Define pairwise compatibility between paths 𝑃𝑖and 𝑃𝑗 as 
+𝛾𝑖𝑗 = Γcoh(𝐳𝑖, 𝐳𝑗), 
+ 
+where 
+−1 ≤ 𝛾𝑖𝑗 ≤ 1. 
+ 
+Positive values indicate compatibility or reinforcement, values near zero indicate 
+independence, and negative values indicate conflict or destructive interference. 
+A flow-weighted coherence score may then be defined as 
+Coh(𝐺𝐸)=
+∑∑𝑓𝑖
+𝑀
+𝑗=1
+𝑀
+𝑖=1
+𝑓𝑗𝛾𝑖𝑗
+(∑𝑓𝑖
+𝑀
+𝑖=1 )2 . 
+ 
+If all major energetic streams align positively, coherence is high. If strong streams 
+interfere with one another, coherence declines and may become negative in highly 
+conflicting systems. 
+A simpler edge-based coherence proxy may also be useful. Let 𝐟 denote the edge-flow 
+vector and let Σ𝐸 denote a compatibility matrix over edges or edge classes. Then 
+
+Coh𝐸(𝐺𝐸)= 𝐟⊤Σ𝐸𝐟
+∥ 𝐟 ∥1
+2 . 
+ 
+This form is convenient when pathwise decomposition is expensive or when coherence 
+is naturally described through inter-edge relations. 
+8. Sink Satisfaction and Distributional Coverage 
+In many systems, it is insufficient to maximize total delivered energy alone. A system 
+may achieve strong aggregate delivery while starving certain sinks. EP therefore 
+benefits from an additional family of metrics concerned with sink coverage and 
+distributional fairness. These are especially important in legal, infrastructural, 
+administrative, and multi-theater military systems. 
+Let the required energy at sink 𝑡be 𝐷𝑡, and the arrived usable energy be 𝐸𝑡
+arriv. Define 
+sink satisfaction 
+𝜁𝑡 = min⁡ {1, 𝐸𝑡
+arriv
+𝐷𝑡
+} . 
+ 
+The average sink satisfaction is then 
+𝜁‾(𝐺𝐸)= 1
+∣ 𝑇 ∣ ∑𝜁𝑡
+𝑡∈𝑇
+. 
+ 
+A minimum-coverage metric is 
+𝜁min(𝐺𝐸)= min⁡
+𝑡∈𝑇
+𝜁𝑡. 
+ 
+These quantities are useful because a system that performs strongly in aggregate but 
+fails critically at one sink may be unacceptable depending on the domain. A fairness-
+sensitive dispersion measure may also be defined by 
+Var𝜁(𝐺𝐸)= 1
+∣ 𝑇 ∣ ∑(
+𝑡∈𝑇
+𝜁𝑡 − 𝜁‾(𝐺𝐸))2. 
+ 
+
+EP does not require that every application include fairness or coverage. It provides 
+these metrics because many real systems must balance total throughput with 
+distributional adequacy. 
+9. Composite Metric Vector 
+The metrics introduced so far may now be gathered into a single evaluative vector. 
+Define 
+𝔐(𝐺𝐸)= (𝜂tr, 𝜆sys, 𝐿avg, 𝐶avg, 𝜅eff, 𝐻𝑉, 𝐻𝐸, 𝑄𝑉
+max, 𝑄𝐸
+max,⁡ 
+Stab, Rec𝐻, RecTime, Coh, 𝜁‾, 𝜁min, Var𝜁). 
+ 
+This vector does not force all applications to optimize every coordinate. Different 
+domains may prioritize different subsets. A battlefield logistics system may care 
+strongly about stability and recovery. A legal system may care more about controlled 
+loss, sink coverage, and coherence. An AI inference architecture may care about 
+delivery efficiency, path economy, stability, and concentration. The vector form 
+preserves this flexibility. 
+At the same time, the existence of 𝔐(𝐺𝐸) is methodologically important because it 
+shows that EP can evaluate complex systems through a stable family of formally defined 
+quantities rather than through narrative judgment alone. 
+10. The EP Objective Functional 
+To move from evaluation to optimization, the framework requires a composite 
+objective. The simplest version is a weighted linear functional over the metric vector. 
+Let 𝐰 denote a vector of nonnegative preference weights with signs incorporated into 
+the metric orientation. Then the EP objective functional may be written as 
+𝐽EP(𝐺𝐸)= 𝐰⊤ 𝔐̃(𝐺𝐸), 
+ 
+where 𝔐̃(𝐺𝐸) is an oriented version of the metric vector in which larger values always 
+correspond to better performance. For example, one may define 
+𝔐̃(𝐺𝐸)= (𝜂tr, −𝜆sys, −𝐿avg, −𝐶avg, −𝜅eff, −𝐻𝑉, −𝐻𝐸, 
+−𝑄𝑉
+max, −𝑄𝐸
+max, Stab, Rec𝐻, −RecTime, Coh, 𝜁‾, 𝜁min, −Var𝜁). 
+
+A more explicit scalar objective is therefore 
+𝐽EP(𝐺𝐸)= 𝛼1𝜂tr(𝐺𝐸)− 𝛼2𝜆sys(𝐺𝐸)− 𝛼3𝐿avg(𝐺𝐸)− 𝛼4𝐶avg(𝐺𝐸)
+−𝛼5𝜅eff(𝐺𝐸)− 𝛼6𝐻𝑉(𝐺𝐸)− 𝛼7𝐻𝐸(𝐺𝐸)− 𝛼8𝑄𝑉
+max(𝐺𝐸)
+−𝛼9𝑄𝐸
+max(𝐺𝐸)+ 𝛼10Stab(𝐺𝐸)+ 𝛼11Rec𝐻(𝐺𝐸)− 𝛼12RecTime(𝐺𝐸)
++𝛼13Coh(𝐺𝐸)+ 𝛼14𝜁‾(𝐺𝐸)+ 𝛼15𝜁min(𝐺𝐸)− 𝛼16Var𝜁(𝐺𝐸),
+ 
+ 
+with all coefficients 𝛼𝑖 ≥ 0. 
+This objective is not the only possible EP objective. It is a first formal template. Its 
+function is to make explicit that energetic redesign can be formulated as the search for a 
+graph or policy that improves a structured combination of delivery, economy, 
+robustness, recoverability, coherence, and coverage. 
+11. Constrained EP Optimization 
+In realistic settings, optimization is always constrained. The system cannot be 
+redesigned arbitrarily. There are budget constraints, topology constraints, governance 
+constraints, compatibility constraints, time constraints, and material constraints. Let 
+𝒢admdenote the admissible redesign set. Then the constrained EP optimization problem 
+is 
+𝐺𝐸
+∗ = arg⁡ max⁡
+𝐺′∈𝒢adm
+𝐽EP(𝐺′). 
+ 
+If the redesign acts only on a policy vector 𝐮while keeping graph topology fixed, one 
+may instead write 
+𝐮∗ = arg⁡ max⁡
+𝐮∈𝒰adm
+𝐽EP(𝐺𝐸; 𝐮). 
+ 
+Typical admissibility constraints include 
+∑𝑢𝑣
+𝑣∈𝑉
+≤ 𝑈tot, 
+0 ≤ 𝑓𝑢𝑣 ≤ 𝑐𝑢𝑣, 
+0 ≤ 𝑚𝑣 ≤ 𝑀𝑣, 
+𝜒𝑢𝑣 ∈ [0,1], 𝜆𝑢𝑣 ∈ [0,1], 
+ 
+
+together with structural or legal constraints on which edges may be added, removed, or 
+strengthened. 
+A multi-objective Pareto view is also appropriate. Rather than collapsing all criteria into 
+one scalar, one may define the Pareto-optimal redesign set 
+𝒢Pareto = { 𝐺′ ∈ 𝒢adm  |  ∄ 𝐺′′ ∈ 𝒢adm 
+such that 𝔐̃(𝐺′′)⪰ 𝔐̃(𝐺′) and 𝔐̃(𝐺′′)≠ 𝔐̃(𝐺′)} . 
+ 
+This is especially useful when the analyst does not wish to impose one final tradeoff 
+structure prematurely. 
+12. Objective Interpretation 
+The objective structure of EP should be read carefully. It does not assert that every 
+system seeks maximal delivery at all cost, or maximal stability at all cost, or maximal 
+fairness at all cost. It formalizes the fact that energetic systems are usually evaluated 
+through competing criteria. Delivery, loss, burden, concentration, resilience, recovery, 
+and coherence must often be balanced rather than optimized independently. 
+This is one reason the EP framework is methodologically flexible without becoming 
+vague. The primitives and operators remain stable across domains, while the objective 
+weights and admissible constraints vary according to context. A battlefield system may 
+assign high weight to retained delivery and recovery speed. A judiciary may assign 
+greater importance to coherence, bounded concentration, and equitable sink 
+satisfaction. A distributed AI system may care strongly about efficiency, low 
+concentration, and robustness under latency shocks. The method therefore preserves a 
+common formal grammar while allowing domain-specific evaluative emphasis. 
+With the objective layer in place, the formal architecture of EP Energy Methodology is 
+now sufficiently complete to support worked applications. The next section therefore 
+turns from general formalism to illustrative cases. Its role is not to exhaust the space of 
+applications, but to show how the same framework can be instantiated across different 
+kinds of complex systems. 
+H. Illustrative Cross-Domain Cases 
+The purpose of this section is to demonstrate how EP Energy Methodology may be 
+instantiated across materially different domains while retaining the same formal 
+
+grammar. Each case identifies the operative energetic form, defines the corresponding 
+sources, sinks, gradients, paths, barriers, storage structures, conversions, losses, and 
+concentrations, and then sketches how the objective layer can guide analysis or 
+redesign. The point is not to produce complete empirical studies. It is to show that the 
+same formal structure can be applied to systems that are usually treated through very 
+different vocabularies. 
+The three cases developed here are deliberately chosen from different domains. The 
+first considers an AI inference and deployment system. The second considers a legal-
+institutional process. The third considers a military logistics and command-support 
+network. Together they illustrate that EP does not depend on one material substrate. 
+What remains stable is the methodological grammar of energetic organization. 
+1. Case I: AI Inference and Deployment System 
+Consider a deployed AI system serving user requests through a layered inference stack. 
+At the visible level, such a system is often described through model quality, latency, 
+context length, tool use, retrieval accuracy, and output usefulness. From the standpoint 
+of EP, however, the system is represented as an energetic organization whose operative 
+forms include compute, memory bandwidth, representational capacity, queue pressure, 
+tool-routing capacity, and deployment throughput. 
+Let the active energetic form set be 
+𝒦act
+AI = {compute,memory,routing bandwidth,representational throughput}. 
+ 
+A natural source set may include GPU clusters, cached memory states, retrieval 
+databases, and tool-call availability. The sink set may include completed user responses, 
+successful tool outputs, or downstream agent actions. If the node set is written as 
+𝑉AI = {𝑣req, 𝑣router, 𝑣retr, 𝑣ctx, 𝑣infer, 𝑣tool, 𝑣post, 𝑣resp}, 
+ 
+then a typical source-sink polarity is 
+𝑆AI = {𝑣retr, 𝑣ctx, 𝑣infer, 𝑣tool}, 𝑇AI = {𝑣resp}. 
+ 
+
+The gradient structure is defined by request pressure, queue load, task urgency, 
+unresolved information deficit, and representational demand. One may write the edge 
+gradient from router to inference as 
+𝑔router,infer = 𝜋router − 𝜋infer, 
+ 
+where the node potentials reflect backlog-adjusted capacity demand. In a simple 
+deployment setting, one may model 
+𝜋𝑣 = 𝛼q𝑞𝑣 + 𝛼u𝑢𝑣 + 𝛼d𝑑𝑣, 
+ 
+where 𝑞𝑣is queue length, 𝑢𝑣is urgency score, and 𝑑𝑣is unresolved task demand at node 
+𝑣. Under this formulation, strong queue accumulation at the router induces a high 
+positive gradient toward inference or retrieval nodes. 
+The path structure of the AI system is naturally multistage. A basic response path may 
+be 
+𝑃1 = (𝑣req, 𝑣router, 𝑣ctx, 𝑣infer, 𝑣post, 𝑣resp), 
+ 
+while a retrieval-augmented path may be 
+𝑃2 = (𝑣req, 𝑣router, 𝑣retr, 𝑣ctx, 𝑣infer, 𝑣post, 𝑣resp), 
+ 
+and a tool-assisted path may be 
+𝑃3 = (𝑣req, 𝑣router, 𝑣tool, 𝑣infer, 𝑣post, 𝑣resp). 
+ 
+These paths differ in cost, delay, and loss. Retrieval may reduce semantic loss while 
+increasing latency. Tool invocation may increase task success while introducing barrier 
+and availability constraints. A short direct inference path may be fast but produce 
+degraded output when context is insufficient. 
+Loss in this system does not mean only literal energy waste. It includes token 
+inefficiency, context dilution, retrieval mismatch, routing error, inference instability, 
+
+tool-call failure, hallucination burden, and output unusability. If 𝜆𝑢𝑣is the loss 
+coefficient on each stage, then the retention of a full response path is 
+𝜌𝜒(𝑃)= ∏ (1 −
+(𝑢,𝑣)∈𝑃
+𝜆𝑢𝑣)𝜒𝑢𝑣, 
+ 
+where 𝜒𝑢𝑣 may represent conversion efficiency between retrieval output and usable 
+model context, or between tool result and inference-state incorporation. 
+One crucial EP insight in this case is that AI quality is not only a matter of model 
+strength. It is also a matter of energetic organization. A very strong model may still 
+perform poorly if routing is overloaded, retrieval is noisy, queue pressure is 
+concentrated, and tool integration has low conversion efficiency. Conversely, a 
+somewhat smaller model may perform well within a smoother energetic architecture. 
+This suggests an EP design principle: optimize the inference system not only by 
+increasing central model capability, but by increasing transfer efficiency and reducing 
+systemic concentration. 
+A natural concentration metric in this case is the edge concentration of the inference 
+node. Let 
+𝑞infer =
+∑ 𝑓𝑢,infer𝑢:(𝑢,𝑣infer)∈𝐸 + ∑ 𝑓infer,𝑤𝑤:(𝑣infer,𝑤)∈𝐸
+∑ 𝑓𝑖𝑗
+(𝑖,𝑗)∈𝐸
+. 
+ 
+If 𝑞infer becomes too large, then nearly all throughput is dependent on one stage. The 
+system may look efficient under ordinary conditions and become fragile under surge or 
+partial failure. EP therefore recommends designs that redistribute pressure across 
+retrieval, caching, decomposition, tool specialization, or staged routing. 
+The objective function for such a system may be written as 
+𝐽AI(𝐺𝐸)= 𝛼1𝜂tr − 𝛼2𝜆sys − 𝛼3𝐶avg − 𝛼4𝐻𝐸 + 𝛼5Stab+ 𝛼6Rec𝐻 + 𝛼7Coh, 
+ 
+where coherence now captures compatibility among retrieval, tool, and inference 
+streams. A high-performing AI architecture, under EP, is therefore one that delivers 
+
+usable representational force to the response sink with low loss, bounded burden, 
+controlled concentration, and resilience under load. 
+2. Case II: Legal-Institutional Process 
+Consider a legal system processing a dispute from filing to judgment and enforcement. 
+Conventional analysis often begins with legal rules, judicial reasoning, institutional 
+doctrine, precedent, evidentiary standards, or procedural fairness. EP does not deny the 
+importance of these categories. It places them inside a deeper energetic structure 
+composed of authority, compliance, procedural force, evidentiary transfer, legitimacy 
+pressure, and enforcement capacity. 
+Let the active energetic form set be 
+𝒦act
+Law
+= {authority,procedural force,evidentiary momentum,compliance capacity,legitimacy}. 
+ 
+A simple node set may be written as 
+𝑉Law = {𝑣claim, 𝑣filing, 𝑣notice, 𝑣evidence, 𝑣hearing, 𝑣judgment, 𝑣enforce, 𝑣compliance}. 
+ 
+Here, the sources are not power plants or GPUs, but formal and informal institutions 
+that generate legal movement. A possible source set is 
+𝑆Law = {𝑣claim, 𝑣evidence, 𝑣judgment}, 
+ 
+while the terminal sink may be 
+𝑇Law = {𝑣compliance}. 
+ 
+This means that the legal system is modeled as attempting to transform legal claim plus 
+evidentiary input plus adjudicative authority into actual social compliance or 
+enforceable settlement. 
+The gradient structure in this case includes urgency of dispute resolution, asymmetry of 
+legal entitlement, procedural deadlines, coercive pressure, and legitimacy-backed 
+enforceability. One may define 
+
+𝑔𝑢𝑣 = 𝜋𝑢 − 𝜋𝑣, 
+ 
+where 
+𝜋𝑣 = 𝛼legℓ𝑣 + 𝛼urg𝑢𝑣 + 𝛼comp𝑐𝑣 + 𝛼ent𝑒𝑣. 
+ 
+Here ℓ𝑣may denote legitimacy potential, 𝑢𝑣urgency, 𝑐𝑣compliance pressure, and 
+𝑒𝑣entitlement strength. This means that movement through the legal system is driven 
+not only by formal rule but by gradients of authority and enforceable pressure. 
+The path structure may contain several admissible routes. A standard contested path is 
+𝑃1 = (𝑣claim, 𝑣filing, 𝑣notice, 𝑣evidence, 𝑣hearing, 𝑣judgment, 𝑣enforce, 𝑣compliance). 
+ 
+A settlement-oriented route may be 
+𝑃2 = (𝑣claim, 𝑣filing, 𝑣notice, 𝑣hearing, 𝑣compliance), 
+ 
+while an enforcement-heavy route may emphasize the post-judgment stages more 
+strongly. These routes differ in cost, barrier, delay, legitimacy retention, and compliance 
+yield. 
+Barriers in the legal system include procedural delay, jurisdictional limits, evidentiary 
+admissibility thresholds, service defects, appeal layers, bureaucratic drag, and 
+enforcement incapacity. If 𝑏𝑢𝑣is large along notice or enforcement edges, then the legal 
+system may produce formal judgments with weak real-world conversion into 
+compliance. This is a key EP insight: the judgment node is not the true sink. Compliance 
+is. A system that concentrates energy at judgment but fails to convert it into 
+enforcement or compliance suffers from poor source-sink completion. 
+Loss in the legal system includes evidentiary decay, procedural attrition, legitimacy 
+erosion, delay-induced compliance avoidance, enforcement leakage, and translation 
+loss between legal form and social obedience. If 
+𝜆judgment,enforce 
+ 
+
+is high, then formal legal decisions do not efficiently convert into enforceable outcomes. 
+If 
+𝜒evidence,judgment 
+ 
+is low, then available evidence is poorly converted into adjudicative force. These 
+coefficients allow EP to formalize familiar complaints about legal inefficiency without 
+relying on purely rhetorical description. 
+A particularly important metric in this case is sink satisfaction. Let the legal system’s 
+target at sink 𝑡 = 𝑣compliancebe a desired compliance level 𝐷𝑡, and let actual achieved 
+compliance be 𝐸𝑡
+arriv. Then 
+𝜁𝑡 = min⁡ {1, 𝐸𝑡
+arriv
+𝐷𝑡
+} 
+ 
+captures how much of the intended legal effect is actually achieved. This is often more 
+revealing than measuring only the speed or number of judgments. 
+Coherence is also crucial. A legal system with incompatible flows between evidence, 
+hearing, judgment, and enforcement may generate internal contradiction. In EP terms, 
+coherence is low when strong procedural streams interfere with one another, such as 
+when evidentiary rules, adjudicative timelines, and enforcement mechanisms are 
+poorly aligned. A flow-weighted coherence score 
+Coh(𝐺𝐸)=
+∑∑𝑓𝑖
+𝑀
+𝑗=1
+𝑀
+𝑖=1
+𝑓𝑗𝛾𝑖𝑗
+(∑𝑓𝑖
+𝑀
+𝑖=1 )2  
+ 
+can represent whether the legal process is internally coupled or structurally self-
+defeating. 
+The legal objective function may therefore be written as 
+𝐽Law(𝐺𝐸)= 𝛽1𝜂tr − 𝛽2𝜆sys − 𝛽3𝐶avg − 𝛽4𝐻𝑉 + 𝛽5Stab+ 𝛽6Coh+ 𝛽7𝜁‾ + 𝛽8𝜁min. 
+ 
+
+In many legal settings, the weights on coherence and sink satisfaction will be especially 
+important. A system that is fast but incoherent, or efficient in aggregate but weak in 
+compliance delivery, would not count as high-performing under EP. The framework 
+therefore reveals law as an energetic organization in which judgment is a midstream 
+converter rather than the final endpoint of analysis. 
+3. Case III: Military Logistics and Command-Support Network 
+Consider a military operational network that must deliver force, sustain maneuver, and 
+maintain command coherence under adversarial conditions. Traditional military 
+analysis often distinguishes logistics, command and control, sensing, fires, movement, 
+survivability, and operational tempo. EP reorganizes these within a single energetic 
+frame. The system is modeled as a structured movement of logistics, command 
+bandwidth, sensing throughput, mobility capacity, munitions supply, and combat-
+effective force from rear structures toward operational sinks. 
+Let the active energetic form set be 
+𝒦act
+Mil = {logistics,mobility,command bandwidth, 
+sensing throughput,firepower,combat endurance}. 
+ 
+A simplified node set may be 
+𝑉Mil = {𝑣base, 𝑣depot, 𝑣transport, 𝑣HQ, 𝑣sensor, 𝑣fire, 𝑣forward, 𝑣objective}. 
+ 
+The source set may then be defined as 
+𝑆Mil = {𝑣base, 𝑣depot, 𝑣HQ, 𝑣sensor}, 
+ 
+while the sink set is 
+𝑇Mil = {𝑣forward, 𝑣objective}. 
+ 
+This means that rear logistics, command, and sensing structures are treated as 
+energetic origins, while sustained forward combat effectiveness at the operational 
+objective is the sink condition. 
+
+The gradient structure includes demand differential at forward units, time pressure, 
+threat pressure, resupply urgency, and command priority. One may define node 
+potential by 
+𝜋𝑣 = 𝛼dem𝑑𝑣 + 𝛼thrℎ𝑣 + 𝛼pri𝑝𝑣 + 𝛼sup𝑠𝑣, 
+ 
+where 𝑑𝑣is unsatisfied demand, ℎ𝑣is threat exposure, 𝑝𝑣is operational priority, and 𝑠𝑣is 
+supply pressure. Under this formulation, a forward node under intense threat and low 
+supply generates strong gradient pulling energy through the logistics and command 
+network. 
+Admissible paths include logistics-heavy and command-heavy routes. A basic resupply 
+route may be 
+𝑃1 = (𝑣base, 𝑣depot, 𝑣transport, 𝑣forward, 𝑣objective), 
+ 
+while a sensing-to-fire route may be 
+𝑃2 = (𝑣sensor, 𝑣HQ, 𝑣fire, 𝑣objective). 
+ 
+A combined command-support route may be 
+𝑃3 = (𝑣HQ, 𝑣transport, 𝑣forward, 𝑣objective). 
+ 
+These paths are interdependent. Combat effectiveness at the objective is not generated 
+by any one route alone. It emerges from coupled flows of fuel, ammunition, movement, 
+information, and command direction. 
+Barriers in this case include terrain, interdiction, contested corridors, jamming, bridge 
+destruction, cyber interference, convoy delay, and degraded communication links. 
+These appear formally as large 𝑏𝑢𝑣, 𝑟𝑢𝑣, or 𝜏𝑢𝑣on critical edges. If a small set of transport 
+edges has very high concentration 
+𝑄𝐸
+max = max⁡
+(𝑢,𝑣)∈𝐸
+𝑞𝑢𝑣, 
+ 
+
+then the network may be operationally dangerous even if current throughput is high. 
+This is because adversarial attack on those edges produces disproportionate collapse. 
+Loss in the military system includes fuel consumption, attrition, delay-induced 
+degradation, information decay, breakage of command intent, and failed delivery of 
+consumables. If 
+𝜆𝑢𝑣 
+ 
+is interpreted broadly enough, it captures not only literal destruction of materiel but 
+loss of effective combat value during transfer. For instance, a convoy that arrives late to 
+a fast-moving objective may still physically arrive, yet with sharply reduced operational 
+utility. In EP terms, the delivered energy at the sink is lower than nominal physical 
+arrival would suggest. 
+Stability under load is especially important in this domain. Let ℰpressinclude 
+interdiction, route denial, node attack, communications disruption, and surge demand. 
+Then 
+Stab(𝐺𝐸)= 𝔼𝜀∼ℰpress [𝔍flow(𝐺𝐸
+(𝜀))
+𝔍flow(𝐺𝐸)] 
+ 
+captures the retained fraction of operational delivery under combat conditions. 
+Recovery capacity 
+Rec𝐻(𝐺𝐸) 
+ 
+then measures how quickly the force can restore throughput after corridor loss, 
+jamming, or depot strike. 
+Coherence is also decisive. A force may possess ample logistics and firepower yet fail 
+operationally if sensing, command, movement, and fires are poorly coupled. In EP 
+terms, coherence is low when strong energetic streams interfere or desynchronize. A 
+force with high coherence turns sensing into command, command into maneuver, and 
+logistics into sustained combat force with limited conversion loss. 
+The military objective function may therefore be written as 
+
+𝐽Mil(𝐺𝐸)= 𝛾1𝜂tr − 𝛾2𝜆sys − 𝛾3𝐻𝐸 − 𝛾4𝑄𝐸
+max + 𝛾5Stab+ 𝛾6Rec𝐻 + 𝛾7Coh+ 𝛾8𝜁min. 
+ 
+Here the minimum sink satisfaction term 𝜁minis important because an operation may 
+fail if even one critical forward node is starved. The military case therefore makes vivid 
+a broader EP principle: aggregate throughput alone is insufficient. What matters is the 
+viability of force delivery under hostile pressure, across multiple coupled energetic 
+forms, with bounded concentration and sufficient recovery. 
+4. Comparative Interpretation 
+These three cases show that the same methodological grammar remains stable across 
+very different systems. In the AI case, energy appears as compute, routing throughput, 
+and representational flow. In the legal case, it appears as authority, compliance 
+pressure, procedural force, and legitimacy. In the military case, it appears as logistics, 
+sensing, command bandwidth, and combat-effective force. The carriers change. The 
+structure of analysis does not. 
+In all three cases, the methodology proceeds by identifying active energetic forms, 
+locating sources and sinks, mapping gradients and barriers, enumerating paths, 
+estimating cost, measuring loss, testing stability, and defining a domain-specific 
+objective function. In all three cases, concentrations become sources of both strength 
+and fragility. In all three cases, coherence matters because multiple energetic streams 
+must remain mutually compatible. In all three cases, the final analytic question is not 
+only how the system currently functions, but how its energetic structure may be 
+reorganized for better delivery, lower loss, and higher stability under pressure. 
+This comparative stability is the central reason for presenting EP as a formal 
+methodology rather than a domain-specific theory. A methodology earns that status 
+when the same primitive grammar, operator family, pipeline logic, and evaluative 
+structure can move across heterogeneous systems without collapsing into vagueness. 
+The cases above do not exhaust the method’s reach, but they are sufficient to show that 
+the framework can already support disciplined cross-domain application. 
+I. Discussion and Future Development 
+The foregoing sections define EP Energy Methodology as a formal framework for 
+representing, tracing, and reorganizing energy flow in complex systems. The paper has 
+introduced its primitive layer, basic energy unit, representation layer, operator layer, 
+
+canonical pipeline, and evaluation structure, and has shown how the same formal 
+grammar may be applied across AI, legal, and military domains. What remains is to 
+situate the contribution more precisely and to identify the next stages of development. 
+The first point of discussion concerns methodological status. EP, in the present paper, is 
+not yet a full computational architecture analogous to a mature deployed machine 
+learning model. It is a foundational methodology. That distinction is important. A 
+foundational methodology does not need to provide a finished engineering stack in 
+order to make a formal contribution. Its task is to define the grammar, operators, 
+evaluative criteria, and structural objects through which later architectures may be 
+constructed. In that respect, the present paper aims to do for energy-centered system 
+analysis what an early formal framework does for a later mature implementation: it 
+stabilizes the language of the problem. 
+This point also explains why the present paper proceeds from primitives to operators 
+to pipeline to objective structure, rather than beginning with a complete executable 
+algorithm. The methodology must first define what a system is, in formal terms, before 
+it can define how a system is computed over. A source, sink, gradient, path, barrier, loss, 
+storage, and converter are not implementation details. They are the structural 
+conditions under which a broad class of systems become comparable. Likewise, detect, 
+map, trace, compress, route, concentrate, dissipate, stabilize, redirect, and reallocate are 
+not merely descriptive verbs. They are the first admissible actions in a general energetic 
+method. 
+A second point concerns the relationship between EP and neighboring traditions. The 
+present framework stands near, yet distinct from, several established lines of thought. It 
+shares something with network flow theory in that it treats systems through directed 
+transfer over structured paths. Yet it departs from standard flow theory by elevating 
+barrier, loss, conversion, concentration, coherence, recovery, and pressure stability to 
+central analytic status rather than leaving them at the margin. It shares something with 
+systems theory in that it seeks a general language for complex organization. Yet it 
+differs from more abstract systems language by insisting that effective force, directional 
+transfer, and structured obstruction remain primary. It shares something with control 
+theory in that it is interested in viability under perturbation and redesign under 
+constraints. Yet it differs from classical control framing because it begins from a richer 
+decomposition of the system’s energetic field rather than only from state transition and 
+control input. It may also appear adjacent to thermodynamic metaphor, yet its purpose 
+
+is not analogy alone. The aim is to construct a formal transferable grammar, not merely 
+to say that systems resemble energetic processes. 
+A third point concerns the role of judgment, intelligence, and governance. One of the 
+implications of the present formalization is that these categories need not be treated as 
+primitive from the methodological point of view. In the current framework, they appear 
+as higher-order consequences of energetic organization. Judgment may be interpreted 
+as convergence under competing gradients, constrained paths, and bounded losses. 
+Intelligence may be interpreted as the capacity to represent, compress, route, and 
+reallocate energetic structure efficiently. Governance may be interpreted as the 
+structured regulation of boundaries, priorities, permissions, directions, and rates of 
+flow. This shift matters because it changes the location of explanation. Rather than 
+treating these concepts as irreducible starting points, EP treats them as analyzable 
+outcomes of a deeper structural organization. 
+This does not mean that every domain-specific question can be dissolved into a few 
+scalar quantities. The methodology does not erase complexity. It reorganizes it. A legal 
+institution still requires legal analysis. An AI system still requires model-specific 
+understanding. A military system still requires operational and strategic competence. 
+What EP offers is not replacement but re-grounding. It provides a formal substrate for 
+asking how effective force is generated, transmitted, degraded, redirected, or stabilized 
+beneath the domain’s visible categories. 
+A fourth point concerns scale. One challenge for any general system methodology is the 
+movement between local units and macro-organization. The present paper addresses 
+this in preliminary fashion through the distinction between the basic energy unit 𝑢𝑟, the 
+aggregate energetic graph 𝐺𝐸, and the system-level metric vector 𝔐(𝐺𝐸). But much 
+remains to be done. A future version of the framework should define more precisely 
+how micro-level energy units compose into meso-level modules and then into macro-
+level system states. This could take graph-theoretic, tensorial, or multilayer-network 
+form. For example, one might define a hierarchical energetic representation 
+𝒢 (0) → 𝒢 (1) → ⋯ → 𝒢 (𝐿), 
+ 
+where 𝒢 (0)is the local node-edge graph and higher layers represent compressed 
+energetic modules, regional structures, institutional blocks, or inter-system couplings. 
+Such a hierarchy would allow EP to address large systems without losing formal 
+continuity across scale. 
+
+A fifth point concerns temporal dynamics. The present paper introduces a state vector 
+𝐱(𝑡)= (𝝅(𝑡), 𝐦(𝑡), 𝐟(𝑡), 𝝃(𝑡)) 
+ 
+and an abstract update rule 
+𝐱(𝑡 + 1)= ℱ(𝐱(𝑡), 𝐺𝐸, 𝐪(𝑡)), 
+ 
+but it does not yet specify the operator ℱfully. That omission is deliberate. A 
+foundational methodology paper should not pretend to solve every downstream 
+formalization problem at once. Still, the next phase of work should move toward a 
+genuine dynamical theory of energetic state transition. In such a theory, gradients, 
+barriers, flows, and stored quantities would evolve jointly rather than being treated as 
+partly fixed descriptors. This would allow EP to analyze adaptation, cascading failure, 
+oscillation, delayed release, strategic accumulation, and time-sensitive rerouting with 
+much greater precision. 
+A sixth point concerns representation richness. Throughout the present paper, scalar 
+potentials, scalar barriers, scalar loss coefficients, and scalar conversion efficiencies are 
+used for clarity. Yet many important systems are intrinsically multidimensional. A path 
+may be viable in terms of throughput and nonviable in terms of political permission. A 
+military route may be strong in logistics but weak in communications. A legal process 
+may preserve formal authority while losing social legitimacy. An AI pipeline may gain 
+response speed while losing representational depth. These are not naturally 
+represented by one scalar alone. A future extension of the framework should therefore 
+replace many scalar quantities with vectors or tensors. For example, a node potential 
+may be generalized from 𝜋𝑣 ∈ ℝto 
+𝝅𝑣 ∈ ℝ𝑑, 
+ 
+with each coordinate corresponding to a different energetic dimension. Similarly, 
+conversion may be represented by a matrix 
+X𝑢𝑣 ∈ ℝ𝑑×𝑑, 
+ 
+
+rather than by a scalar coefficient 𝜒𝑢𝑣. Such generalization would bring the 
+methodology closer to a formal architecture capable of handling heterogeneous coupled 
+energetic forms. 
+A seventh point concerns learning and inference. Although the present paper does not 
+present EP as a neural architecture, it naturally invites the question of whether a 
+learnable energetic model could be built. If a system can be represented through node 
+and edge attributes, and if path viability, flow delivery, loss, and stability can be 
+computed or approximated, then one may imagine a learnable operator stack that 
+estimates or updates these quantities from data. In symbolic form, one could define a 
+parametric family 
+ℱ𝜃, Ω𝜃, Γ𝜃, 
+ 
+where 𝜃denotes learned parameters governing state evolution, viability weighting, or 
+gradient estimation. This would move EP from methodology toward architecture. A 
+future paper could therefore ask whether energetic routing modules, concentration 
+penalties, or coherence-preserving objectives can be integrated into model training or 
+multi-agent orchestration. 
+An eighth point concerns governance and normativity. Some systems cannot be 
+optimized only for throughput and stability because they are also bound by legitimacy 
+constraints, safety constraints, ethical constraints, or institutional constraints. The 
+present framework partly addresses this through barrier, sink coverage, coherence, and 
+admissible redesign constraints. Yet this remains preliminary. A richer governance-
+aware formulation would need to include protected sinks, prohibited paths, legally 
+inadmissible transfers, authority boundaries, and fairness-weighted objective terms 
+more explicitly. In formal terms, one may define a governance admissibility predicate 
+𝒞gov(𝐺𝐸)∈ {0,1}, 
+ 
+and constrain optimization by 
+𝐺′ ∈ 𝒢admonly if𝒞gov(𝐺′)= 1. 
+ 
+
+This would allow EP to distinguish between energetically efficient redesign and 
+institutionally admissible redesign. That distinction will be essential in legal, political, 
+defense, and public-infrastructure applications. 
+A ninth point concerns empirical implementation. The present paper remains largely 
+formal and illustrative. A next empirical stage would require instantiated datasets, 
+system graphs, calibration procedures for node and edge attributes, and perturbation 
+models for pressure testing. In the AI case, this might involve real latency, queue, tool-
+call, and error data. In the legal case, it might involve filing-to-enforcement timelines, 
+attrition rates, compliance rates, and evidentiary bottlenecks. In the military case, it 
+might involve route capacity, resupply delay, attrition, communications reliability, and 
+node survivability estimates. Such empirical work would not only validate the 
+framework. It would also force sharper definitions of which quantities are directly 
+measured, which are estimated, and which are inferred. 
+A tenth point concerns formal elegance. A methodology becomes more powerful when 
+it can support compression into a small number of stable expressions. One possible 
+future direction is to identify an EP master functional from which several of the 
+framework’s quantities can be derived. Suppose one defines an energetic action-like 
+functional 
+𝒜EP[𝐺𝐸] = ∫ (𝛼 
+𝑇
+0
+𝜂tr(𝑡)− 𝛽 𝜆sys(𝑡)− 𝛾 𝐶avg(𝑡)− 𝛿 𝐻𝐸(𝑡)+ 𝜖 Coh(𝑡)) 𝑑𝑡. 
+ 
+Then certain redesign or control problems might be formulated as the search for 
+energetic trajectories that maximize 𝒜EPsubject to structural constraints. Whether this 
+is the best formal path remains open, but it suggests that the present paper may be the 
+first layer of a more compact mathematical system. 
+For all these reasons, the present paper should be understood as a beginning rather 
+than an endpoint. Its claim is not that EP is already a finished science of all complex 
+systems. Its claim is narrower and more important. It is now possible to state EP as a 
+formal methodology with explicit primitives, explicit operators, explicit pipeline logic, 
+and explicit evaluative structure. That alone marks a transition from general intuition 
+to method. 
+
+J. Conclusion 
+This paper has introduced EP Energy Methodology as a formal framework for 
+representing, tracing, evaluating, and reorganizing energy flow in complex systems. Its 
+central claim is that complex systems may be studied, at a foundational methodological 
+level, as structured organizations of effective force. On this basis, the paper has 
+proposed that source, sink, gradient, path, barrier, loss, storage, and conversion are not 
+secondary descriptive categories but primary structural roles through which system 
+behavior becomes formally legible. 
+The paper first defined energy in an operational sense broad enough to travel across 
+domains while remaining formally disciplined. Energy, in the present framework, is any 
+effective quantity or transferable force that contributes to state transition, directional 
+propagation, structural transformation, accumulation, conversion, or regulated 
+constraint within a system. This definition makes it possible to move across physical, 
+institutional, computational, legal, military, and economic systems without pretending 
+that all of them share one material substrate. What remains invariant is not the carrier 
+of energy, but the logic by which effective force is generated, directed, obstructed, 
+dissipated, stored, converted, and reorganized. 
+On that conceptual basis, the paper established a primitive layer and then compressed 
+its minimal analytic core into the basic energy unit 
+𝑢𝑟 = (𝑠𝑟, 𝑡𝑟, 𝑔𝑟, 𝑃𝑟, 𝐵𝑟, ℒ𝑟). 
+ 
+This unit is methodologically important because it gives the framework a stable entry 
+point. Instead of beginning with high-level categories such as decision, judgment, or 
+control, EP begins with a smaller and more structurally prior decomposition: where 
+effective force originates, where it is directed, what differential drives it, through what 
+path it moves, what obstructs it, and what is lost in transfer. This move is what allows 
+the methodology to maintain the same grammar across heterogeneous domains. 
+The paper then developed a representation layer in which a system is written as an 
+energetic graph 
+𝐺𝐸 = (𝑉, 𝐸, Φ𝑉, Φ𝐸), 
+ 
+
+with formally defined node and edge attributes. This graph representation provides 
+more than a visual convenience. It supplies the substrate on which gradients, flows, 
+capacities, barriers, losses, delays, concentrations, and stability profiles can be 
+computed. Once the system is written in this way, EP acquires a mathematically 
+tractable object of analysis. The movement from primitive roles to energetic graph is 
+therefore the point at which the methodology becomes formally operational. 
+From representation, the paper moved to the operator layer. Detect, map, trace, 
+compress, route, concentrate, dissipate, stabilize, redirect, and reallocate were 
+introduced as the first admissible analytic actions of the framework. Together, these 
+operators define how EP works on a system rather than merely how it names one. They 
+also show that the methodology is not limited to passive description. It can identify 
+active energetic structure, compare route quality, detect burdensome concentrations, 
+evaluate stability under disturbance, and propose redesigned configurations. This is 
+why the framework belongs to method rather than metaphor. 
+The canonical pipeline then organized these operators into a repeatable analytic 
+sequence. By proceeding from energetic identification to source-sink localization, 
+gradient-barrier mapping, path enumeration, cost estimation, loss analysis, pressure 
+testing, and redesign, the pipeline gives EP procedural discipline. A methodology 
+without such sequencing risks remaining conceptually rich but operationally loose. The 
+pipeline ensures that EP can be used not only to think about systems but to analyze 
+them in a structured order. 
+The objective layer then supplied the evaluative backbone of the framework. Transfer 
+efficiency, system loss rate, path economy, concentration, stability under load, recovery 
+capacity, coherence, and sink satisfaction were introduced as formal metrics through 
+which energetic systems may be compared. These were then assembled into a 
+composite objective functional 𝐽EP(𝐺𝐸), making clear that EP can support optimization 
+and redesign rather than diagnosis alone. This is a major part of the paper’s 
+contribution. A methodology becomes substantially more serious once it can say not 
+only what a system is and how it moves, but also what counts as an improvement in 
+formal terms. 
+The three cross-domain cases showed that the same grammar can be applied across 
+materially different systems. In the AI case, the framework revealed performance as a 
+problem of routing, throughput, representational retention, and bounded concentration 
+across retrieval, inference, and tool-use structure. In the legal case, it revealed that 
+
+judgment is not the terminal sink; compliance is, and therefore procedural force must 
+be analyzed in terms of source-sink completion rather than formal output alone. In the 
+military case, it revealed combat effectiveness as the outcome of coupled energetic 
+streams in logistics, command bandwidth, sensing, and force delivery under hostile 
+pressure. These examples do not prove universal sufficiency, but they do show that the 
+same formal framework can travel meaningfully across domains without dissolving into 
+vagueness. 
+The methodological significance of this paper therefore lies in its change of starting 
+point. It proposes that many properties commonly treated as first-order categories are 
+better understood as consequences of deeper energetic organization. Stability may be 
+read as retained viability of flow. Coordination may be read as the coupling of multiple 
+flows. Governance may be read as the regulation of boundaries, permissions, rates, and 
+directions of transfer. Intelligence may be read as efficient representation, compression, 
+routing, and reallocation of energetic structure. Judgment may be read as constrained 
+convergence within a field of competing paths and losses. These reinterpretations do 
+not replace domain-specific theories, but they do locate them on a deeper structural 
+plane. 
+At the same time, the paper has also marked its own boundary. It does not yet provide a 
+finished computational architecture, a complete dynamic formalism, or a fully empirical 
+validation program. It is a foundational methodology paper. Its aim is to establish the 
+first stable architecture of EP in formal terms so that later work may proceed on firmer 
+ground. The most immediate next steps are clear: multidimensional energetic state 
+representations, hierarchical graph composition across scale, explicit state-transition 
+operators, governance-aware admissibility constraints, learnable routing or viability 
+functions, and empirically calibrated case implementations. 
+For that reason, the present paper should be read as an inaugural formalization. It 
+identifies the methodological object of EP, defines its primitive grammar, provides its 
+first working calculus, and shows how that calculus may be used across multiple classes 
+of complex systems. Once a framework has a primitive layer, a formal representation, a 
+family of operators, a canonical pipeline, and an evaluative structure, it has crossed an 
+important threshold. It is no longer only a conceptual orientation. It has become a 
+method. 
+The broader promise of EP Energy Methodology lies in exactly this threshold crossing. 
+By approaching systems first through the organization of effective force, the framework 
+
+opens the possibility that phenomena usually studied separately may be brought into 
+one coherent formal structure. If future work can extend the present draft into richer 
+dynamic, computational, and empirical forms, then EP may develop from a foundational 
+methodology into a general energetic science of complex systems. The present paper 
+does not complete that development. It establishes where that development can now 
+begin. 
+Appendix A. Notation 
+This appendix collects the principal symbols used throughout the paper and states their 
+meanings in a compact and systematic form. The purpose of this appendix is not only 
+convenience. A methodology becomes more stable once its notation is gathered into 
+one visible layer. Since EP Energy Methodology is intended as a formal framework 
+rather than a purely conceptual description, the notational layer is part of the method 
+itself. 
+1. A.1 System-Level Objects 
+𝒮 
+ 
+A complex system under analysis. 
+𝒫(𝒮) 
+ 
+The primitive layer associated with system 𝒮. 
+𝒰(𝒮)= {𝑢1, 𝑢2, … , 𝑢𝑁} 
+ 
+The set of basic energy units identified in system 𝒮. 
+𝐺𝐸(𝒮)= (𝑉, 𝐸, Φ𝑉, Φ𝐸) 
+ 
+The energetic graph representation of system 𝒮, where 𝑉is the node set, 𝐸is the 
+directed edge set, Φ𝑉is the node attribute map, and Φ𝐸is the edge attribute map. 
+𝐱(𝑡)= (𝝅(𝑡), 𝐦(𝑡), 𝐟(𝑡), 𝝃(𝑡)) 
+ 
+
+The energetic state of the system at time 𝑡, consisting of node potentials, stored 
+quantities, edge flows, and stability states. 
+2. A.2 Primitive Roles 
+𝐬 
+ 
+Source primitive. 
+𝐭 
+ 
+Sink primitive. 
+𝐠 
+ 
+Gradient primitive. 
+𝐩 
+ 
+Path primitive. 
+𝐛 
+ 
+Barrier primitive. 
+𝓵 
+ 
+Loss primitive. 
+𝐦 
+ 
+Storage primitive. 
+𝐜 
+ 
+Converter primitive. 
+
+3. A.3 Source and Sink Objects 
+𝑆 = {𝑠1, 𝑠2, … , 𝑠𝑚} 
+ 
+The set of source nodes. 
+𝑇 = {𝑡1, 𝑡2, … , 𝑡𝑛} 
+ 
+The set of sink nodes. 
+𝐸𝑖
+src 
+ 
+Energetic quantity available at source 𝑠𝑖. 
+𝐸𝑗
+snk 
+ 
+Energetic demand or absorbable quantity at sink 𝑡𝑗. 
+𝐸src = ∑𝐸𝑠
+src
+𝑠∈𝑆
+ 
+ 
+Total source supply. 
+𝐸arr = ∑𝐸𝑡
+arriv
+𝑡∈𝑇
+ 
+ 
+Total usable energy arriving at sinks. 
+Δ𝐸(𝒮)= ∑𝐸𝑖
+src
+𝑚
+𝑖=1
+− ∑𝐸𝑗
+snk
+𝑛
+𝑗=1
+ 
+ 
+Net energetic imbalance of the system. 
+4. A.4 Potentials and Gradients 
+𝜙(⋅) 
+
+ 
+Scalar energetic potential function in a simplified setting. 
+𝜋𝑣 
+ 
+Energetic potential at node 𝑣. 
+𝑔𝑖𝑗 = Γ(𝑠𝑖, 𝑡𝑗) 
+ 
+Energetic gradient between source 𝑠𝑖and sink 𝑡𝑗. 
+𝑔𝑢𝑣 = 𝜋𝑢 − 𝜋𝑣 
+ 
+Directed edge gradient from node 𝑢to node 𝑣. 
+𝐺(𝑃)= ∑𝑔𝑢𝑣
+(𝑢,𝑣)∈𝑃
+ 
+ 
+Aggregate gradient along path 𝑃. 
+𝐺+(𝑃)= ∑max⁡(
+(𝑢,𝑣)∈𝑃
+𝑔𝑢𝑣, 0) 
+ 
+Positive-gradient component of path 𝑃. 
+5. A.5 Paths and Route Sets 
+𝑃 = (𝑣0, 𝑣1, … , 𝑣𝑘) 
+ 
+A directed path in the energetic graph. 
+Π𝑠𝑡 
+ 
+The set of all admissible paths from source 𝑠to sink 𝑡. 
+
+Π𝑠𝑡
+adm 
+ 
+Filtered admissible path set from 𝑠to 𝑡after barrier, length, viability, or governance 
+restrictions are imposed. 
+𝐿path(𝑃) 
+ 
+Length of path 𝑃, either combinatorial or weighted. 
+𝐷𝑠𝑡 =∣ Π𝑠𝑡
+adm ∣ 
+ 
+Path diversity between 𝑠and 𝑡. 
+𝑃𝑠𝑡
+∗  
+ 
+Selected optimal or preferred path between 𝑠and 𝑡. 
+𝜚(𝑃) 
+ 
+Routing weight assigned to path 𝑃. 
+6. A.6 Barrier, Resistance, and Cost 
+𝑏𝑢𝑣 
+ 
+Barrier coefficient on edge (𝑢, 𝑣). 
+𝐵(𝑃)= ∑𝑏𝑢𝑣
+(𝑢,𝑣)∈𝑃
+ 
+ 
+Aggregate path barrier. 
+𝐵max(𝑃)= max⁡
+(𝑢,𝑣)∈𝑃
+𝑏𝑢𝑣 
+ 
+Maximum barrier on path 𝑃. 
+
+𝑟𝑢𝑣 
+ 
+Resistance coefficient on edge (𝑢, 𝑣). 
+𝜏𝑢𝑣 
+ 
+Delay or temporal burden on edge (𝑢, 𝑣). 
+𝜅𝑢𝑣 
+ 
+Composite transfer cost on edge (𝑢, 𝑣). 
+𝐶(𝑃)= ∑𝜅𝑢𝑣
+(𝑢,𝑣)∈𝑃
+ 
+ 
+Total transfer cost of path 𝑃. 
+𝐶̂(𝑃)= 𝐶(𝑃)
+𝐿path(𝑃)+ 1 
+ 
+Normalized burden per stage on path 𝑃. 
+7. A.7 Flow, Retention, and Loss 
+𝑓𝑢𝑣(𝑡) 
+ 
+Energetic flow on edge (𝑢, 𝑣)at time 𝑡. 
+𝑓𝑢𝑣 
+ 
+Static or time-suppressed flow on edge (𝑢, 𝑣). 
+𝑓init(𝑃) 
+ 
+Initial flow injected into path 𝑃. 
+
+𝑓deliv(𝑃) 
+ 
+Delivered flow reaching the end of path 𝑃. 
+𝑓𝜒
+deliv(𝑃) 
+ 
+Delivered flow when conversion efficiency is included along path 𝑃. 
+𝜆𝑢𝑣 ∈ [0,1] 
+ 
+Loss coefficient on edge (𝑢, 𝑣). 
+ℓ𝑢𝑣 = 𝜆𝑢𝑣𝑓𝑢𝑣 
+ 
+Lost amount on edge (𝑢, 𝑣). 
+ℒ(𝑃) 
+ 
+Total energetic loss on path 𝑃. 
+ℒsys 
+ 
+Total energetic loss at system level. 
+𝜌(𝑃)= ∏ (1 −
+(𝑢,𝑣)∈𝑃
+𝜆𝑢𝑣) 
+ 
+Retention factor on path 𝑃without conversion. 
+𝜌𝜒(𝑃)= ∏ (1 −
+(𝑢,𝑣)∈𝑃
+𝜆𝑢𝑣)𝜒𝑢𝑣 
+ 
+Retention factor on path 𝑃including conversion. 
+
+8. A.8 Storage and Conversion 
+𝑚𝑣(𝑡) 
+ 
+Stored energetic quantity at node 𝑣at time 𝑡. 
+𝑀𝑣 
+ 
+Storage capacity at node 𝑣. 
+𝑑𝑣(𝑡) 
+ 
+Local dissipation or local consumption at node 𝑣at time 𝑡. 
+𝑞𝑣(𝑡) 
+ 
+Exogenous injection or withdrawal at node 𝑣at time 𝑡. 
+𝐸𝑣
+(𝑎) 
+ 
+Energetic quantity of form 𝑎at node 𝑣. 
+𝜒𝑣
+𝑎→𝑏 
+ 
+Conversion efficiency from energetic form 𝑎to energetic form 𝑏at node 𝑣. 
+𝜒𝑢𝑣 
+ 
+Conversion efficiency associated with edge (𝑢, 𝑣). 
+𝜅𝑣 
+ 
+Local conversion profile at node 𝑣. 
+
+9. A.9 Node and Edge Attributes 
+𝜃𝑣 
+ 
+Node type at node 𝑣. 
+Θ = {source,sink,intermediate,storage,converter,hybrid} 
+ 
+Set of node-role labels. 
+𝜇𝑣 
+ 
+Local dissipation rate at node 𝑣. 
+𝜉𝑣 
+ 
+Stability state at node 𝑣. 
+𝑐𝑢𝑣 
+ 
+Transfer capacity on edge (𝑢, 𝑣). 
+𝜎𝑢𝑣 
+ 
+Stability coefficient on edge (𝑢, 𝑣). 
+10. A.10 Viability and Transfer Quality 
+𝜔𝑢𝑣 
+ 
+Edge viability weight on edge (𝑢, 𝑣). 
+𝜔(𝑃)= ∏ 𝜔𝑢𝑣
+(𝑢,𝑣)∈𝑃
+ 
+ 
+Path viability weight. 
+
+𝜔̃(𝑃)= 𝐺(𝑃)
+1 + 𝐵(𝑃) 
+ 
+A preliminary unnormalized viability score for path 𝑃. 
+Ψ(𝑃)= 𝐺+(𝑃) 𝜔(𝑃) 𝜌𝜒(𝑃)
+1 + 𝐶(𝑃)  
+ 
+Cost-adjusted effective transfer score of path 𝑃. 
+Θ(𝑃)= 𝐺+(𝑃)
+1 + 𝐵(𝑃) 
+ 
+Path pressure ratio. 
+11. A.11 Graph-Theoretic Objects 
+𝐴𝑢𝑣 
+ 
+Adjacency matrix entry for edge (𝑢, 𝑣). 
+𝑊𝑢𝑣 = 𝐴𝑢𝑣𝜔𝑢𝑣 
+ 
+Weighted energetic adjacency entry. 
+𝐵 
+ 
+Directed incidence matrix of the graph. 
+𝐟 
+ 
+Edge-flow vector. 
+𝐵𝐟 
+ 
+Net inflow vector at nodes. 
+
+12. A.12 Operators 
+𝔒 = {𝒟, ℳ, 𝒯, 𝒞, ℛ, 𝒬, ℋ, 𝒮, 𝒳, 𝒜} 
+ 
+Set of EP operators. 
+𝒟 
+ 
+Detection operator. 
+ℳ 
+ 
+Mapping operator. 
+𝒯 
+ 
+Tracing operator. 
+𝒞 
+ 
+Compression operator. 
+ℛ 
+ 
+Routing operator. 
+𝒬 
+ 
+Concentration operator. 
+ℋ 
+ 
+Dissipation operator. 
+𝒮 
+ 
+
+Stabilization operator. 
+𝒳 
+ 
+Redirection operator. 
+𝒜 
+ 
+Reallocation operator. 
+13. A.13 Pipeline Symbols 
+𝒫EP = (ℐ, ℒ, 𝒢, 𝒩, 𝒦, 𝒴, 𝒰, 𝒵) 
+ 
+Canonical EP pipeline. 
+ℐ 
+ 
+Identify active energetic form. 
+ℒ 
+ 
+Locate source and sink. 
+𝒢 
+ 
+Map gradients and barriers. 
+𝒩 
+ 
+Enumerate admissible paths. 
+𝒦 
+ 
+Estimate transfer cost. 
+
+𝒴 
+ 
+Measure loss and leakage. 
+𝒰 
+ 
+Test stability under pressure. 
+𝒵 
+ 
+Select or engineer improved flow. 
+𝒦act 
+ 
+Set of active energetic forms in a given system. 
+ℛ𝑆𝑇 
+ 
+Source-sink incidence relation. 
+14. A.14 Concentration, Stability, Recovery, and 
+Coherence 
+𝑞𝑣 
+ 
+Node concentration share. 
+𝑞𝑢𝑣 
+ 
+Edge concentration share. 
+𝐻𝑉 = ∑𝑞𝑣
+2
+𝑣∈𝑉
+ 
+ 
+Node concentration index. 
+
+𝐻𝐸 = ∑𝑞𝑢𝑣
+2
+(𝑢,𝑣)∈𝐸
+ 
+ 
+Edge concentration index. 
+𝑄𝑉
+max = max⁡
+𝑣∈𝑉
+𝑞𝑣 
+ 
+Maximum node concentration share. 
+𝑄𝐸
+max = max⁡
+(𝑢,𝑣)∈𝐸
+𝑞𝑢𝑣 
+ 
+Maximum edge concentration share. 
+Stab(𝐺𝐸) 
+ 
+Stability under pressure or load. 
+Stabmin(𝐺𝐸) 
+ 
+Worst-case stability. 
+𝑅𝜀(𝜏) 
+ 
+Recovery trajectory under disturbance 𝜀. 
+Rec𝐻(𝐺𝐸) 
+ 
+Finite-horizon recovery capacity. 
+RecTime(𝐺𝐸) 
+ 
+Expected recovery time. 
+𝛾𝑖𝑗 
+ 
+
+Pairwise path compatibility coefficient. 
+Coh(𝐺𝐸) 
+ 
+Systemic coherence measure. 
+Coh𝐸(𝐺𝐸) 
+ 
+Edge-based coherence proxy. 
+15. A.15 Performance Metrics and Objective 
+𝜂tr(𝐺𝐸)= 𝐸arr
+𝐸src
+ 
+ 
+Transfer efficiency. 
+𝜆sys(𝐺𝐸)= ℒsys
+𝐸src
+ 
+ 
+System loss rate. 
+𝐿avg(𝐺𝐸) 
+ 
+Average active path length. 
+𝐶avg(𝐺𝐸) 
+ 
+Average active path cost. 
+𝜅eff(𝐺𝐸) 
+ 
+Burden per delivered unit. 
+𝜁𝑡 = min⁡ {1, 𝐸𝑡
+arriv
+𝐷𝑡
+} 
+ 
+
+Sink satisfaction at sink 𝑡. 
+𝜁‾(𝐺𝐸) 
+ 
+Average sink satisfaction. 
+𝜁min(𝐺𝐸) 
+ 
+Minimum sink satisfaction. 
+Var𝜁(𝐺𝐸) 
+ 
+Variance of sink satisfaction. 
+𝔐(𝐺𝐸) 
+ 
+Metric vector of the system. 
+𝐽EP(𝐺𝐸) 
+ 
+Composite EP objective functional. 
+𝐺𝐸
+∗ = arg⁡ max⁡
+𝐺′∈𝒢adm
+𝐽EP(𝐺′) 
+ 
+Constrained optimal redesign under EP objective. 
+16. A.16 Case-Specific Symbols 
+𝒦act
+AI  
+ 
+Active energetic forms in the AI case. 
+𝒦act
+Law 
+ 
+Active energetic forms in the legal case. 
+
+𝒦act
+Mil 
+ 
+Active energetic forms in the military case. 
+𝐽AI(𝐺𝐸), 𝐽Law(𝐺𝐸), 𝐽Mil(𝐺𝐸) 
+ 
+Domain-specific objective functions for the AI, legal, and military cases respectively. 
+17. A.17 Compact Reading Rule 
+At the most compressed level, the core symbolic chain of the methodology may be read 
+as follows: 
+𝒮   →   𝒫(𝒮)   →   𝒰(𝒮)   →   𝐺𝐸(𝒮)   →   𝔒(𝐺𝐸)   →   𝔐(𝐺𝐸)   →   𝐽EP(𝐺𝐸). 
+ 
+This line states the full formal progression of EP in symbolic form. A complex system is 
+first decomposed into primitives, then into basic energy units, then represented as an 
+energetic graph, then acted on by operators, then evaluated through metrics, and finally 
+assessed or redesigned through the objective functional. 
+ 
+Appendix B. Preliminary Propositions 
+This appendix states a first set of formal propositions that follow from the structure 
+introduced in the main paper. These propositions are not intended as the final theorem 
+system of EP Energy Methodology. They serve a more modest and useful purpose. They 
+show that once the framework is written with explicit primitives, graph structure, flow 
+equations, and objective terms, some nontrivial conclusions can already be stated and 
+proved in a disciplined form. 
+The propositions below are deliberately elementary. A foundational methodology 
+should begin with statements that clarify the logical behavior of its main quantities 
+before moving toward stronger asymptotic, probabilistic, or algorithmic results. For 
+that reason, the present appendix focuses on monotonicity, concentration, retention, 
+routing preference, and stability implications that follow directly from the formal 
+definitions introduced earlier. 
+
+1. B.1 Monotonicity of Transfer Efficiency Under Path Retention 
+Proposition B.1 
+Fix a system 𝐺𝐸and an active routed path family 𝒫act. Suppose the initial path injections 
+𝑓init(𝑃)remain unchanged for all 𝑃 ∈ 𝒫act, and suppose the path retention factors 
+satisfy 
+𝜌𝜒
+′ (𝑃)≥ 𝜌𝜒(𝑃)for all 𝑃 ∈ 𝒫act. 
+ 
+Then the transfer efficiency weakly increases: 
+𝜂tr
+′ (𝐺𝐸)≥ 𝜂tr(𝐺𝐸). 
+ 
+Proof 
+By definition, 
+𝑓𝜒
+deliv(𝑃)= 𝑓init(𝑃)𝜌𝜒(𝑃). 
+ 
+Under the modified retention factors, 
+f_{\chi}^{\mathrm{deliv}\,'}(P) = f^{\mathrm{init}}(P)\rho_{\chi}'(P).  
+Since 𝑓init(𝑃)≥ 0and 𝜌𝜒
+′ (𝑃)≥ 𝜌𝜒(𝑃), it follows that 
+f_{\chi}^{\mathrm{deliv}\,'}(P) \ge f_{\chi}^{\mathrm{deliv}}(P) \qquad \text{for all } 
+P \in \mathcal{P}_{\mathrm{act}}.  
+Summing over active paths gives 
+E_{\mathrm{arr}}' = \sum_{P\in\mathcal{P}_{\mathrm{act}}} 
+f_{\chi}^{\mathrm{deliv}\,'}(P) \ge \sum_{P\in\mathcal{P}_{\mathrm{act}}} 
+f_{\chi}^{\mathrm{deliv}}(P) = E_{\mathrm{arr}}.  
+Since total source supply 𝐸srcis fixed, we have 
+𝜂tr
+′ (𝐺𝐸)= 𝐸arr
+′
+𝐸src
+≥ 𝐸arr
+𝐸src
+= 𝜂tr(𝐺𝐸). 
+ 
+
+Therefore transfer efficiency weakly increases. □ 
+2. B.2 Monotonicity of System Loss Rate Under Edge Loss Reduction 
+Proposition B.2 
+Fix 𝐺𝐸, edge flows 𝑓𝑢𝑣, local dissipation values 𝑑𝑣, and conversion efficiencies 𝜒𝑢𝑣. 
+Suppose edge loss coefficients are changed from 𝜆𝑢𝑣to 𝜆𝑢𝑣
+′ such that 
+𝜆𝑢𝑣
+′ ≤ 𝜆𝑢𝑣for all (𝑢, 𝑣)∈ 𝐸. 
+ 
+Then the system loss rate weakly decreases: 
+𝜆sys
+′ (𝐺𝐸)≤ 𝜆sys(𝐺𝐸). 
+ 
+Proof 
+By definition, 
+ℒsys = ∑𝜆𝑢𝑣
+(𝑢,𝑣)∈𝐸
+𝑓𝑢𝑣 + ∑𝑑𝑣
+𝑣∈𝑉
++ ∑(1 −
+(𝑢,𝑣)∈𝐸
+𝜒𝑢𝑣)𝑓𝑢𝑣. 
+ 
+Under the modified edge losses, 
+ℒsys
+′ = ∑𝜆𝑢𝑣
+′
+(𝑢,𝑣)∈𝐸
+𝑓𝑢𝑣 + ∑𝑑𝑣
+𝑣∈𝑉
++ ∑(1 −
+(𝑢,𝑣)∈𝐸
+𝜒𝑢𝑣)𝑓𝑢𝑣. 
+ 
+Because 𝑓𝑢𝑣 ≥ 0and 𝜆𝑢𝑣
+′ ≤ 𝜆𝑢𝑣, it follows termwise that 
+𝜆𝑢𝑣
+′ 𝑓𝑢𝑣 ≤ 𝜆𝑢𝑣𝑓𝑢𝑣. 
+ 
+Hence 
+ℒsys
+′ ≤ ℒsys. 
+ 
+If total source supply 𝐸srcis unchanged, then 
+
+𝜆sys
+′ (𝐺𝐸)= ℒsys
+′
+𝐸src
+≤ ℒsys
+𝐸src
+= 𝜆sys(𝐺𝐸). 
+ 
+Therefore the system loss rate weakly decreases. □ 
+3. B.3 Dominance of Higher-Scoring Paths Under the EP Routing Score 
+Proposition B.3 
+Let 𝑃and 𝑄be two admissible paths between the same source-sink pair (𝑠, 𝑡). If 
+Ψ(𝑃)> Ψ(𝑄), 
+ 
+then under the hard-routing rule 
+𝑃𝑠𝑡
+∗ = arg⁡ max⁡
+𝑅∈Π𝑠𝑡
+adm
+Ψ(𝑅), 
+ 
+path 𝑄cannot be selected whenever 𝑃is available. 
+Proof 
+The hard-routing rule selects a path that attains the maximal transfer score among 
+admissible candidates. If Ψ(𝑃)> Ψ(𝑄), then 𝑄is strictly suboptimal relative to 𝑃. 
+Therefore any maximizing path must exclude 𝑄whenever 𝑃remains admissible. Hence 
+𝑄cannot be selected under the stated rule if 𝑃is available. □ 
+Corollary B.3.1 
+If admissible path scores are all distinct, then the hard-routing rule selects a unique 
+path. 
+Proof 
+If all admissible scores are distinct, then the maximum is attained at exactly one path. □ 
+4. B.4 Soft Routing Preference Is Monotone in the Transfer Score 
+Proposition B.4 
+Under the soft-routing rule 
+
+𝜚(𝑃)= exp⁡{𝛽Ψ(𝑃)}
+∑ exp⁡{𝛽Ψ(𝑅)}𝑅∈Π𝑠𝑡
+adm
+, 𝛽 > 0, 
+ 
+if Ψ(𝑃)> Ψ(𝑄), then 
+𝜚(𝑃)> 𝜚(𝑄). 
+ 
+Proof 
+Since the exponential function is strictly increasing and 𝛽 > 0, the condition Ψ(𝑃)>
+Ψ(𝑄)implies 
+exp⁡{𝛽Ψ(𝑃)} > exp⁡{𝛽Ψ(𝑄)}. 
+ 
+Both 𝜚(𝑃)and 𝜚(𝑄)share the same positive denominator 
+𝑍 = ∑exp⁡{𝛽Ψ(𝑅)}.
+𝑅∈Π𝑠𝑡
+adm
+ 
+ 
+Hence dividing by 𝑍preserves the strict inequality: 
+𝜚(𝑃)= exp⁡{𝛽Ψ(𝑃)}
+𝑍 > exp⁡{𝛽Ψ(𝑄)}
+𝑍 = 𝜚(𝑄). 
+ 
+Therefore routing preference is monotone in the transfer score. □ 
+5. B.5 Transfer Score Increases with Positive Gradient and Decreases with 
+Cost 
+Proposition B.5 
+Let path 𝑃satisfy 𝜔(𝑃)> 0and 𝜌𝜒(𝑃)> 0. The effective transfer score 
+Ψ(𝑃)= 𝐺+(𝑃) 𝜔(𝑃) 𝜌𝜒(𝑃)
+1 + 𝐶(𝑃)  
+ 
+
+is strictly increasing in 𝐺+(𝑃)and strictly decreasing in 𝐶(𝑃)whenever all other terms 
+are fixed. 
+Proof 
+Fix 𝜔(𝑃), 𝜌𝜒(𝑃), and 𝐶(𝑃). Then Ψ(𝑃)is a positive constant multiple of 𝐺+(𝑃), namely 
+Ψ(𝑃)= (𝜔(𝑃)𝜌𝜒(𝑃)
+1 + 𝐶(𝑃) )𝐺+(𝑃). 
+ 
+Since the coefficient is positive, Ψ(𝑃)is strictly increasing in 𝐺+(𝑃). 
+Now fix 𝐺+(𝑃), 𝜔(𝑃), and 𝜌𝜒(𝑃). Then 
+Ψ(𝑃)= 𝐾
+1 + 𝐶(𝑃), 𝐾 = 𝐺+(𝑃)𝜔(𝑃)𝜌𝜒(𝑃)> 0. 
+ 
+Because the function 𝑥 ↦ 𝐾/(1 + 𝑥)is strictly decreasing for 𝑥 ≥ 0, Ψ(𝑃)is strictly 
+decreasing in 𝐶(𝑃). □ 
+6. B.6 Path Viability Decreases with Edgewise Barrier Increase 
+Proposition B.6 
+Assume the path viability weight is defined multiplicatively by 
+𝜔(𝑃)= ∏ 𝜔𝑢𝑣
+(𝑢,𝑣)∈𝑃
+, 
+ 
+with edge viability 
+𝜔𝑢𝑣 = 𝑐𝑢𝑣𝜎𝑢𝑣𝜒𝑢𝑣
+(1 + 𝑟𝑢𝑣)(1 + 𝑏𝑢𝑣)(1 + 𝜏𝑢𝑣)(1 + 𝜆𝑢𝑣). 
+ 
+Then 𝜔(𝑃)is weakly decreasing in each edge barrier coefficient 𝑏𝑢𝑣and strictly 
+decreasing whenever the corresponding numerator is positive and the edge belongs to 
+𝑃. 
+Proof 
+
+Fix all parameters except 𝑏𝑢𝑣for one edge (𝑢, 𝑣)∈ 𝑃. The relevant factor is 
+𝜔𝑢𝑣 = 𝐾𝑢𝑣
+1 + 𝑏𝑢𝑣
+, 𝐾𝑢𝑣 = 𝑐𝑢𝑣𝜎𝑢𝑣𝜒𝑢𝑣
+(1 + 𝑟𝑢𝑣)(1 + 𝜏𝑢𝑣)(1 + 𝜆𝑢𝑣). 
+ 
+Since 𝐾𝑢𝑣 ≥ 0, the function 𝑏𝑢𝑣 ↦ 𝐾𝑢𝑣/(1 + 𝑏𝑢𝑣)is weakly decreasing, and strictly 
+decreasing if 𝐾𝑢𝑣 > 0. Because all other edge factors are fixed and nonnegative, the 
+product 𝜔(𝑃)inherits the same monotonicity in 𝑏𝑢𝑣. □ 
+7. B.7 Increased Concentration Raises Localized Failure Exposure 
+Proposition B.7 
+Let two systems 𝐺𝐸
+(1)and 𝐺𝐸
+(2)have equal total flow, and suppose 
+𝑄𝐸
+max(𝐺𝐸
+(1))> 𝑄𝐸
+max(𝐺𝐸
+(2)). 
+ 
+Then under single-edge failure of the maximally loaded edge, the immediate worst-case 
+retained-flow fraction of 𝐺𝐸
+(1)is weakly smaller than that of 𝐺𝐸
+(2), provided rerouting is 
+not instantaneous. 
+Proof 
+Let the total edge flow in each system be normalized to 𝐹 > 0. By definition, 
+𝑄𝐸
+max(𝐺𝐸)= max⁡
+(𝑢,𝑣)∈𝐸
+𝑓𝑢𝑣
+𝐹 . 
+ 
+If the maximally loaded edge fails and rerouting is not immediate, then at least the flow 
+carried by that edge is removed from immediate delivery. Hence the retained fraction is 
+bounded above by 
+1 − 𝑄𝐸
+max(𝐺𝐸). 
+ 
+Therefore, if 
+𝑄𝐸
+max(𝐺𝐸
+(1))> 𝑄𝐸
+max(𝐺𝐸
+(2)), 
+ 
+
+then 
+1 − 𝑄𝐸
+max(𝐺𝐸
+(1))< 1 − 𝑄𝐸
+max(𝐺𝐸
+(2)). 
+ 
+Thus the immediate retained-flow fraction under maximally loaded edge failure is 
+weakly smaller for 𝐺𝐸
+(1). □ 
+Remark 
+This proposition formalizes only the immediate localized-failure effect. Full stability 
+depends on rerouting, redundancy, storage, and recovery operators as well. 
+8. B.8 Stability Improvement Under Redundant Parallel Path Addition 
+Proposition B.8 
+Suppose a source-sink pair (𝑠, 𝑡)initially has exactly one admissible active path 𝑃, and 
+suppose a second admissible path 𝑄is added such that 𝑄shares no failing edge with 
+𝑃under a given edge-failure ensemble. If delivered flow can be rerouted from 𝑃to 
+𝑄upon failure, then stability under that ensemble weakly increases. 
+Proof 
+Initially, failure of an edge on 𝑃destroys all delivered flow for the pair (𝑠, 𝑡). After 
+adding 𝑄, any failure confined to 𝑃can in principle be bypassed through 𝑄. Since the 
+new system contains all original capabilities plus an additional independent route, 
+retained performance cannot be lower under the same perturbation ensemble, and is 
+strictly higher for perturbations that disable 𝑃but not 𝑄. Therefore the expected 
+retained-performance ratio defining stability weakly increases. □ 
+9. B.9 Recovery Capacity Increases with Additional Stored Reserve 
+Proposition B.9 
+Fix a disturbance ensemble and a recovery policy class. Suppose two systems are 
+identical except that, for some node set 𝑉𝑅 ⊆ 𝑉, the second system has larger storage 
+capacities: 
+𝑀𝑣
+′ ≥ 𝑀𝑣for all 𝑣 ∈ 𝑉𝑅, 
+ 
+
+with strict inequality for at least one 𝑣, and suppose the added storage can be 
+discharged toward affected sinks under the recovery policy. Then finite-horizon 
+recovery capacity satisfies 
+Rec𝐻(𝐺𝐸
+′ )≥ Rec𝐻(𝐺𝐸). 
+ 
+Proof 
+Recovery capacity measures the normalized restored performance over a finite 
+horizon: 
+Rec𝐻(𝐺𝐸)= 𝔼𝜀 [1
+𝐻 ∫ 𝑅𝜀
+𝐻
+0
+(𝜏) 𝑑𝜏] . 
+ 
+Larger admissible storage expands the feasible set of post-disturbance trajectories 
+because the perturbed system may draw on equal or greater reserves than before. Since 
+the original recovery trajectory remains feasible and additional reserve discharge 
+trajectories may now also be feasible, the best attainable recovery profile cannot be 
+worse. Therefore finite-horizon recovery capacity weakly increases. □ 
+10. B.10 Coherence Is Maximized Under Perfect Positive 
+Alignment 
+Proposition B.10 
+Let active paths 𝑃1, … , 𝑃𝑀have nonnegative delivered flows 𝑓1, … , 𝑓𝑀, and let the 
+coherence score be 
+Coh(𝐺𝐸)=
+∑∑𝑓𝑖
+𝑀
+𝑗=1
+𝑀
+𝑖=1
+𝑓𝑗𝛾𝑖𝑗
+(∑𝑓𝑖
+𝑀
+𝑖=1 )2 , 
+ 
+with −1 ≤ 𝛾𝑖𝑗 ≤ 1. If 𝛾𝑖𝑗 = 1for all 𝑖, 𝑗, then 
+Coh(𝐺𝐸)= 1. 
+ 
+Proof 
+
+Substituting 𝛾𝑖𝑗 = 1gives 
+Coh(𝐺𝐸)=
+∑∑𝑓𝑖
+𝑀
+𝑗=1
+𝑀
+𝑖=1
+𝑓𝑗
+(∑𝑓𝑖
+𝑀
+𝑖=1 )2 . 
+ 
+But 
+∑ ∑𝑓𝑖
+𝑀
+𝑗=1
+𝑀
+𝑖=1
+𝑓𝑗 = (∑𝑓𝑖
+𝑀
+𝑖=1
+)
+2
+. 
+ 
+Hence 
+Coh(𝐺𝐸)= 1. 
+ 
+Therefore perfect positive alignment yields maximal normalized coherence. □ 
+11. B.11 Sink Satisfaction Improves Under Monotone 
+Arrival Increase 
+Proposition B.11 
+Fix sink demands 𝐷𝑡 > 0. If for every sink 𝑡 ∈ 𝑇, 
+E_t^{\mathrm{arriv}\,'} \ge E_t^{\mathrm{arriv}},  
+then average sink satisfaction weakly increases: 
+𝜁‾′(𝐺𝐸)≥ 𝜁‾(𝐺𝐸). 
+ 
+Proof 
+For each sink, 
+𝜁𝑡 = min⁡ {1, 𝐸𝑡
+arriv
+𝐷𝑡
+} . 
+ 
+
+The function 𝑥 ↦ min⁡{1, 𝑥/𝐷𝑡}is weakly increasing in 𝑥. Therefore 
+𝜁𝑡
+′ ≥ 𝜁𝑡for all 𝑡 ∈ 𝑇. 
+ 
+Averaging over sinks gives 
+𝜁‾′(𝐺𝐸)= 1
+∣ 𝑇 ∣ ∑𝜁𝑡
+′
+𝑡∈𝑇
+≥ 1
+∣ 𝑇 ∣ ∑𝜁𝑡
+𝑡∈𝑇
+= 𝜁‾(𝐺𝐸). 
+ 
+Hence average sink satisfaction weakly increases. □ 
+12. B.12 Objective Improvement Under Pareto 
+Improvement 
+Proposition B.12 
+Let 𝔐̃(𝐺𝐸)denote the oriented metric vector in which larger values are always better, 
+and let the EP objective be linear: 
+𝐽EP(𝐺𝐸)= 𝐰⊤𝔐̃(𝐺𝐸), 𝐰 ≥ 0. 
+ 
+If system 𝐺1Pareto-dominates system 𝐺2, that is, 
+𝔐̃(𝐺1)⪰ 𝔐̃(𝐺2) 
+ 
+componentwise, then 
+𝐽EP(𝐺1)≥ 𝐽EP(𝐺2). 
+ 
+If in addition at least one component is strictly larger and the corresponding weight is 
+strictly positive, then 
+𝐽EP(𝐺1)> 𝐽EP(𝐺2). 
+ 
+Proof 
+Since 𝐰 ≥ 0, componentwise dominance implies 
+
+𝑤𝑖𝔐̃𝑖(𝐺1)≥ 𝑤𝑖𝔐̃𝑖(𝐺2)for each component 𝑖. 
+ 
+Summing over all components yields 
+𝐽EP(𝐺1)= ∑𝑤𝑖
+𝑖
+𝔐̃𝑖(𝐺1)≥ ∑𝑤𝑖
+𝑖
+𝔐̃𝑖(𝐺2)= 𝐽EP(𝐺2). 
+ 
+If one component is strictly larger and carries strictly positive weight, then the summed 
+inequality is strict. □ 
+13. B.13 A First Meta-Observation 
+The propositions above share a common structure. Each demonstrates that the EP 
+framework already supports disciplined reasoning once the system is expressed 
+through energetic objects. Improvements in retention raise delivery. Reductions in loss 
+reduce waste. Higher-scoring paths dominate lower-scoring ones under the routing 
+rule. Stronger concentration increases localized failure exposure. Greater reserve depth 
+improves recovery. Better sink arrival improves satisfaction. Pareto improvement 
+raises the composite objective under nonnegative weights. 
+These are elementary results, but they matter. They show that EP is no longer operating 
+only at the level of conceptual suggestion. It now supports propositions whose 
+conclusions follow from explicit definitions. That is the first threshold any formal 
+methodology must cross. 
+14. B.14 Future Theorem Directions 
+The next mathematical stage would be to extend these preliminary propositions into 
+stronger theorem classes. The most natural candidates are the following. 
+First, existence theorems for optimal routing and constrained redesign under compact 
+admissible sets. 
+Second, sensitivity theorems describing how the objective varies under perturbations 
+of barrier, loss, conversion, or concentration. 
+Third, decomposition theorems showing when system-level objective improvement can 
+be achieved by local edge or node modifications. 
+Fourth, stability theorems for iterative energetic redesign dynamics of the form 
+
+𝐺𝐸
+(𝑘+1)
+= 𝒵(𝐺𝐸
+(𝑘)). 
+ 
+Fifth, approximation theorems governing the quality of compressed energetic graphs 
+𝐺̃𝐸relative to full graphs 𝐺𝐸. 
+Once these are developed, EP will move from a methodology with formal propositions 
+toward a methodology with a genuine theorem system. 
+Appendix C. Internal Research Roadmap 
+This appendix is not part of the public-facing argument of the paper. Its function is 
+purely internal. It records the research directions, literature clusters, and development 
+priorities that may later support expansion of the framework. It is written as a working 
+memo rather than as a reader-oriented appendix. 
+1. C.1 Purpose of This Appendix 
+The purpose of this appendix is to preserve the research architecture behind the paper. 
+The main body has already established a formal methodology with primitives, 
+representation, operators, pipeline, metrics, and cross-domain cases. What remains 
+unfinished is the deeper research program that can later strengthen, extend, and 
+formalize the framework. 
+This appendix therefore serves three internal purposes. First, it records which 
+academic traditions are most relevant for future strengthening of the methodology. 
+Second, it separates foundational references from optional expansion areas. Third, it 
+provides a practical order for future reading, citation building, and theoretical 
+extension. 
+This appendix is not meant to persuade readers. It is meant to prevent future drift. Once 
+the framework expands, it will be easy for the project to scatter across too many 
+neighboring literatures. This memo keeps the research path organized. 
+2. C.2 Priority Structure 
+The research program should be divided into three priority levels. 
+Priority I consists of literatures that are structurally necessary for the paper’s formal 
+legitimacy. These are the fields that directly support the graph representation, routing 
+logic, optimization structure, robustness language, and systems framing already used in 
+
+the paper. Without these, the paper remains mathematically shaped but academically 
+under-anchored. 
+Priority II consists of literatures that are not strictly required for the first formal 
+version, but are highly useful for strengthening the framework’s depth. These include 
+multilayer systems, resilience theory, recovery analysis, and domain-specific system 
+modeling. 
+Priority III consists of literatures that become important only once the project moves 
+beyond a methodology paper and starts becoming an architecture paper, applied model, 
+or broader theoretical system. These include learnable operators, dynamic state-update 
+systems, governance-constrained optimization, and architecture-level AI integration. 
+This priority structure matters because not all reading has equal marginal value. Some 
+reading will immediately strengthen the core paper. Some reading will only matter 
+later. 
+3. C.3 Priority I Literature Clusters 
+The first required cluster is complex systems and general systems theory. This cluster 
+gives the broad intellectual legitimacy for searching for a transferable methodology 
+across domains. Its value is not in providing the exact mathematics of EP, but in 
+showing that the search for general structural principles is an established scholarly 
+project. 
+The second required cluster is graph theory, network flow, and optimization. This is the 
+most important technical neighborhood for the current draft. The representation layer, 
+path logic, routing scores, bottleneck interpretation, and constrained redesign all sit 
+close to this literature. Future strengthening of the paper should draw heavily from this 
+cluster. 
+The third required cluster is control, robustness, and dynamical systems. Even though 
+the current paper is still more methodological than dynamical, the moment stability, 
+recovery, perturbation, and iterative redesign are introduced, this cluster becomes 
+indispensable. It is the natural background for making the pressure-testing and 
+recovery portions of the paper more rigorous. 
+Together, these three clusters form the minimum academic spine of the project. 
+
+4. C.4 Priority II Literature Clusters 
+The first secondary cluster is resilience and recovery. This is narrower than general 
+control theory and more directly useful for the metrics layer. It will be especially 
+important if the recovery-capacity section is later expanded into a more formal or 
+empirical treatment. 
+The second secondary cluster is multilayer and heterogeneous-network modeling. This 
+becomes relevant once the framework moves beyond scalar potentials and single-form 
+flow. The paper already gestures toward multidimensional energetic forms. This 
+literature will help formalize that move. 
+The third secondary cluster is infrastructure and interdependent systems. This is useful 
+because many of the framework’s strongest intuitions involve coupled flows, 
+bottlenecks, redundancy, and cross-layer failure propagation. Even outside literal 
+infrastructure, the formal patterns are highly relevant. 
+These secondary clusters are important, but they should not displace the primary 
+mathematical backbone. 
+C.5 Domain-Specific Bridges 
+The AI bridge should focus on system architecture rather than only on model theory. 
+The most useful materials will be those dealing with routing, retrieval, tool use, 
+inference bottlenecks, distributed serving, and system-level throughput. The point is 
+not to collapse EP into mainstream AI architecture language, but to position the AI case 
+in a technically recognizable context. 
+The legal bridge should focus on process, enforcement, compliance, and institutional 
+flow rather than abstract jurisprudence alone. The key reason is that the legal case in 
+the paper depends on the claim that judgment is not the final sink. Therefore, 
+literatures on legal process, compliance, procedural throughput, and institutional 
+legitimacy are more relevant than purely doctrinal work. 
+The military bridge should focus on logistics, command-and-control, sensor-to-shooter 
+chains, sustainment, contested networks, and operational resilience. The military case 
+is one of the strongest demonstrations of coupled energetic forms, so this bridge should 
+be treated as structurally important rather than illustrative ornament. 
+
+These three domain bridges should be built only after the primary formal clusters are 
+stable. 
+5. C.6 Future Theoretical Extension Paths 
+The first extension path is multidimensional energetic state representation. The current 
+paper mostly uses scalar potentials, scalar barriers, and scalar loss coefficients. This is 
+acceptable for a foundational paper, but it will become limiting. The next real 
+theoretical step is to allow vector or tensor-valued energy states. 
+The second extension path is full dynamical formulation. The current paper introduces 
+a state vector and an abstract update operator, but does not yet formalize the dynamics. 
+A future version should specify how gradients, flows, storage, concentration, and 
+stability co-evolve over time. 
+The third extension path is hierarchical composition. The current graph is flat. A mature 
+version of EP should explain how local units aggregate into modules, and how modules 
+aggregate into system-level and cross-system structures. 
+The fourth extension path is learnable or computational architecture. This is the path 
+that would move the work from methodology paper toward architecture paper. It 
+should not be rushed. It becomes meaningful only after the notation, operators, and 
+objectives are fully stabilized. 
+6. C.7 Bibliography Construction Plan 
+The bibliography should eventually be built in layers. 
+The first layer should contain canonical foundations. These are the books and papers 
+that signal serious engagement with systems theory, graph methods, optimization, and 
+control. 
+The second layer should contain technical reinforcement sources. These are more 
+specialized works directly relevant to routing, robustness, resilience, recovery, and 
+multilayer representation. 
+The third layer should contain domain bridges for AI, law, and military systems. 
+The fourth layer should contain recent frontier materials, especially in AI systems 
+engineering, governance-aware optimization, and interdependent system resilience. 
+
+For a strong internal draft, around 50 to 80 references would already be enough. For a 
+version intended to look like a serious formal academic manuscript, 80 to 120 
+references would be more appropriate. 
+7. C.8 Reading Order 
+The most efficient reading order is not by domain but by structural importance. 
+First should come systems theory, graph methods, flow optimization, and robustness. 
+These directly reinforce the core of the paper. 
+Second should come resilience, recovery, and multilayer systems. These deepen the 
+metrics and future-development parts. 
+Third should come the domain bridges in AI, law, and military systems. These are 
+important, but they should be read after the formal skeleton is already firm. 
+Fourth should come governance-constrained design, admissibility, and architecture-
+level learning. These belong to the next-stage project rather than the current paper’s 
+immediate stabilization. 
+This order matters because reading too much domain literature too early can dilute the 
+formal center of the project. 
+8. C.9 Internal Warning 
+There are several risks that should be remembered during future expansion. 
+The first risk is metaphor drift. If future writing leans too heavily on broad language 
+about energy without preserving the formal objects already defined, the framework will 
+weaken. 
+The second risk is over-assimilation. If the project is explained too quickly as just 
+another version of graph theory, systems theory, or control, its distinct methodological 
+claim will disappear. 
+The third risk is premature architecture-building. If the work tries to become a full 
+computational system before the formal methodology is fully stabilized, the result may 
+become technically noisy and conceptually unstable. 
+
+The fourth risk is uncontrolled expansion across domains. The methodology is designed 
+to travel widely, but the research program must still remain ordered. Otherwise the 
+framework will become broad without becoming deep. 
+9. C.10 Internal Closing Note 
+This appendix exists only to preserve the research path behind the paper. The paper 
+itself already has a complete methodology draft. What remains is not invention from 
+zero, but disciplined strengthening. 
+The immediate priority is clear. Strengthen the formal backbone first. Then deepen the 
+stability, recovery, and multilayer structure. Then add domain bridges more rigorously. 
+Only after that should the project move toward a learnable energetic architecture or a 
+larger book-length system. 
+Bibliography 
+1. Part 1. Core categorized references 
+A. Complex systems and general systems theory 
+Ashby, W. R. (1956). An introduction to cybernetics. Chapman & Hall. 
+Bertalanffy, L. von. (1968). General system theory: Foundations, development, 
+applications. George Braziller. 
+Holland, J. H. (1992). Complex adaptive systems. Daedalus, 121(1), 17–30. 
+Mitchell, M. (2009). Complexity: A guided tour. Oxford University Press. 
+Simon, H. A. (1962). The architecture of complexity. Proceedings of the American 
+Philosophical Society, 106(6), 467–482. 
+Wiener, N. (1948). Cybernetics: Or control and communication in the animal and the 
+machine. MIT Press. 
+B. Network flow, graph theory, and optimization 
+Ahuja, R. K., Magnanti, T. L., & Orlin, J. B. (1993). Network flows: Theory, algorithms, and 
+applications. Prentice Hall. 
+Dijkstra, E. W. (1959). A note on two problems in connexion with graphs. Numerische 
+Mathematik, 1, 269–271. https://doi.org/10.1007/BF01386390 
+
+Ford, L. R., Jr., & Fulkerson, D. R. (1962). Flows in networks. Princeton University Press. 
+Newman, M. E. J. (2010). Networks: An introduction. Oxford University Press. 
+Schrijver, A. (2003). Combinatorial optimization: Polyhedra and efficiency. Springer. 
+Tarjan, R. E. (1983). Data structures and network algorithms. Society for Industrial and 
+Applied Mathematics. 
+C. Control, robustness, and dynamical systems 
+Åström, K. J., & Murray, R. M. (2008). Feedback systems: An introduction for scientists and 
+engineers. Princeton University Press. 
+Doyle, J. C., Francis, B. A., & Tannenbaum, A. R. (1992). Feedback control theory. 
+Macmillan. 
+Kalman, R. E. (1960). Contributions to the theory of optimal control. Boletín de la 
+Sociedad Matemática Mexicana, 5(2), 102–119. 
+Khalil, H. K. (2002). Nonlinear systems (3rd ed.). Prentice Hall. 
+Ogata, K. (2010). Modern control engineering (5th ed.). Prentice Hall. 
+D. Resilience, recovery, and infrastructure robustness 
+Bruneau, M., Chang, S. E., Eguchi, R. T., Lee, G. C., O’Rourke, T. D., Reinhorn, A. M., 
+Shinozuka, M., Tierney, K., Wallace, W. A., & von Winterfeldt, D. (2003). A framework to 
+quantitatively assess and enhance the seismic resilience of communities. Earthquake 
+Spectra, 19(4), 733–752. https://doi.org/10.1193/1.1623497 
+Holling, C. S. (1973). Resilience and stability of ecological systems. Annual Review of 
+Ecology and Systematics, 4, 1–23. 
+https://doi.org/10.1146/annurev.es.04.110173.000245 
+Ouyang, M. (2014). Review on modeling and simulation of interdependent critical 
+infrastructure systems. Reliability Engineering & System Safety, 121, 43–60. 
+https://doi.org/10.1016/j.ress.2013.06.040 
+Pimm, S. L. (1984). The complexity and stability of ecosystems. Nature, 307(5949), 321–
+326. https://doi.org/10.1038/307321a0 
+
+Sheffi, Y. (2005). The resilient enterprise: Overcoming vulnerability for competitive 
+advantage. MIT Press. 
+E. Multilayer and interdependent networks 
+Boccaletti, S., Bianconi, G., Criado, R., del Genio, C. I., Gómez-Gardeñes, J., Romance, M., 
+Sendiña-Nadal, I., Wang, Z., & Zanin, M. (2014). The structure and dynamics of 
+multilayer networks. Physics Reports, 544(1), 1–122. 
+https://doi.org/10.1016/j.physrep.2014.07.001 
+Buldyrev, S. V., Parshani, R., Paul, G., Stanley, H. E., & Havlin, S. (2010). Catastrophic 
+cascade of failures in interdependent networks. Nature, 464(7291), 1025–1028. 
+https://doi.org/10.1038/nature08932 
+Kivelä, M., Arenas, A., Barthelemy, M., Gleeson, J. P., Moreno, Y., & Porter, M. A. (2014). 
+Multilayer networks. Journal of Complex Networks, 2(3), 203–271. 
+https://doi.org/10.1093/comnet/cnu016 
+Mucha, P. J., Richardson, T., Macon, K., Porter, M. A., & Onnela, J.-P. (2010). Community 
+structure in time-dependent, multiscale, and multiplex networks. Science, 328(5980), 
+876–878. https://doi.org/10.1126/science.1184819 
+F. AI systems, routing, and architecture 
+Dean, J., & Barroso, L. A. (2013). The tail at scale. Communications of the ACM, 56(2), 74–
+80. https://doi.org/10.1145/2408776.2408794 
+Fedus, W., Zoph, B., & Shazeer, N. (2022). Switch Transformers: Scaling to trillion 
+parameter models with simple and efficient sparsity. Journal of Machine Learning 
+Research, 23(120), 1–39. 
+Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Küttler, H., Lewis, M., 
+Yih, W.-t., Rocktäschel, T., Riedel, S., & Kiela, D. (2020). Retrieval-augmented generation 
+for knowledge-intensive NLP tasks. Advances in Neural Information Processing Systems, 
+33, 9459–9474. 
+Shazeer, N., Mirhoseini, A., Maziarz, K., Davis, A., Le, Q. V., Hinton, G. E., & Dean, J. (2017). 
+Outrageously large neural networks: The sparsely-gated mixture-of-experts layer. 
+International Conference on Learning Representations. 
+
+Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., & 
+Polosukhin, I. (2017). Attention is all you need. Advances in Neural Information 
+Processing Systems, 30, 5998–6008. 
+G. Legal process, institutions, and compliance 
+Fuller, L. L. (1978). The forms and limits of adjudication. Harvard University Press. 
+Hart, H. L. A. (2012). The concept of law (3rd ed.). Oxford University Press. 
+McBarnet, D. (2003). When compliance is not the solution but the problem: From 
+changes in law to changes in attitude. In V. Braithwaite (Ed.), Taxing democracy: 
+Understanding tax avoidance and evasion (pp. 229–243). Ashgate. 
+Tyler, T. R. (2006). Why people obey the law (2nd ed.). Princeton University Press. 
+H. Military logistics and command systems 
+Alberts, D. S., Garstka, J. J., & Stein, F. P. (1999). Network centric warfare: Developing and 
+leveraging information superiority. CCRP Publication Series. 
+Pagonis, W. G., & Cruikshank, J. R. (1992). Moving mountains: Lessons in leadership and 
+logistics from the Gulf War. Harvard Business School Press. 
+van Creveld, M. (2004). Supplying war: Logistics from Wallenstein to Patton (2nd ed.). 
+Cambridge University Press. 
+2. Part 2. Exhaustive APA bibliography in alphabetical order 
+Ahuja, R. K., Magnanti, T. L., & Orlin, J. B. (1993). Network flows: Theory, algorithms, and 
+applications. Prentice Hall. 
+Alberts, D. S., Garstka, J. J., & Stein, F. P. (1999). Network centric warfare: Developing and 
+leveraging information superiority. CCRP Publication Series. 
+Ashby, W. R. (1956). An introduction to cybernetics. Chapman & Hall. 
+Åström, K. J., & Murray, R. M. (2008). Feedback systems: An introduction for scientists and 
+engineers. Princeton University Press. 
+Barabási, A.-L. (2016). Network science. Cambridge University Press. 
+Bertalanffy, L. von. (1968). General system theory: Foundations, development, 
+applications. George Braziller. 
+
+Boccaletti, S., Bianconi, G., Criado, R., del Genio, C. I., Gómez-Gardeñes, J., Romance, M., 
+Sendiña-Nadal, I., Wang, Z., & Zanin, M. (2014). The structure and dynamics of 
+multilayer networks. Physics Reports, 544(1), 1–122. 
+https://doi.org/10.1016/j.physrep.2014.07.001 
+Bruneau, M., Chang, S. E., Eguchi, R. T., Lee, G. C., O’Rourke, T. D., Reinhorn, A. M., 
+Shinozuka, M., Tierney, K., Wallace, W. A., & von Winterfeldt, D. (2003). A framework to 
+quantitatively assess and enhance the seismic resilience of communities. Earthquake 
+Spectra, 19(4), 733–752. https://doi.org/10.1193/1.1623497 
+Buldyrev, S. V., Parshani, R., Paul, G., Stanley, H. E., & Havlin, S. (2010). Catastrophic 
+cascade of failures in interdependent networks. Nature, 464(7291), 1025–1028. 
+https://doi.org/10.1038/nature08932 
+Csete, M. E., & Doyle, J. C. (2002). Reverse engineering of biological complexity. Science, 
+295(5560), 1664–1669. https://doi.org/10.1126/science.1069981 
+Dean, J., & Barroso, L. A. (2013). The tail at scale. Communications of the ACM, 56(2), 74–
+80. https://doi.org/10.1145/2408776.2408794 
+Dekker, S., Hollnagel, E., Woods, D., & Cook, R. (2008). Resilience engineering: New 
+directions for measuring and maintaining safety in complex systems. In E. Hollnagel, J. 
+Pariès, D. D. Woods, & J. Wreathall (Eds.), Resilience engineering in practice: A guidebook 
+(pp. 3–25). Ashgate. 
+Dijkstra, E. W. (1959). A note on two problems in connexion with graphs. Numerische 
+Mathematik, 1, 269–271. https://doi.org/10.1007/BF01386390 
+Doyle, J. C., Francis, B. A., & Tannenbaum, A. R. (1992). Feedback control theory. 
+Macmillan. 
+Ford, L. R., Jr., & Fulkerson, D. R. (1962). Flows in networks. Princeton University Press. 
+Forrester, J. W. (1961). Industrial dynamics. MIT Press. 
+Frank, K. A. (2005). The social context of school-level policy implementation. Sociology 
+of Education, 78(2), 135–156. https://doi.org/10.1177/003804070507800203 
+Fuller, L. L. (1978). The forms and limits of adjudication. Harvard University Press. 
+Gao, J., Barzel, B., & Barabási, A.-L. (2016). Universal resilience patterns in complex 
+networks. Nature, 530(7590), 307–312. https://doi.org/10.1038/nature16948 
+
+Gittell, J. H. (2009). High performance healthcare: Using the power of relationships to 
+achieve quality, efficiency and resilience. McGraw-Hill. 
+Hart, H. L. A. (2012). The concept of law (3rd ed.). Oxford University Press. 
+Holland, J. H. (1992). Complex adaptive systems. Daedalus, 121(1), 17–30. 
+Holling, C. S. (1973). Resilience and stability of ecological systems. Annual Review of 
+Ecology and Systematics, 4, 1–23. 
+https://doi.org/10.1146/annurev.es.04.110173.000245 
+Hollnagel, E. (2014). Safety-I and Safety-II: The past and future of safety management. 
+Ashgate. 
+Kalman, R. E. (1960). Contributions to the theory of optimal control. Boletín de la 
+Sociedad Matemática Mexicana, 5(2), 102–119. 
+Khalil, H. K. (2002). Nonlinear systems (3rd ed.). Prentice Hall. 
+Kivelä, M., Arenas, A., Barthelemy, M., Gleeson, J. P., Moreno, Y., & Porter, M. A. (2014). 
+Multilayer networks. Journal of Complex Networks, 2(3), 203–271. 
+https://doi.org/10.1093/comnet/cnu016 
+Kleinrock, L. (1975). Queueing systems, volume 1: Theory. Wiley. 
+Lazer, D., Pentland, A., Adamic, L., Aral, S., Barabási, A.-L., Brewer, D., Christakis, N., 
+Contractor, N., Fowler, J., Gutmann, M., Jebara, T., King, G., Macy, M., Roy, D., & Van 
+Alstyne, M. (2009). Computational social science. Science, 323(5915), 721–723. 
+https://doi.org/10.1126/science.1167742 
+Levin, S. A. (1998). Ecosystems and the biosphere as complex adaptive systems. 
+Ecosystems, 1(5), 431–436. https://doi.org/10.1007/s100219900037 
+Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Küttler, H., Lewis, M., 
+Yih, W.-t., Rocktäschel, T., Riedel, S., & Kiela, D. (2020). Retrieval-augmented generation 
+for knowledge-intensive NLP tasks. Advances in Neural Information Processing Systems, 
+33, 9459–9474. 
+March, J. G., & Simon, H. A. (1958). Organizations. Wiley. 
+
+McBarnet, D. (2003). When compliance is not the solution but the problem: From 
+changes in law to changes in attitude. In V. Braithwaite (Ed.), Taxing democracy: 
+Understanding tax avoidance and evasion (pp. 229–243). Ashgate. 
+Meadows, D. H. (2008). Thinking in systems: A primer. Chelsea Green Publishing. 
+Milo, R., Shen-Orr, S., Itzkovitz, S., Kashtan, N., Chklovskii, D., & Alon, U. (2002). Network 
+motifs: Simple building blocks of complex networks. Science, 298(5594), 824–827. 
+https://doi.org/10.1126/science.298.5594.824 
+Mitchell, M. (2009). Complexity: A guided tour. Oxford University Press. 
+Mucha, P. J., Richardson, T., Macon, K., Porter, M. A., & Onnela, J.-P. (2010). Community 
+structure in time-dependent, multiscale, and multiplex networks. Science, 328(5980), 
+876–878. https://doi.org/10.1126/science.1184819 
+Newman, M. E. J. (2010). Networks: An introduction. Oxford University Press. 
+North, D. C. (1990). Institutions, institutional change and economic performance. 
+Cambridge University Press. 
+Ogata, K. (2010). Modern control engineering (5th ed.). Prentice Hall. 
+Ouyang, M. (2014). Review on modeling and simulation of interdependent critical 
+infrastructure systems. Reliability Engineering & System Safety, 121, 43–60. 
+https://doi.org/10.1016/j.ress.2013.06.040 
+Pagonis, W. G., & Cruikshank, J. R. (1992). Moving mountains: Lessons in leadership and 
+logistics from the Gulf War. Harvard Business School Press. 
+Page, S. E. (2011). Diversity and complexity. Princeton University Press. 
+Parnas, D. L. (1972). On the criteria to be used in decomposing systems into modules. 
+Communications of the ACM, 15(12), 1053–1058. 
+https://doi.org/10.1145/361598.361623 
+Perrow, C. (1984). Normal accidents: Living with high-risk technologies. Basic Books. 
+Pimm, S. L. (1984). The complexity and stability of ecosystems. Nature, 307(5949), 321–
+326. https://doi.org/10.1038/307321a0 
+Porter, M. A., Onnela, J.-P., & Mucha, P. J. (2009). Communities in networks. Notices of 
+the American Mathematical Society, 56(9), 1082–1097. 
+
+Rinaldi, S. M., Peerenboom, J. P., & Kelly, T. K. (2001). Identifying, understanding, and 
+analyzing critical infrastructure interdependencies. IEEE Control Systems Magazine, 
+21(6), 11–25. https://doi.org/10.1109/37.969131 
+Schelling, T. C. (1978). Micromotives and macrobehavior. W. W. Norton. 
+Schrijver, A. (2003). Combinatorial optimization: Polyhedra and efficiency. Springer. 
+Scott, W. R. (2014). Institutions and organizations: Ideas, interests, and identities (4th 
+ed.). Sage. 
+Senge, P. M. (1990). The fifth discipline: The art and practice of the learning organization. 
+Doubleday. 
+Sheffi, Y. (2005). The resilient enterprise: Overcoming vulnerability for competitive 
+advantage. MIT Press. 
+Shazeer, N., Mirhoseini, A., Maziarz, K., Davis, A., Le, Q. V., Hinton, G. E., & Dean, J. (2017). 
+Outrageously large neural networks: The sparsely-gated mixture-of-experts layer. 
+International Conference on Learning Representations. 
+Simon, H. A. (1962). The architecture of complexity. Proceedings of the American 
+Philosophical Society, 106(6), 467–482. 
+Sterman, J. D. (2000). Business dynamics: Systems thinking and modeling for a complex 
+world. Irwin/McGraw-Hill. 
+Taleb, N. N. (2012). Antifragile: Things that gain from disorder. Random House. 
+Tarjan, R. E. (1983). Data structures and network algorithms. Society for Industrial and 
+Applied Mathematics. 
+Tyler, T. R. (2006). Why people obey the law (2nd ed.). Princeton University Press. 
+van Creveld, M. (2004). Supplying war: Logistics from Wallenstein to Patton (2nd ed.). 
+Cambridge University Press. 
+Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., & 
+Polosukhin, I. (2017). Attention is all you need. Advances in Neural Information 
+Processing Systems, 30, 5998–6008. 
+Weick, K. E. (1976). Educational organizations as loosely coupled systems. 
+Administrative Science Quarterly, 21(1), 1–19. https://doi.org/10.2307/2391875 
+
+Weick, K. E., & Sutcliffe, K. M. (2015). Managing the unexpected: Sustained performance 
+in a complex world (3rd ed.). Wiley. 
+Wiener, N. (1948). Cybernetics: Or control and communication in the animal and the 
+machine. MIT Press. 
+Woods, D. D. (2015). Four concepts for resilience and the implications for the future of 
+resilience engineering. Reliability Engineering & System Safety, 141, 5–9. 
+https://doi.org/10.1016/j.ress.2015.03.018 
+Xu, X., Hu, Y., Liu, F., & Liu, L. (2011). Scaling and correlations in three bus-transport 
+networks of China. Physica A: Statistical Mechanics and its Applications, 390(23–24), 
+4569–4576. https://doi.org/10.1016/j.physa.2011.07.028 
+Ying, C., Zhou, Y., Wang, R., Mao, Y., Wang, D., Li, M., & Yan, J. (2021). Do Transformers 
+really perform bad for graph representation? Advances in Neural Information Processing 
+Systems, 34, 28877–28888. 
+Zio, E. (2009). Reliability engineering: Old problems and new challenges. Reliability 
+Engineering & System Safety, 94(2), 125–141. 
+https://doi.org/10.1016/j.ress.2008.06.002 
+ 

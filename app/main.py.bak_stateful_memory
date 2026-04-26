@@ -1,0 +1,100 @@
+from __future__ import annotations
+
+from typing import Any, Optional
+
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+
+from app.services import epra
+from app.services.router_v4 import route_prompt_v4
+
+
+class TextRequest(BaseModel):
+    message: Optional[str] = None
+    previous_message: Optional[str] = None
+    prompt: Optional[str] = None
+
+
+
+def _looks_like_followup_message(message: str) -> bool:
+    t = str(message or "").strip().lower()
+    markers = [
+        "but i really want",
+        "i really want an answer",
+        "i need a thesis",
+        "give me a thesis",
+        "expand",
+        "continue",
+        "why",
+        "explain more",
+        "go deeper",
+        "more detail",
+        "what about",
+        "then what",
+    ]
+    return t in {"why?", "why", "continue", "expand"} or any(x in t for x in markers)
+
+
+def _effective_message(message: str, previous_message: str | None) -> str:
+    if previous_message and _looks_like_followup_message(message):
+        return f"{previous_message}\n\nFollow-up instruction: {message}"
+    return message
+
+
+app = FastAPI(title="EPRA API Wrapper v3")
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+service = epra.EPRAService()
+
+
+def _coerce_result(result: Any, routing: dict[str, Any]) -> Any:
+    try:
+        if hasattr(result, "metadata") and isinstance(result.metadata, dict):
+            result.metadata["routing"] = routing
+        elif isinstance(result, dict):
+            result.setdefault("metadata", {})
+            if isinstance(result["metadata"], dict):
+                result["metadata"]["routing"] = routing
+    except Exception:
+        pass
+    return result
+
+
+@app.get("/")
+def root() -> dict[str, str]:
+    return {"status": "ok", "service": "EPRA API Wrapper v3"}
+
+
+@app.get("/health")
+def health() -> dict[str, str]:
+    return {"status": "healthy"}
+
+
+@app.post("/chat")
+def chat(req: TextRequest) -> Any:
+    message = (req.message or req.prompt or "").strip()
+    if not message:
+        raise HTTPException(status_code=400, detail="No message or prompt provided.")
+
+    effective_message = _effective_message(message, req.previous_message)
+    routing = route_prompt_v4(effective_message)
+
+    try:
+        result = service.analyze(effective_message, context={"routing": routing,
+            "previous_message": req.previous_message})
+        return _coerce_result(result, routing)
+    except TypeError:
+        result = service.analyze(message)
+        return _coerce_result(result, routing)
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc

@@ -1,0 +1,1729 @@
+Energetic Paradigm Formal Core
+Specification
+EP-FCS v0
+Sections 0–8 Draft
+This document writes the first executable mother-body layer ofEnergetic
+Paradigm Reconstruction Architecture (EPRA). It does not treat
+papers as the ontology of the paradigm. It treats the reconstructable formal
+blueprint as the ontology, and treats papers only as structured projections,
+validations, and extensions of that blueprint.
+Formal draft prepared in English
+April 8, 2026
+
+EP-FCS v0 Sections 0–8 Draft
+Contents
+0 Identity Clause 2
+0.1 Ontological Priority . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+0.2 Three Non-Negotiable Requirements . . . . . . . . . . . . . . . . . . . . 2
+0.3 Projection Status of Papers . . . . . . . . . . . . . . . . . . . . . . . . . 2
+0.4 Reconstruction Requirement . . . . . . . . . . . . . . . . . . . . . . . . . 3
+0.5 Identity Consequence . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
+1 Ontology 3
+1.1 Two-Layer Ontology . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
+1.2 Minimal Analytic Kernel . . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+1.3 Bridge Between the Two Layers . . . . . . . . . . . . . . . . . . . . . . . 5
+1.4 State Representation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+1.5 Typing Discipline . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+1.6 Ontological Priority Rule . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+2 Relational Grammar 6
+2.1 Purpose of the Relational Module . . . . . . . . . . . . . . . . . . . . . . 6
+2.2 Core High-Level Predicates . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+2.3 Energetic Predicates . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+2.4 Bridge to Graph Representation . . . . . . . . . . . . . . . . . . . . . . . 7
+2.5 Admissible Compositions . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+2.6 Constraint Rules . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+2.7 Projection Metadata Relation . . . . . . . . . . . . . . . . . . . . . . . . 8
+3 Axiom System 9
+3.1 Purpose of the Axiom Layer . . . . . . . . . . . . . . . . . . . . . . . . . 9
+3.2 Axiom Interaction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+4 Dynamics 11
+4.1 Why the Dynamics Layer Matters . . . . . . . . . . . . . . . . . . . . . . 11
+4.2 Two Coupled State Spaces . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+1
+
+EP-FCS v0 Sections 0–8 Draft
+4.3 State Transition Operator . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+4.4 Micro Update Equations . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+4.5 Macro Aggregation Equations . . . . . . . . . . . . . . . . . . . . . . . . 13
+4.6 Fragility and Stability-Horizon Dynamics . . . . . . . . . . . . . . . . . . 14
+4.7 Regime Tests: Persistence, Reproduction, Fracture . . . . . . . . . . . . . 14
+4.8 Feedback Loop Typology . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+4.9 Intervention Variable and Dynamic Method . . . . . . . . . . . . . . . . 15
+4.10 Canonical Dynamic Procedure . . . . . . . . . . . . . . . . . . . . . . . . 16
+4.11 Pseudo-Code Skeleton . . . . . . . . . . . . . . . . . . . . . . . . . . . . 16
+4.12 What Section 4 Changes . . . . . . . . . . . . . . . . . . . . . . . . . . . 16
+4.13 Status of Sections 0–4 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17
+5 Operator Calculus 17
+5.1 Purpose of the Operator Layer . . . . . . . . . . . . . . . . . . . . . . . . 17
+5.2 Typed Operator Signatures . . . . . . . . . . . . . . . . . . . . . . . . . 18
+5.3 Detection and Mapping . . . . . . . . . . . . . . . . . . . . . . . . . . . . 18
+5.4 Tracing and Compression . . . . . . . . . . . . . . . . . . . . . . . . . . . 19
+5.5 Routing and Concentration Analysis . . . . . . . . . . . . . . . . . . . . 19
+5.6 Dissipation, Stabilization, Redirection, and Reallocation . . . . . . . . . 20
+5.7 Comparison Operator . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 21
+5.8 Composition Algebra . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 21
+5.9 Dynamic Coupling Rule . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+5.10 Operator Selection Rule . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+5.11 Canonical Operator Procedure . . . . . . . . . . . . . . . . . . . . . . . . 22
+5.12 Pseudo-Code Skeleton for Section 5 . . . . . . . . . . . . . . . . . . . . . 23
+5.13 What Section 5 Adds . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23
+6 Projection Rules 23
+6.1 Why Projection Rules Are Required . . . . . . . . . . . . . . . . . . . . . 24
+6.2 Projection Operator . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 24
+6.3 Projection Classes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 24
+6.4 Projection Form . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 25
+6.5 Selection Rule . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 25
+2
+
+EP-FCS v0 Sections 0–8 Draft
+6.6 Coverage Matrix . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 26
+6.7 Mandatory Metadata . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 26
+6.8 Projection Loss Profile . . . . . . . . . . . . . . . . . . . . . . . . . . . . 27
+6.9 Admissibility Constraints . . . . . . . . . . . . . . . . . . . . . . . . . . . 27
+6.10 Consistency Constraint . . . . . . . . . . . . . . . . . . . . . . . . . . . . 27
+6.11 Projection as Controlled Compression . . . . . . . . . . . . . . . . . . . . 27
+6.12 Projection Grammar for Papers . . . . . . . . . . . . . . . . . . . . . . . 28
+6.13 Canonical Projection Procedure . . . . . . . . . . . . . . . . . . . . . . . 28
+6.14 Pseudo-Code Skeleton for Section 6 . . . . . . . . . . . . . . . . . . . . . 29
+6.15 What Section 6 Adds . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 29
+7 Reconstruction Protocol 29
+7.1 Purpose of the Reconstruction Module . . . . . . . . . . . . . . . . . . . 29
+7.2 Normal Form . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30
+7.3 Reconstruction Graph . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30
+7.4 Reconstruction Operator . . . . . . . . . . . . . . . . . . . . . . . . . . . 31
+7.5 Reconstructive Objective . . . . . . . . . . . . . . . . . . . . . . . . . . . 31
+7.6 Coverage Threshold and Guarantee . . . . . . . . . . . . . . . . . . . . . 31
+7.7 Inference Rules . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 32
+7.8 Contradiction Handling . . . . . . . . . . . . . . . . . . . . . . . . . . . . 32
+7.9 Minimal Reconstructive Basis . . . . . . . . . . . . . . . . . . . . . . . . 33
+7.10 Confidence Score . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 33
+7.11 Canonical Reconstruction Procedure . . . . . . . . . . . . . . . . . . . . 33
+7.12 Pseudo-Code Skeleton for Section 7 . . . . . . . . . . . . . . . . . . . . . 34
+7.13 What Section 7 Adds . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 34
+8 Validity Tests 35
+8.1 Purpose of the Validation Layer . . . . . . . . . . . . . . . . . . . . . . . 35
+8.2 Membership Predicate . . . . . . . . . . . . . . . . . . . . . . . . . . . . 35
+8.3 Typed Validity Subtests . . . . . . . . . . . . . . . . . . . . . . . . . . . 35
+8.4 Composite Validity Function . . . . . . . . . . . . . . . . . . . . . . . . . 37
+8.5 Drift, Weakness, and False Membership . . . . . . . . . . . . . . . . . . . 37
+8.6 Necessary and Sufficient Conditions . . . . . . . . . . . . . . . . . . . . . 38
+3
+
+EP-FCS v0 Sections 0–8 Draft
+8.7 Validity of Projections and Reconstructions . . . . . . . . . . . . . . . . . 38
+8.8 Canonical Validity Procedure . . . . . . . . . . . . . . . . . . . . . . . . 39
+8.9 Pseudo-Code Skeleton for Section 8 . . . . . . . . . . . . . . . . . . . . . 40
+8.10 What Section 8 Adds . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 40
+9 Theorem Roadmap 40
+9.1 Function of the Theorem Roadmap . . . . . . . . . . . . . . . . . . . . . 41
+9.2 Primary Theorem Classes . . . . . . . . . . . . . . . . . . . . . . . . . . 41
+9.3 Priority Ordering . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 42
+9.4 Dependency Graph of Theorem Classes . . . . . . . . . . . . . . . . . . . 42
+9.5 Tier I Theorems: Mother-Body Stabilization . . . . . . . . . . . . . . . . 43
+9.6 Tier II Theorems: Methodology, Projection, Reconstruction, Validity . . 43
+9.7 Tier III Theorems: Compression and Algorithmic Realization . . . . . . . 44
+9.8 Proof Requirement Map . . . . . . . . . . . . . . . . . . . . . . . . . . . 45
+9.9 Theorem Development Schedule . . . . . . . . . . . . . . . . . . . . . . . 45
+9.10 Canonical Theorem-Roadmap Procedure . . . . . . . . . . . . . . . . . . 45
+9.11 Pseudo-Code Skeleton for Section 9 . . . . . . . . . . . . . . . . . . . . . 46
+9.12 What Section 9 Adds . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 46
+4
+
+EP-FCS v0 Sections 0–8 Draft
+0. Identity Clause
+0.1 Ontological Priority
+Principle 0.1(Mother-Body Priority). Energetic Paradigm cannot take papers as its
+ontology. Papers must take a reconstructable formal blueprint as their ontology.
+The first identity claim of EP-FCS v0 is therefore not bibliographic but architectural.
+The paradigm is defined primarily by a formal mother-body that can generate analyses,
+constrain drift, and support partial reconstruction under loss. A paper may illuminate
+the system, prove a fragment, instantiate a case, or stress-test a boundary, but no paper
+is itself the mother-body.
+Definition 0.1(EPRA). The total reconstructive architecture is defined as
+EPRA =⟨Ω, R, A, ∆, O, Π, K, V⟩, (1)
+where Ω is the ontology module,R the relational module,A the axiom module,∆ the
+dynamics module,O the operator module,Π the projection module,K the reconstruction
+module, andV the validation module.
+These eight modules are not optional accessories. Together they form the minimum
+complete mother-body required for a reconstructable Energetic Paradigm.
+0.2 Three Non-Negotiable Requirements
+The mother-body must satisfy three requirements simultaneously:
+Generativity: EPRA ⇝ indefinitely many admissible analyses, (2)
+Constraint: EPRA̸⇝ arbitrary pseudo-EP outputs, (3)
+Reconstructability: partial loss does not imply total loss of structure. (4)
+If any one of these fails, the resulting system is inadequate. A framework that generates
+outputs but cannot exclude drift is too loose. A framework that constrains outputs but
+cannot generate analyses is sterile. A framework that can generate and constrain but
+cannot be reconstructed is too fragile to serve as the ontology of the paradigm.
+0.3 Projection Status of Papers
+Definition 0.2(Projection Paper). A paperPi is a structured projection of the mother-
+body if and only if there exists a projection operatorπi such that
+Pi =πi(EPRA). (5)
+5
+
+EP-FCS v0 Sections 0–8 Draft
+Under this clause, papers are not the source of the paradigm. They are visible slices of it.
+Axiomatic papers, dynamics papers, case papers, failure-mode papers, and reconstruction
+papers are all projections with different informational roles, not rival ontologies.
+0.4 Reconstruction Requirement
+Definition 0.3(Core Invariant Set). Let the core invariant set be
+Icore ={Ω,R,A, ∆,O,V}. (6)
+The mother-body is considered preserved if these invariants remain recoverable up to
+structural equivalence.
+Definition 0.4(Reconstruction Condition). LetQ be any surviving subset of projections
+and fragments. The architecture satisfies reconstructability at thresholdτif
+Coverage(Q)≥τ⇒ K(Q)∼=Icore EPRA. (7)
+This means that the goal of reconstruction is not verbatim textual recovery. It is
+structural recovery of the core formal body.
+0.5 Identity Consequence
+The direct consequence is methodological: work must begin with the mother-body itself.
+The first executable document is therefore not “Paper 1” but the formal core specification.
+Only after the core exists in typed, symbolic, and operational form do projection papers
+become admissible.
+1. Ontology
+1.1 Two-Layer Ontology
+EP-FCS v0 adopts a two-layer ontology. The first layer defines system-level structural
+objects. The second layer defines energetic primitives that make transfer, obstruction,
+retention, and routing mathematically legible.
+Definition 1.1(System-Level Object Set). Let the high-level object set be
+Σ ={S,E,M,C,R,X,T,F,L,I,D }, (8)
+where:
+6
+
+EP-FCS v0 Sections 0–8 Draft
+• S = system under analysis,
+• E = energetic input or energy source,
+• M = maintenance mechanism,
+• C = control mechanism,
+• R = reproduction mechanism,
+• X = externalized cost structure,
+• T = stability horizon,
+• F = fracture condition,
+• L = legitimacy signal or stabilizing authorization,
+• I = information channel,
+• D = deviation or correction pressure.
+This layer names the major structural objects required for an Energetic Paradigm
+reading of a system at the mother-body level.
+Definition 1.2(Energetic Primitive Layer). For each systemS, let the energetic primitive
+layer be
+P(S) ={s,t,g,p,b,ℓ,m,c}, (9)
+where s denotes source,t sink, g gradient, p path, b barrier, ℓloss, m storage, andc
+converter.
+This second layer is the operational substrate. It provides the minimum grammar by
+which transfer can be represented and calculated.
+1.2 Minimal Analytic Kernel
+Definition 1.3(Basic Energy Unit). The minimum energetic kernel is the six-part unit
+ur = (sr,tr,gr,Pr,Br,Lr), (10)
+wheresr is a source,tr a sink,gr the effective gradient,Pr a selected path or path family,
+Br the aggregate barrier, andLr the associated loss.
+This kernel is the smallest admissible analytic unit of directed energetic transfer with
+structured obstruction.
+7
+
+EP-FCS v0 Sections 0–8 Draft
+1.3 Bridge Between the Two Layers
+The two ontological layers are not competitors. They are coupled. The high-level objects
+specify what kinds of structural realities must be representable; the energetic primitives
+specify how those realities become operationally traceable.
+A schematic bridge can be written as:
+E↦→s,
+M↦→{p,m,c},
+C↦→{b,p,I -conditioned routing},
+X↦→{ℓshifted across targets},
+F↦→instability or breakdown of viable path structure.
+This bridge does not reduce the high-level system layer to a single low-level metaphor.
+Rather, it provides an admissible translation interface between structural concepts and
+energetic operations.
+1.4 State Representation
+Definition 1.4(Energetic State). The time-indexed state of the represented system is
+x(t) =
+(
+π(t), m(t), f(t), ξ(t)
+)
+, (11)
+where π(t) is the vector of node potentials,m(t) the vector of stored quantities,f(t) the
+vector of edge flows, andξ(t) the vector of stability states.
+This state is not the entire ontology, but it is the canonical operational representation
+through which the ontology becomes dynamically tractable.
+1.5 Typing Discipline
+For EP-FCS v0, the following typing rules are imposed:
+S∈Sadm, (12)
+E,M,C,R,X,L,I,D ∈O⌊|(S), (13)
+s,t,g,p,b,ℓ,m,c ∈P(S), (14)
+x(t)∈X(S), (15)
+Pi∈Π(EPRA). (16)
+These rules block categorical drift. A projection cannot masquerade as the ontology; an
+8
+
+EP-FCS v0 Sections 0–8 Draft
+example cannot masquerade as the axiom system; a surface narrative cannot masquerade
+as the reconstruction rule.
+1.6 Ontological Priority Rule
+Principle 1.1(Priority of Structure Over Surface). In EP-FCS v0, structural organization
+has ontological priority over narrative description. A visible discourse, ideology, or self-
+description of a system is not treated as the system’s primary reality. The primary reality
+is the structured organization of maintenance, control, reproduction, cost displacement,
+stability, and fracture.
+This rule does not deny the relevance of discourse. It subordinates discourse to
+structure.
+2. Relational Grammar
+2.1 Purpose of the Relational Module
+The ontology specifies what objects exist. The relational module specifies what well-formed
+relations may obtain among them. Without a typed relational grammar, the ontology
+remains a list. With it, the ontology becomes a generative structure.
+Definition 2.1(Relational Grammar). Let the EP relational grammar be the admissible
+predicate family
+R ={ρ1,ρ2,...,ρn} (17)
+with each predicateρi defined over typed objects ofΣ,P(S), or derived representational
+entities.
+9
+
+EP-FCS v0 Sections 0–8 Draft
+2.2 Core High-Level Predicates
+The minimum high-level predicate set for EP-FCS v0 is:
+depends_on(S,E ),
+maintained_by(S,M ),
+controlled_by(S,C ),
+reproduces_through(S,R ),
+externalizes_to(S,X,τ),
+stabilized_by(S,L ),
+informed_through(S,I ),
+corrected_by(S,D ),
+fractures_when(S,F ).
+These predicates define the structural logic of the paradigm at a level above graph-
+theoretic representation.
+2.3 Energetic Predicates
+The operational predicate family over the primitive layer includes at minimum:
+sources_to(s,t ),
+driven_by(t,g ),
+moves_through(g,p ),
+obstructed_by(p,b ),
+retained_through(p,m ),
+converted_through(p,c ),
+lost_as(p,ℓ).
+These relations make it possible to connect high-level system organization to explicit
+transfer structures.
+2.4 Bridge to Graph Representation
+Definition 2.2(Energetic Graph Representation). A represented system is written as
+GE(S) = (V,E, ΦV, ΦE), (18)
+10
+
+EP-FCS v0 Sections 0–8 Draft
+whereV is the node set,E the directed edge set,ΦV the node attribute map, andΦE the
+edge attribute map.
+The relational grammar constrains how this graph may be read. A graph alone is
+insufficient. The same topology may instantiate multiple incompatible system logics unless
+it is typed by the mother-body relations.
+2.5 Admissible Compositions
+The following compositions are designated as basic well-formed relational chains:
+Persist(S)⇒maintained_by(S,M )◦depends_on(S,E ), (19)
+Control(S)⇒controlled_by(S,C )◦informed_through(S,I ), (20)
+Reproduction(S)⇒reproduces_through(S,R )◦maintained_by(S,M ), (21)
+Fragility(S)⇒fractures_when(S,F )◦¬corrected_by(S,D ), (22)
+Cost Shift(S)⇒externalizes_to(S,X,τ)◦controlled_by(S,C ). (23)
+These chains do not yet exhaust the possible grammar, but they establish the minimum
+structural syntax of EP-FCS v0.
+2.6 Constraint Rules
+The relational module also imposes exclusion and dependency constraints. At minimum:
+maintained_by(S,M )⇒∃E depends_on(S,E ), (24)
+reproduces_through(S,R )⇒∃M maintained_by(S,M ), (25)
+fractures_when(S,F )⇒∃T∃D, (26)
+externalizes_to(S,X,τ)⇒∃τwith a target outside the core maintenance loop. (27)
+These rules keep the grammar from becoming an unconstrained vocabulary.
+2.7 Projection Metadata Relation
+Since EPRA is reconstructive rather than merely descriptive, every admissible projection
+must carry explicit metadata relations:
+projects_from(Pi, EPRA),
+covers(Pi,I(i)
+core),
+loss_impact(Pi, Λi),
+reconstructs_toward(Pi,K).
+11
+
+EP-FCS v0 Sections 0–8 Draft
+This ensures that each projection has a declared role in the mother-body, rather than
+floating independently.
+3. Axiom System
+3.1 Purpose of the Axiom Layer
+The relational grammar states what kinds of relations are admissible. The axiom layer
+states what structural claims are taken as irreducible starting commitments of the mother-
+body. An axiom here is not a slogan. It is a formal commitment with consequence for
+representation, analysis, and reconstruction.
+Axiom 3.1(Persistence Requires Maintenance). For every systemS that persists over a
+nonzero horizon,
+Persist(S)⇒∃M : maintained_by(S,M ). (28)
+This axiom declares that persistence is never primitive. Every persistent system is
+maintained.
+Axiom 3.2(Maintenance Requires Energetic Input). For every systemS that persists,
+Persist(S)⇒∃E : depends_on(S,E ). (29)
+This axiom rules out self-grounding persistence. Maintenance must be energetically fed.
+Axiom 3.3(Control Is Selected Under Constraint). The active control mechanism tends
+toward a constrained cost-minimizing form:
+C∗= arg min
+C
+TotalControlCost(C|Γ, StabilityTarget), (30)
+where Γ is the current constraint field.
+This axiom does not claim global optimality in an idealized sense. It claims structural
+selection pressure toward comparatively cheaper stabilization under actual constraints.
+Axiom 3.4(Externalization Tendency). If a system can displace cost outward without
+immediate damage to its core maintenance loop, then it tends toward such displacement.
+Formally,
+[
+externalizable(S,X )∧¬immediate_core_damage(S,X )
+]
+⇒prefers_externalization(S,X ).
+(31)
+This axiom gives structural rather than moral priority to the problem of cost displacement.
+12
+
+EP-FCS v0 Sections 0–8 Draft
+Axiom 3.5 (Suppressed Correction Accumulates Fragility). If correction pressure is
+persistently blocked, structural fragility increases over time:
+blocked(D)⇒dΦ frag
+dt > 0. (32)
+This axiom states that uncorrected distortion does not disappear. It accumulates.
+Axiom 3.6(Reproduction Preserves Structural Logic More Than Surface Form). For
+any reproducing systemS, the primary object of reproduction is the relational pattern of
+maintenance, control, and reproduction itself, rather than the exact surface narrative of
+the system. Symbolically,
+reproduces_through(S,R )⇒preserves
+(
+RMCR (S)
+)
+≻preserves
+(
+SurfaceForm(S)
+)
+, (33)
+whereRMCR (S) denotes the maintenance–control–reproduction pattern.
+Axiom 3.7(Legitimacy Stabilizes Through Reduced Control Burden). When legitimacy
+is present and effective, the burden required for control decreases. Formally,
+stabilized_by(S,L )⇒∂TotalControlCost
+∂L < 0. (34)
+This axiom does not idealize legitimacy; it treats legitimacy as a stabilizing signal that
+can lower the energetic burden of enforcement.
+Axiom 3.8 (Fracture Occurs at a Threshold Condition). A system fractures when
+accumulated fragility exceeds the stabilizable range allowed by its maintenance and control
+structure. Formally,
+Φ frag(S,t )> Φ crit(S,T )⇒fractures_when(S,F ). (35)
+This axiom connects fracture to thresholded structural conditions rather than to rhetorical
+surprise.
+3.2 Axiom Interaction
+These axioms are not independent ornaments. They form a generative cluster. Axioms 1
+and 2 define the maintenance basis of persistence. Axiom 3 defines the selection pressure
+on control. Axiom 4 defines the tendency of cost displacement. Axiom 5 defines the
+temporal accumulation of hidden weakness. Axiom 6 explains why systems can reproduce
+their deep pattern even while changing their surface story. Axiom 7 shows how legitimacy
+enters as a control-cost modifier. Axiom 8 specifies thresholded breakdown.
+Together, they already imply a basic EP causal cycle:
+Persistence⇒Maintenance⇒Energetic Dependence⇒Control Selection⇒Externalization and Suppression⇒Fragility Accumulation⇒Fracture or Reproduction.
+13
+
+EP-FCS v0 Sections 0–8 Draft
+4. Dynamics
+4.1 Why the Dynamics Layer Matters
+Sections 0–3 define the mother-body’s identity, object set, relational grammar, and
+axiomatic commitments. They do not yet specify how an EP system actually evolves. The
+dynamics module supplies that missing operational layer. It is the first point at which
+EP-FCS v0 becomes more than a definitional specification.
+The purpose of this section is therefore explicit: to define a state-transition methodology
+and a first executable algorithmic skeleton. The result is still not a fully calibrated
+computational architecture, but it is already a genuine operating method.
+4.2 Two Coupled State Spaces
+EP-FCS v0 adopts a two-level dynamic representation: a micro energetic state and a
+macro structural state.
+Definition 4.1(Micro Energetic State). The micro energetic state remains
+x(t) =
+(
+π(t), m(t), f(t), ξ(t)
+)
+, (36)
+where potentials, storage, flows, and local stability are defined over the energetic graph
+GE(S).
+Definition 4.2(Macro Structural State). The macro structural state is defined as
+z(t) =
+(
+Et,Mt,Ct,Rt,Xt,Lt,It,Dt, Φ frag(t),Tt
+)
+, (37)
+where:
+• Et = available energetic input or input vector,
+• Mt = maintenance viability level,
+• Ct = realized control burden,
+• Rt = reproduction capacity,
+• Xt = externalized cost stock,
+• Lt = legitimacy level,
+• It = information integrity level,
+• Dt = correction pressure reaching the core,
+14
+
+EP-FCS v0 Sections 0–8 Draft
+• Φ frag(t) = accumulated structural fragility,
+• Tt = effective stability horizon.
+The full dynamic state of the system is then
+y(t) =
+(
+x(t), z(t)
+)
+. (38)
+The micro state captures transfer mechanics; the macro state captures whether the
+system continues to sustain itself, suppresses correction, reproduces its logic, or moves
+toward fracture.
+4.3 State Transition Operator
+Definition 4.3(Dynamic Update Operator). The EP dynamic update is defined as
+y(t + 1) = ∆
+(
+y(t),GE(t),u (t),ε(t)
+)
+, (39)
+whereu(t) is the intervention vector andε(t) is the shock field.
+The operator ∆ is not monolithic. It is a coupled update composed of energetic
+propagation, structural aggregation, and regime testing:
+∆ = ∆ micro◦∆ macro◦∆ test. (40)
+4.4 Micro Update Equations
+At the energetic level, the system evolves through flow propagation, storage update, and
+local stability adjustment.
+A first-order edge flow law is
+fuv(t) = min
+{
+cuv(t), Auvωuv(t) max
+(
+guv(t), 0
+)}
+, (41)
+with
+guv(t) =πu(t)−πv(t) (42)
+and viability weight
+ωuv(t) = cuv(t)σuv(t)χuv(t)
+(1 +ruv(t))(1 +buv(t))(1 +τuv(t))(1 +λuv(t)). (43)
+Node storage updates according to
+mv(t + 1) =mv(t) +
+∑
+u:(u,v)∈E
+(1−λuv(t))χuv(t)fuv(t)−
+∑
+w:(v,w)∈E
+fvw(t)−dv(t) +qv(t).(44)
+15
+
+EP-FCS v0 Sections 0–8 Draft
+A simple local stability update can be written as
+ξv(t + 1) = clip[0,1]
+(
+ξv(t) +αs reservev(t)−βs overloadv(t)−γs shockv(t)
+)
+. (45)
+These equations are inherited in spirit from the energetic methodology substrate, but
+they are now inserted explicitly into the mother-body’s dynamic logic.
+4.5 Macro Aggregation Equations
+The macro state is not updated directly by narrative interpretation. It is aggregated from
+energetic conditions.
+Maintenance viability is modeled as
+Mt+1 = ΨM
+(
+Et,ηt,ρt,κt, m(t)
+)
+, (46)
+where ηt is transfer efficiency,ρt retained fraction, andκt transfer burden. A simple
+normalized form is
+Mt+1 = Etηtρt +θm Reserve(t)
+1 +κt
+. (47)
+Realized control burden is modeled as
+Ct+1 = Demandobedience(t) + DeviationLoad(t)
+1 +θLLt +θIIt
+, (48)
+so that legitimacy and information integrity reduce required control cost.
+Reproduction capacity is modeled as
+Rt+1 = ΨR
+(
+Mt+1,Ct+1,Lt, Surplus(t)
+)
+, (49)
+with one simple admissible form
+Rt+1 = max
+{
+0, αRMt+1−βRCt+1 +γRLt
+}
+. (50)
+Externalized cost stock evolves as
+Xt+1 =Xt + ShiftedCost(t)−ReinternalizedCost(t). (51)
+Legitimacy evolves as
+Lt+1 = clip[0,1]
+(
+Lt +αL delivery(t)−βL coercion(t)−γL visible contradiction(t)
+)
+. (52)
+16
+
+EP-FCS v0 Sections 0–8 Draft
+Information integrity evolves as
+It+1 = clip[0,1]
+(
+It−αI distortion(t) +βI correction throughput(t)
+)
+. (53)
+Correction pressure reaching the core is modeled as
+Dt+1 = ΨD
+(
+incoming correction(t), suppression(t),It
+)
+. (54)
+4.6 Fragility and Stability-Horizon Dynamics
+The central EP dynamic quantity is accumulated fragility. It is where suppressed correction,
+overconcentration, low reserve depth, and unresolved contradictions collect.
+Definition 4.4(Fragility Update). The fragility stock evolves according to
+Φ frag(t+1) = Φ frag(t)+αD blocked(Dt)+αXXt+αQQt+αO overload(t)−βA adaptation(t)−βR redundancy(t),
+(55)
+whereQt is a concentration measure and theαand βcoefficients are nonnegative.
+This equation makes the paradigm operational. Fragility is not a metaphorical label;
+it is a cumulative state variable.
+The effective stability horizon then becomes
+Tt+1 = ΨT
+(
+Mt+1,Ct+1,Lt+1,It+1, Φ frag(t + 1)
+)
+, (56)
+with a monotone admissibility condition
+∂T
+∂M> 0, ∂T
+∂L> 0, ∂T
+∂I> 0, ∂T
+∂Φ frag
+< 0. (57)
+4.7 Regime Tests: Persistence, Reproduction, Fracture
+At each step the system is assigned a dynamic regime.
+Definition 4.5(Persistence Condition). A system persists at timet if
+Mt≥Mmin and Tt > 0. (58)
+Definition 4.6(Reproduction Condition). A system reproduces its structural logic at
+time t if
+Rt≥Rmin and Mt−Ct >σsurplus, (59)
+whereσsurplus is the minimum surplus threshold for structured replication.
+17
+
+EP-FCS v0 Sections 0–8 Draft
+Definition 4.7(Fracture Condition). A system fractures if
+Φ frag(t)> Φ crit(S,Tt) or Mt <M fracture
+min . (60)
+These tests close the loop between the axiom layer and dynamic execution. The system
+no longer merely “has” a fracture condition in abstract terms; it is tested against one at
+every iteration.
+4.8 Feedback Loop Typology
+EP-FCS v0 distinguishes four first-order feedback classes.
+1. Maintenance feedback:higher retained delivery improves reserve depth and lowers
+immediate failure risk.
+2. Control feedback:higher deviation or lower legitimacy raises control burden, which
+may itself generate new deviation.
+3. Externalization feedback:displaced cost preserves short-run core viability while
+increasing deferred contradiction outside the core.
+4. Fragility feedback:suppressed correction and concentration lower visible instability
+in the short run while increasing future fracture probability.
+These four loops are enough to explain why systems may look stable while becoming
+less stable.
+4.9 Intervention Variable and Dynamic Method
+The dynamic module is not purely observational. It includes a controlled intervention
+vector
+u(t) =
+(
+νroute(t),νrealloc(t),νstabilize(t),νdissipate(t)
+)
+, (61)
+which modifies path choice, allocation, redundancy, and controlled dissipation.
+The general controlled transition is therefore
+y(t + 1) = ∆
+(
+y(t),GE(t),ν(t),ε(t)
+)
+. (62)
+This is the point at which methodology becomes algorithmic: the analyst does not
+merely describe a system but updates it, tests it, and, if permitted, intervenes in it.
+18
+
+EP-FCS v0 Sections 0–8 Draft
+4.10 Canonical Dynamic Procedure
+The first executable EP dynamic procedure is the following.
+Step 1: Detect the active energetic form(s) and instantiate the represented graphGE(S).
+Step 2: Compute edge gradients, viability weights, admissible paths, and realized flows.
+Step 3: Update node storage, local stability, and delivered sink quantities.
+Step 4: Aggregate energetic results into macro variablesMt,Ct,Rt,Xt,Lt,It,Dt.
+Step 5: Update fragilityΦ frag(t) and effective stability horizonTt.
+Step 6: Evaluate the persistence, reproduction, and fracture conditions.
+Step 7: If fracture risk is elevated, choose an admissible interventionν(t) from rerouting,
+reallocation, stabilization, or controlled dissipation.
+Step 8: Iterate the update and compare trajectories under counterfactual interventions or
+shocks.
+This eight-step loop is the first direct answer to the question of methodology. It is not
+yet a final implementation stack, but it is already an algorithmic operating sequence.
+4.11 Pseudo-Code Skeleton
+The same logic can be compressed into a formal recurrence.
+Input: y(0),GE(0),{ε(t)}t≥0,{ν(t)}t≥0.
+Fort = 0, 1, 2,...
+x(t + 1)←∆ micro
+(
+x(t),GE(t),ν(t),ε(t)
+)
+,
+z(t + 1)←∆ macro
+(
+x(t + 1), z(t),ν(t),ε(t)
+)
+,
+Regime(t + 1)←∆ test
+(
+z(t + 1)
+)
+,
+if Regime(t + 1) = FractureRiskthen updateν(t + 1),
+else preserve or relaxν(t + 1).
+End For
+(63)
+4.12 What Section 4 Changes
+With the dynamics layer in place, EP-FCS v0 is no longer only a typed ontology plus
+axioms. It now contains:
+19
+
+EP-FCS v0 Sections 0–8 Draft
+• a coupled state space,
+• a state-transition operator,
+• explicit update equations,
+• fragility accumulation dynamics,
+• regime tests for persistence, reproduction, and fracture, and
+• a first executable methodological loop.
+That means the mother-body now has a genuine methodology/algorithmic nucleus,
+even though later sections on operators, projection rules, reconstruction protocol, and
+validation tests are still required for full completion.
+4.13 Status of Sections 0–4
+Sections 0–4 now supply: identity, ontology, relational grammar, axioms, and first-order
+dynamics. This is the first point at which EP-FCS v0 can be said to contain not only
+definitions but also an actual operating method.
+5. Operator Calculus
+5.1 Purpose of the Operator Layer
+The dynamics module specifies how the system evolves. The operator layer specifies
+what admissible actions EP may perform on that evolving system. Without operators,
+the mother-body can simulate or diagnose but cannot yet execute a disciplined analysis
+program. The operator layer therefore turns dynamic state description into controlled
+methodological action.
+Definition 5.1(Operator Calculus). Let the EP operator calculus be
+O ={D,M,T,C,R,Q,H,S,X,A,B}, (64)
+whereD is detection,M mapping,T tracing,C compression,R routing,Q concentration
+analysis,H dissipation design,S stabilization,X redirection,A reallocation, andB
+comparison.
+The additional comparison operatorB is made explicit here because EPRA is not only
+descriptive but contrastive: it must compare trajectories, architectures, interventions, and
+residual fragments.
+20
+
+EP-FCS v0 Sections 0–8 Draft
+5.2 Typed Operator Signatures
+Each operator is defined over typed inputs and typed outputs. The minimum signatures
+are:
+D :Y→G(0)
+E , (65)
+M :G(0)
+E →GE, (66)
+T : (GE, x)→F, (67)
+C : (GE, x)→(˜GE,˜x), (68)
+R : (GE, x,u )→PR, (69)
+Q : (GE, f)→Q, (70)
+H : (GE, x,u )→u′
+H, (71)
+S : (GE, x,u )→u′
+S, (72)
+X : (GE, x, ∆ chg)→P′
+R, (73)
+A : (GE, x, r)→r′, (74)
+B : (Θ 1, Θ 2)→∆ Θ, (75)
+whereY is a raw system description,F a traced flow family,PR a routing policy,Q a
+concentration descriptor, r a resource-allocation vector, andΘi any admissible EP object
+such as a graph, trajectory, intervention policy, or projection.
+5.3 Detection and Mapping
+Detection identifies which objects belong to the operative energetic layer. Mapping then
+imposes a coherent graph representation.
+Definition 5.2(Detection Operator). Given a raw system descriptionY, define
+D(Y) =G(0)
+E = (V (0),E (0), Φ (0)
+V , Φ (0)
+E ), (76)
+where only objects with energetic relevance above threshold are retained.
+Formally, letδ(y)∈[0, 1] be the energetic relevance score of candidate objecty∈Y.
+Then
+V (0) ={y∈Y|δ(y)≥τD}. (77)
+Similarly, ifδE(yi,yj) is the relevance score of a candidate transfer relation,
+E(0) ={(yi,yj)|δE(yi,yj)≥τE}. (78)
+Definition 5.3 (Mapping Operator). The mapping operator constructs the coherent
+21
+
+EP-FCS v0 Sections 0–8 Draft
+energetic graph
+M(G(0)
+E ) =GE = (V,E, ΦV, ΦE), (79)
+by assigning node types, potentials, storage profiles, edge capacities, barriers, losses, delays,
+and conversion coefficients.
+5.4 Tracing and Compression
+Tracing identifies realized or admissible energetic movement through the represented
+system.
+Definition 5.4(Tracing Operator). For a represented graph and state,
+T (GE, x) = F ={(Pr,fr,ρr,Cr)}NF
+r=1, (80)
+where each tuple records a path, flow magnitude, retention factor, and path cost.
+For a source-sink pair(s,t ), the traced active family is
+T∗
+s,t(GE, x) ={P∈Π adm
+st |Ψ(P )≥τT}, (81)
+where the effective transfer score is
+Ψ(P ) = G+(P )ω(P )ρχ(P )
+1 +C(P ) . (82)
+Definition 5.5(Compression Operator). Compression produces a reduced but approxi-
+mately invariant representation,
+C(GE, x) = (˜GE,˜x), (83)
+subject to preservation of selected invariantsIkeep such that
+Ikeep(˜GE,˜x)≈Ikeep(GE, x). (84)
+Compression is required whenever the graph is too large for direct interpretation,
+theorem proving, or projection into a paper-level view.
+5.5 Routing and Concentration Analysis
+Routing selects or distributes flow across admissible paths.
+Definition 5.6(Hard Routing). For a source-sink pair(s,t ), the preferred path is
+P∗
+st = arg max
+P∈Π adm
+st
+Ψ(P ). (85)
+22
+
+EP-FCS v0 Sections 0–8 Draft
+Definition 5.7(Soft Routing). A distributed routing law is
+ϱ(P ) = exp{βΨ(P )}
+∑
+Q∈Π adm
+st
+exp{βΨ(Q)}, β > 0. (86)
+The concentration operator evaluates how narrowly the energetic burden is clustered.
+Definition 5.8(Concentration Operator). Let edge concentration shares be
+quv = fuv
+∑
+(i,j)∈Efij
+. (87)
+Then
+Q(GE, f) =
+(
+HE,QE
+max,HV,QV
+max
+)
+, (88)
+with
+HE =
+∑
+(u,v)∈E
+q2
+uv, Q E
+max = max
+(u,v)∈E
+quv, (89)
+and analogous node-level quantities.
+This operator is crucial because EP treats concentration as ambivalent: it can increase
+immediate force while also raising fracture exposure.
+5.6 Dissipation, Stabilization, Redirection, and Reallocation
+These four operators define the admissible intervention layer.
+Definition 5.9(Dissipation Operator). The dissipation operator chooses a controlled
+release profile
+H(GE, x,u ) =u′
+H, (90)
+so as to reduce overload or escalation at acceptable delivery cost.
+One admissible objective is
+u′
+H = arg minνH
+[∑
+v
+(
+ϕv−νH(v)
+)2
++ηH
+∑
+v
+νH(v)
+]
+, (91)
+where ϕv denotes local excess pressure.
+Definition 5.10(Stabilization Operator). The stabilization operator seeks a modified
+intervention or graph configuration with improved retained performance under pressure:
+S(GE, x,u ) =u′
+S, u ′
+S∈arg max
+ν∈Uadm
+[
+Stab(GE;ν)−λmodCostMod(ν)
+]
+. (92)
+Definition 5.11(Redirection Operator). When local conditions change, the redirection
+operator updates path policy:
+X (GE, x, ∆ chg) = P′
+R, (93)
+23
+
+EP-FCS v0 Sections 0–8 Draft
+with
+P′
+st = arg max
+P∈Π ′
+st
+Ψ ∆ (P ). (94)
+Definition 5.12(Reallocation Operator). Let r be a vector of allocable resources across
+nodes, paths, or sinks. Then
+A(GE, x, r) = r∗, (95)
+where
+r∗= arg max
+r′∈Radm
+JEP(GE; r′). (96)
+These intervention operators are not arbitrary. They are the only first-order actions
+by which EP modifies the system while remaining inside its own grammar.
+5.7 Comparison Operator
+The comparison operator makes EP explicitly contrastive.
+Definition 5.13 (Comparison Operator). For any two admissible EP objectsΘ 1, Θ 2,
+define
+B(Θ 1, Θ 2) = ∆ Θ, (97)
+where ∆ Θ is a typed difference descriptor over invariants, metrics, paths, or regime tests.
+For example, ifΘi are trajectories, then
+B(y1, y2) =
+(
+∆M, ∆C, ∆R, ∆X, ∆L, ∆I, ∆T, ∆Φ frag
+)
+. (98)
+If Θi are graphs, then comparison may be defined over concentration, redundancy, path
+diversity, or objective value.
+5.8 Composition Algebra
+The real methodological force of the operator layer appears in composition.
+Definition 5.14(Operator Composition). If the codomain of operatorO1 matches the
+domain of operatorO2, then the composed action is
+(O2◦O1)(z) =O2
+(
+O1(z)
+)
+. (99)
+A standard diagnostic chain is
+T ◦M◦D, (100)
+while a standard intervention chain is
+A◦X◦S◦Q◦R◦T ◦M◦D. (101)
+24
+
+EP-FCS v0 Sections 0–8 Draft
+The operator layer is therefore not one algorithm but a typed family of interoperable
+actions.
+5.9 Dynamic Coupling Rule
+Operators must now be coupled explicitly to the dynamic module. Lety(t) be the total
+state and letOt denote the chosen operator composition at timet. Then the controlled
+dynamic update becomes
+y(t + 1) = ∆
+(
+y(t),GE(t),u (t),ε(t);Ot
+)
+. (102)
+This means the next state depends not only on the current condition and exogenous
+shocks, but also on what EP does to the system at that step.
+5.10 Operator Selection Rule
+At each iteration, operator choice is itself rule-governed.
+Principle 5.1 (Escalating Intervention Rule). Let Risk(t) be a composite function of
+fragility, concentration, overload, and stability loss. Then operator selection escalates with
+risk:
+Risk(t)<τ1⇒Ot =T ◦M◦D, (103)
+τ1≤Risk(t)<τ2⇒Ot =Q◦R◦T ◦M◦D, (104)
+Risk(t)≥τ2⇒Ot∈{S,X,A,H}◦Q◦R◦T ◦M◦D. (105)
+Thus operator choice is not intuitive improvisation. It is a formally disciplined response
+to regime conditions.
+5.11 Canonical Operator Procedure
+The first canonical operator procedure is:
+Step 1: Detect the operative energetic objects and construct the preliminary graph.
+Step 2: Map the preliminary graph into a coherent typed energetic representation.
+Step 3: Trace active and admissible flows through the represented system.
+Step 4: Evaluate concentration and path burden.
+Step 5: Route or reroute flow according to transfer score and risk conditions.
+Step 6: If overload or instability rises, apply dissipation or stabilization.
+25
+
+EP-FCS v0 Sections 0–8 Draft
+Step 7: If structural allocation is misaligned, apply reallocation.
+Step 8: Compare resulting trajectories against baseline or counterfactual alternatives.
+This operator procedure is the first explicit calculus of action for the mother-body.
+5.12 Pseudo-Code Skeleton for Section 5
+Input:Y, y(0),u (0),ε(0).
+G(0)
+E ←D(Y); GE←M(G(0)
+E ).
+Fort = 0, 1, 2,...
+F(t)←T(GE, x(t));
+Q(t)←Q(GE, f(t));
+PR(t)←R(GE, x(t),u (t));
+if risk elevated, choose from{H,S,X,A};
+y(t + 1)←∆
+(
+y(t),GE,u (t),ε(t);Ot
+)
+;
+∆ Θ (t)←B(y(t + 1), y(t));
+End For
+(106)
+5.13 What Section 5 Adds
+With Section 5 in place, EP-FCS v0 now contains:
+• typed admissible actions,
+• routing and concentration operators,
+• intervention operators for dissipation, stabilization, redirection, and reallocation,
+• an explicit comparison operator,
+• a composition algebra, and
+• a risk-conditioned operator-selection rule.
+Thismeansthemother-bodynowcontainsnotonlyobjects, relations, axioms, dynamics,
+and regime tests, but also a first real calculus of admissible methodological action.
+6. Projection Rules
+26
+
+EP-FCS v0 Sections 0–8 Draft
+6.1 Why Projection Rules Are Required
+The mother-body is not complete merely because it can define, simulate, and intervene.
+It must also be able to generate disciplined external forms. Projection rules specify how
+EP-FCS v0 is unfolded into papers, notes, proofs, cases, stress tests, and reconstruction
+documents without allowing those outputs to drift into independent ontologies.
+A projection is therefore not an informal summary. It is a typed and constrained
+transformation of the mother-body.
+6.2 Projection Operator
+Definition 6.1(Projection Operator). A projection operator is a typed map
+πj : EPRA→Pj, (107)
+wherePj is a target projection space such as an axiomatic paper, a dynamics paper, an
+operator paper, a case paper, a failure-mode paper, or a reconstruction paper.
+The output of a projection operator is not the whole mother-body. It is a partial
+visibility form of the mother-body under an admissible selection and compression rule.
+6.3 Projection Classes
+The minimum projection family for EP-FCS v0 is:
+Π adm ={πid,πΩ,πR,πA,π∆,πO,πcase,πfail,πK,πV}.
+These correspond respectively to:
+• identity projection,
+• ontology projection,
+• relational-grammar projection,
+• axiom projection,
+• dynamics projection,
+• operator-calculus projection,
+• case-instantiation projection,
+• failure-mode projection,
+27
+
+EP-FCS v0 Sections 0–8 Draft
+• reconstruction projection, and
+• validation projection.
+This list is not exhaustive forever, but no projection outside this typed family is
+admissible unless its relation to the mother-body is explicitly declared.
+6.4 Projection Form
+Definition 6.2(Structured Projection). For any admissible operatorπj, the resulting
+projection is
+Pj =πj(EPRA) =⟨Sj, Cj, Mj, Λj⟩, (108)
+where:
+• Sj is the selected structural slice,
+• Cj is the compression rule used to reduce the mother-body,
+• Mj is the mandatory metadata package, and
+• Λj is the declared loss profile of the projection.
+The projection is therefore always accompanied by an explicit statement of what has
+been retained, what has been compressed, and what has been lost.
+6.5 Selection Rule
+A projection begins by selecting a typed substructure of the mother-body. Let the full
+invariant set be
+Iall ={Ω,R,A, ∆,O, Π,K,V}. (109)
+For each projectionPj, define a selection vector
+c(j)∈{0, 1}8, (110)
+where theith coordinate indicates whether invariantIi is directly represented.
+The selected slice is then
+Sj ={Ii∈Iall :c(j)
+i = 1}. (111)
+For example, a dynamics paper may use a selection vector that strongly covers∆ , Ω,
+R, andA while only indirectly referencing the reconstruction and validation modules.
+28
+
+EP-FCS v0 Sections 0–8 Draft
+6.6 Coverage Matrix
+Definition 6.3(Projection-Coverage Matrix). Let the projection-coverage matrix be
+C = [cji], c ji∈[0, 1], (112)
+wherecji measures how strongly projectionPj covers invariantIi.
+Binary coverage is too crude for many cases. A case paper may weakly expose the
+axiom layer and strongly expose the dynamics and operator layers. A reconstruction
+paper may strongly exposeK and moderately expose almost everything else. The matrix
+C makes these differences explicit.
+A projection setQ ={Pj1,...,Pjm}has aggregate coverage
+Coverage(Q) = 1
+8
+8∑
+i=1
+max
+Pj∈Q
+cji. (113)
+This quantity links the projection module directly to the reconstruction threshold
+introduced earlier.
+6.7 Mandatory Metadata
+Every admissible projection must carry a metadata quadruple
+Mj =
+(
+projects_from, covers, loss_impact, reconstructs_toward
+)
+. (114)
+Concretely, every projection must answer four questions:
+Q1: From which mother-body modules is this projection derived?
+Q2: Which invariants does it directly cover?
+Q3: If this projection is lost, what reconstructive capacity disappears with it?
+Q4: If only this projection survives, toward which part of the mother-body can one
+reconstruct?
+A document that does not carry this metadata may still be informative, but it is not
+an admissible EPRA projection.
+29
+
+EP-FCS v0 Sections 0–8 Draft
+6.8 Projection Loss Profile
+Definition 6.4(Projection Loss Profile). For each projectionPj, define the loss profile
+Λj =
+(
+λΩ
+j,λR
+j ,λA
+j ,λ∆
+j ,λO
+j ,λΠ
+j,λK
+j,λV
+j
+)
+, (115)
+where λI
+j ∈[0, 1] measures how much information about invariantI is lost under the
+projection.
+This turns projection into a controlled lossy transform rather than a vague simplifica-
+tion.
+6.9 Admissibility Constraints
+Principle 6.1(Projection Admissibility). A projectionPj is admissible only if all of the
+following hold:
+(i) Pj =πj(EPRA) for some typed admissibleπj,
+(ii) Mj is explicitly declared,
+(iii)∃i such thatcji > 0 for at least one core invariant,
+(iv) Pj does not contradict the axioms or typing rules of the mother-body.
+This rule excludes decorative summaries, free-floating essays, and surface-similarity
+documents from counting as EP projections.
+6.10 Consistency Constraint
+Proposition 6.1(Projection Consistency). If a projectionPj contradicts any member of
+the axiom setA or violates the typing discipline imposed byΩ andR, thenPj is not an
+admissible projection of EPRA.
+The reason is direct: a projection may omit information, but it may not invert the
+mother-body’s defining structure.
+6.11 Projection as Controlled Compression
+Projection is a special case of structured compression. Letκj be the compression map
+associated withπj. Then
+πj =ρj◦κj, (116)
+where κj compresses the mother-body andρj renders the compressed slice into a target
+output form.
+30
+
+EP-FCS v0 Sections 0–8 Draft
+The render mapρj may produce different output genres:
+ρj :Sj→{paper,specification,memo,proof note,case report,diagrammatic summary}.
+(117)
+Thus the same core slice can be rendered in multiple forms without ceasing to be the
+same projection class.
+6.12 Projection Grammar for Papers
+A projection paper should be written according to the following grammar:
+Pj =
+[
+Scope→Formal Slice→Derived Claims→Loss Declaration→Reconstructive Role
+]
+.
+(118)
+This grammar prevents projection papers from becoming essayistic drift. The formal
+slice must come from the mother-body before interpretation or illustration is added.
+6.13 Canonical Projection Procedure
+The first canonical projection procedure is:
+Step 1: Choose a typed projection classπj.
+Step 2: Select the relevant mother-body sliceSj.
+Step 3: Compute the coverage vectorc(j).
+Step 4: Declare the compression ruleCj and loss profileΛj.
+Step 5: Attach the mandatory metadata packageMj.
+Step 6: Render the compressed slice into the target output form.
+Step 7: Run an admissibility check against typing, axioms, and reconstructive role.
+This procedure turns projection from an intuitive act into a disciplined rule-governed
+transformation.
+31
+
+EP-FCS v0 Sections 0–8 Draft
+6.14 Pseudo-Code Skeleton for Section 6
+Input: EPRA, πj, ρj.
+Sj←SelectSlice(EPRA,πj);
+c(j)←ComputeCoverage(Sj,Iall);
+Cj←DeclareCompression(πj,Sj);
+Λj←EstimateLoss(Sj,Cj);
+Mj←AttachMetadata(πj, c(j), Λj,K);
+Pj←ρj
+(
+⟨Sj,Cj,Mj, Λj⟩
+)
+;
+if Admissible(Pj) = 0 then reject and revise;
+Output: Pj.
+(119)
+6.15 What Section 6 Adds
+With Section 6 in place, EP-FCS v0 now contains:
+• a typed theory of projection,
+• explicit projection classes,
+• a coverage matrix linking papers to reconstruction,
+• mandatory projection metadata,
+• a loss profile for controlled compression, and
+• a canonical procedure for generating admissible EP papers and related outputs.
+This means the mother-body can now not only define and analyze structure internally,
+but also generate disciplined external forms without treating those forms as its ontology.
+7. Reconstruction Protocol
+7.1 Purpose of the Reconstruction Module
+The projection module explains how the mother-body generates admissible external forms.
+The reconstruction module explains the inverse problem: how one recovers the mother-
+body when only a finite and possibly damaged fragment set survives. Reconstruction is
+therefore not archival convenience. It is a constitutive requirement of EPRA.
+32
+
+EP-FCS v0 Sections 0–8 Draft
+Definition 7.1(Fragment Set). Let the surviving fragment set be
+F ={f1,f 2,...,fn}, (120)
+where each fragment may be a projection paper, theorem fragment, notation table, operator
+note, case analysis, metadata record, or other typed residue.
+Definition 7.2(Typed Fragment Map). Each fragment is first normalized by a typing
+map
+τF : F→{Ω,R,A, ∆,O, Π,K,V,⊥}, (121)
+where⊥denotes untyped or unusable residue.
+The reconstruction process begins by separating recoverable structural signal from
+decorative or ambiguous material. A fragment that cannot be typed may still be historically
+interesting, but it cannot anchor reconstruction.
+7.2 Normal Form
+Definition 7.3(Fragment Normal Form). For each admissible fragmentfi, define its
+normal form as
+N(fi) =⟨ti, si, ci, λi, qi⟩, (122)
+whereti =τF (fi) is the type,si is the extracted structural content,ci its coverage vector
+over the invariant set,λi its loss profile, andqi∈[0, 1] a quality or reliability score.
+Normal form is required because reconstruction cannot operate directly on arbitrary
+prose. It must operate on normalized claims about objects, relations, axioms, operators,
+dynamics, projections, and validation rules.
+7.3 Reconstruction Graph
+Definition 7.4(Fragment Reconstruction Graph). Let the reconstruction graph be
+GR = (VR,ER), (123)
+where each node inVR is a normalized fragmentN(fi) and each edge inER records one
+of three relations: support, consistency, or contradiction.
+Write
+N(fi)
++
+− →N(fj) if fi supports fj,
+N(fi)
+∼
+←→N(fj) if fi is consistent withfj,
+N(fi)
+−
+− →N(fj) if fi contradictsfj.
+33
+
+EP-FCS v0 Sections 0–8 Draft
+The point ofGR is to make reconstruction into a structured search over evidence, not
+a free intuitive synthesis.
+7.4 Reconstruction Operator
+Definition 7.5(Reconstruction Operator). The reconstruction operator is
+K : F→\EPRA, (124)
+where \EPRA is a reconstructed mother-body candidate.
+A reconstructed candidate is acceptable only if it preserves the core invariant set up
+to structural equivalence:
+\EPRA∼=Icore EPRA. (125)
+7.5 Reconstructive Objective
+Reconstruction is posed as a constrained optimization problem:
+\EPRA = arg max
+Y∈Yadm
+[
+αCov(Y ; F) +βCons(Y ; F)−γContr(Y ; F)−δDrift(Y )
+]
+, (126)
+whereYadm is the set of admissible mother-body candidates.
+Here:
+Cov(Y ; F) measures invariant coverage explained byY,
+Cons(Y ; F) measures consistency with surviving fragments,
+Contr(Y ; F) measures unresolved contradiction,
+Drift(Y ) measures deviation from typing, axioms, and admissible grammar.
+This expresses the central reconstruction principle: the best recovered core is the one
+that explains the most surviving structure while introducing the least contradiction and
+drift.
+7.6 Coverage Threshold and Guarantee
+Definition 7.6(Reconstruction Coverage Threshold). Let the fragment setQ⊆F have
+aggregate invariant coverage
+Coverage(Q) = 1
+8
+8∑
+i=1
+max
+fj∈Q
+cji. (127)
+34
+
+EP-FCS v0 Sections 0–8 Draft
+Then Q is reconstructively sufficient at thresholdτif
+Coverage(Q)≥τ. (128)
+Principle 7.1 (Reconstruction Guarantee, Target Form). EPRA aims to satisfy the
+following target condition:
+Coverage(Q)≥τ∧ContradictionRate(Q)≤ϵ⇒ K(Q)∼=Icore EPRA. (129)
+This is not yet a fully proved theorem for all future versions. It is the design target
+that organizes the mother-body from the start.
+7.7 Inference Rules
+EP-FCS v0 adopts the following first reconstructive inference rules:
+R1: Type Preservation.No candidate claim may be admitted if it violates the type
+discipline of Ω orR.
+R2: Axiom Priority.If a fragment-level statement conflicts with a mother axiom, the
+axiom has priority unless the fragment is itself an admissible axiom revision record.
+R3: Maximal Consistent Extension.Reconstruction proceeds by building the largest
+fragment-consistent set of claims over the invariant space.
+R4: Higher-Order Preservation. When surface forms vary, preference is given to
+candidates that preserve maintenance, control, reproduction, externalization, and
+fracture logic.
+R5: Minimal Drift Completion. Missing material is completed by the admissible
+candidate that introduces the smallest drift penalty compatible with surviving
+evidence.
+These rules block the common failure mode in which reconstruction becomes creative
+rewriting instead of structural recovery.
+7.8 Contradiction Handling
+Definition 7.7(Contradiction Partition). Let the fragment set be partitioned as
+F = F+∪F±∪F−, (130)
+where F+ are mutually consistent fragments,F±are ambiguous fragments, andF−are
+contradicted or low-trust fragments.
+35
+
+EP-FCS v0 Sections 0–8 Draft
+The reconstruction protocol always prioritizes:
+F+≻F±≻F−. (131)
+Ambiguous fragments may contribute soft evidence. Contradicted fragments may be
+quarantined rather than discarded entirely, but they cannot define the recovered core
+unless they are later vindicated by stronger support.
+7.9 Minimal Reconstructive Basis
+Definition 7.8(Minimal Reconstructive Basis). A subsetB⊆F is a minimal recon-
+structive basis if
+K(B)∼=Icore EPRA,
+∀b∈B, K(B\{b})̸∼=Icore EPRA.
+This concept matters because it distinguishes merely useful redundancy from indispens-
+able reconstructive support. A mature EPRA should eventually identify several minimal
+bases rather than rely on a single fragile pathway.
+7.10 Confidence Score
+Definition 7.9(Reconstruction Confidence). Let the confidence of a reconstructed candi-
+date be
+Conf( \EPRA) =η1 Coverage+η2 Consistency+η3 MetadataIntegrity−η4 Contradiction−η5 Drift,
+(132)
+with allηi≥0.
+A reconstructed core should therefore be reported together with its confidence profile,
+not merely asserted as recovered.
+7.11 Canonical Reconstruction Procedure
+The first canonical reconstruction procedure is:
+Step 1: Collect the surviving fragment setF.
+Step 2: Type each fragment usingτF and discard or quarantine untyped noise.
+Step 3: Convert each usable fragment into normal formN(fi).
+36
+
+EP-FCS v0 Sections 0–8 Draft
+Step 4: Build the reconstruction graphGR with support, consistency, and contradiction
+edges.
+Step 5: Compute aggregate coverage over the invariant set.
+Step 6: Generate admissible mother-body candidates inYadm.
+Step 7: Select the maximal consistent, minimal-drift candidate under the reconstructive
+objective.
+Step 8: Evaluate the candidate against the core invariants and assign confidence.
+Step 9: Output \EPRA together with its basis, unresolved ambiguities, and confidence score.
+7.12 Pseudo-Code Skeleton for Section 7
+Input: F.
+Ftyped←TypeFilter(F,τF );
+N←{N(fi) :fi∈Ftyped};
+GR←BuildGraph(N);
+κ←ComputeCoverage(N,Iall);
+Yadm←GenerateCandidates(N, Ω,R,A);
+\EPRA←arg max
+Y∈Yadm
+Score(Y ; N);
+B←ExtractBasis( \EPRA, N);
+c←Confidence( \EPRA, N);
+Output:⟨\EPRA,B,c⟩.
+(133)
+7.13 What Section 7 Adds
+With Section 7 in place, EP-FCS v0 now contains:
+• a typed account of fragments and normal forms,
+• a reconstruction graph over surviving evidence,
+• an explicit reconstruction operator,
+• a reconstructive optimization objective,
+• target-form reconstruction guarantees,
+• contradiction handling and minimal reconstructive bases, and
+37
+
+EP-FCS v0 Sections 0–8 Draft
+• a canonical protocol for recovering the mother-body under loss.
+This is the first point at which EP-FCS v0 becomes recognizably reconstructive rather
+than merely generative.
+8. Validity Tests
+8.1 Purpose of the Validation Layer
+The validation layer determines whether a candidate object remains genuinely inside the
+EP family or only resembles it superficially. This is the layer that protects the mother-body
+from conceptual drift, decorative imitation, incomplete borrowing, and post-hoc relabeling.
+Without it, projection and reconstruction remain open to silent corruption.
+Definition 8.1(Validation Module). Let the validation module be
+V =⟨VΩ,VR,VA,V ∆,VO,V Π,VK,V id⟩, (134)
+where the subtests respectively evaluate ontological, relational, axiomatic, dynamic, operator,
+projectional, reconstructive, and identity validity.
+8.2 Membership Predicate
+Definition 8.2(EP Membership Predicate). For any candidate objectX, define the EP
+membership predicate
+IsEP(X)∈{0, 1}. (135)
+It returns1 if and only ifX satisfies the mandatory validity conditions of the mother-body;
+otherwise it returns0.
+This predicate is intentionally binary at the top level. A candidate may receive graded
+diagnostic scores internally, but final membership must remain decisive enough to exclude
+pseudo-EP outputs rather than merely rank them politely.
+8.3 Typed Validity Subtests
+Definition 8.3(Ontological Validity). A candidateX is ontologically valid if its primitive
+object set is admissible underΩ:
+VΩ (X) = 1 ⇐⇒Prim(X)⊆Ω adm (136)
+and the required core objects are present at the relevant level of representation.
+38
+
+EP-FCS v0 Sections 0–8 Draft
+This test excludes objects that use EP vocabulary rhetorically while omitting the
+structural primitives required for mother-body reasoning.
+Definition 8.4(Relational Validity). A candidateX is relationally valid if the admis-
+sible relations used inX belong to the mother-body grammar and preserve the required
+dependency structure:
+VR(X) = 1 ⇐⇒Rel(X)⊆Radm (137)
+and the induced relation graph does not violate mandatory dependency constraints.
+This excludes analyses that borrow EP terms while severing the maintenance-control-
+reproduction-externalization-fracture logic that gives those terms their structural role.
+Definition 8.5(Axiomatic Validity). A candidateX is axiomatically valid if it does not
+contradict the mandatory axiom set and remains derivationally compatible with it:
+VA(X) = 1 ⇐⇒X̸|=⊥A (138)
+and every nonprimitive claim used as a core claim is either an axiom, a theorem, or an
+admissible conditional extension.
+Definition 8.6 (Dynamic Validity). A candidate X is dynamically valid if its state
+variables, update rules, and stability claims remain compatible with the mother-body
+dynamic schema:
+V∆ (X) = 1 ⇐⇒∆ X⪯∆ adm. (139)
+This test excludes static paraphrases that erase persistence, accumulation, fracture, or
+reproduction while still claiming to represent EP structure.
+Definition 8.7 (Operator Validity). A candidate X is operator-valid if the analytic
+actions it invokes are typed, admissible, and compositionally legal underO:
+VO(X) = 1 ⇐⇒Ops(X)⊆Oadm (140)
+and all declared compositions satisfy the mother-body signature rules.
+Definition 8.8(Projection Validity). A candidate outputY is projection-valid if there
+exists an admissible projection operatorπ∈Π adm such that
+Y =π(EPRA) (141)
+with required metadata, declared loss profile, and recoverable back-reference to the mother-
+body.
+Definition 8.9(Reconstructive Validity). A candidateX is reconstructively valid if it
+contributes positively to mother-body recovery rather than merely consuming structure:
+VK(X) = 1 ⇐⇒RecGain(X)> 0. (142)
+39
+
+EP-FCS v0 Sections 0–8 Draft
+Definition 8.10 (Identity Validity). A candidate X is identity-valid if it preserves
+mother-body priority:
+Vid(X) = 1 ⇐⇒OntPriority(X) = BlueprintFirst. (143)
+This last test matters because an output may look formally neat and still fail if it
+quietly treats papers, narratives, or local cases as the ontology of the system.
+8.4 Composite Validity Function
+Definition 8.11(Composite Validity Score). Let the composite validity score be
+Val(X) =β1VΩ (X)+β2VR(X)+β3VA(X)+β4V∆ (X)+β5VO(X)+β6VΠ (X)+β7VK(X)+β8Vid(X),
+(144)
+with allβi≥0 and ∑
+iβi = 1.
+A graded score is useful diagnostically, but graded validity alone is not enough. A
+high score cannot compensate for failure of mandatory gates.
+Definition 8.12(Mandatory Gate Set). Let the mandatory gate set be
+Gmust ={VΩ,VR,VA,V id}. (145)
+A candidate fails the mother-body immediately if any mandatory gate fails.
+Thus the final membership rule is
+IsEP(X) = 1 ⇐⇒
+( ⋀
+g∈Gmust
+g(X) = 1
+)
+∧Val(X)≥τEP. (146)
+8.5 Drift, Weakness, and False Membership
+Definition 8.13 (Drift Distance). Let the drift distance of a candidateX from the
+mother-body be
+Drift(X) =γ1dΩ (X) +γ2dR(X) +γ3dA(X) +γ4d∆ (X) +γ5dO(X), (147)
+where eachd•(X)≥0 measures deviation in the corresponding layer.
+Definition 8.14(Pseudo-EP). A candidateX is pseudo-EP if
+IsEP(X) = 0 (148)
+but the candidate uses EP terminology, EP symbols, or EP projection styling in a way
+that may induce mistaken identification.
+40
+
+EP-FCS v0 Sections 0–8 Draft
+Definition 8.15(Weak EP). A candidateX is weak EP if it passes the identity and
+ontology gates but fails at least one higher-structure test among relational, axiomatic,
+dynamic, operator, projectional, or reconstructive validity.
+Definition 8.16(Drifted EP). A candidateX is drifted EP if it was once admissible or
+derived from an admissible state but now exceeds an allowed drift threshold:
+Drift(X)>δmax. (149)
+These distinctions are operationally important. Pseudo-EP should be excluded. Weak
+EP should be flagged as incomplete. Drifted EP should trigger repair or rollback rather
+than quiet acceptance.
+8.6 Necessary and Sufficient Conditions
+Proposition 8.1(Necessary Conditions for Membership). If IsEP(X) = 1, then
+VΩ (X) =VR(X) =VA(X) =Vid(X) = 1. (150)
+Proof. This follows immediately from the mandatory gate rule in the definition ofIsEP(X).
+Proposition 8.2(Sufficient Membership Test). If a candidateX satisfies all mandatory
+gates and also satisfies
+Val(X)≥τEP, (151)
+then IsEP(X) = 1.
+Proof. This is exactly the definition of the final membership rule.
+8.7 Validity of Projections and Reconstructions
+Definition 8.17(Projection Validity Certificate). A projectionY carries a projection-
+validity certificate if it explicitly records:
+(a) the originating operatorπi,
+(b) the covered mother-body components,
+(c) the intentional omission set,
+(d) the declared loss profile, and
+(e) the reconstructive contribution map.
+41
+
+EP-FCS v0 Sections 0–8 Draft
+Definition 8.18 (Reconstruction Validity Certificate). A reconstructed candidateˆX
+carries a reconstruction-validity certificate if it records:
+(a) the fragment basis used,
+(b) unresolved contradictions,
+(c) confidence score,
+(d) remaining ambiguity classes, and
+(e) the invariants recovered versus inferred.
+This matters because un-certified projection and reconstruction are two of the main
+entry points for silent contamination.
+8.8 Canonical Validity Procedure
+The first canonical validity procedure is:
+Step 1: Accept a candidate objectX.
+Step 2: Determine the candidate type: core specification, projection, reconstruction, theorem,
+case instantiation, or hybrid.
+Step 3: Run the mandatory gate testsVΩ,VR,VA,V id.
+Step 4: If any mandatory gate fails, classifyX as non-member and stop.
+Step 5: Run the remaining typed subtests relevant to the candidate class.
+Step 6: Compute the composite validity scoreVal(X).
+Step 7: Compute drift distance and classify whetherX is stable, weak, or drifted.
+Step 8: IfX is a projection, require a projection-validity certificate.
+Step 9: IfX is reconstructed, require a reconstruction-validity certificate.
+Step 10: Output membership result, weakness profile, drift profile, and repair recommendations
+if needed.
+42
+
+EP-FCS v0 Sections 0–8 Draft
+8.9 Pseudo-Code Skeleton for Section 8
+Input: X.
+t←TypeOf(X);
+g←⟨VΩ (X),VR(X),VA(X),V id(X)⟩;
+if min(g) = 0 then return⟨0, ClassifyPseudo(X)⟩;
+s←RunTypedTests(X,t );
+v←CompositeValidity(X,s );
+d←Drift(X);
+c←RequireCertificates(X,t );
+m←1[v≥τEP∧c = 1];
+Output:⟨m,v,d, WeaknessProfile(X), RepairPlan(X)⟩.
+(152)
+8.10 What Section 8 Adds
+With Section 8 in place, EP-FCS v0 now contains:
+• a formal membership predicate for the EP family,
+• typed validity tests for every major mother-body layer,
+• a composite validity score with mandatory gates,
+• formal distinction among pseudo-EP, weak EP, and drifted EP,
+• certificate requirements for projections and reconstructions, and
+• a canonical validation procedure that protects the mother-body against silent drift.
+This is the layer that closes the first mother-body loop. EP-FCS v0 can now define
+itself, evolve, act, project, reconstruct, and test whether a candidate remains genuinely
+inside the paradigm.
+Remark 8.1 (Immediate Next Step). The next formal task is the theorem roadmap.
+Once that is added, the mother-body will not only possess formal structure and validity
+protection, but also a clearly prioritized program for proof development, compression, and
+later architecture-level implementation.
+9. Theorem Roadmap
+43
+
+EP-FCS v0 Sections 0–8 Draft
+9.1 Function of the Theorem Roadmap
+The theorem roadmap is the layer that prevents EP-FCS v0 from remaining only a formal
+specification with protected identity. Its role is to order the proof program by structural
+necessity. In EPRA, not every proposition has equal value. Some theorems secure the
+mother-body directly; others only refine downstream convenience. The theorem roadmap
+therefore defines:
+(a) which theorem classes are necessary for mother-body stabilization,
+(b) which theorem classes are needed for methodological execution,
+(c) which theorem classes are required for reconstruction guarantees, and
+(d) which theorem classes may be deferred to later architecture-level work.
+Formally, let the theorem roadmap be denoted by
+Troad =⟨C,≺, Λ,Dthm,Preq⟩, (153)
+where C is the set of theorem classes,≺is the priority ordering,Λ is the dependency
+structure among theorem classes,Dthm is the theorem development schedule, andPreq is
+the proof requirement map.
+9.2 Primary Theorem Classes
+The first stable theorem-class partition is:
+C ={CΩ, CR, CA, C∆, CO, CΠ, CK, CV, Ccomp, Calg}. (154)
+These classes are interpreted as follows:
+• CΩ: ontological closure and primitive admissibility theorems,
+• CR: relational consistency and relational entailment theorems,
+• CA: axiom compatibility, independence, and consequence theorems,
+• C∆: dynamics, persistence, reproduction, and fracture theorems,
+• CO: operator existence, admissibility, monotonicity, and composition theorems,
+• CΠ: projection admissibility, coverage, and bounded-loss theorems,
+• CK: reconstruction existence, identifiability, and guarantee theorems,
+• CV: validity, membership, and drift-detection theorems,
+44
+
+EP-FCS v0 Sections 0–8 Draft
+• Ccomp: compression, approximation, and invariance-preservation theorems, and
+• Calg: algorithmic realizability, complexity, and convergence theorems.
+9.3 Priority Ordering
+The first theorem priority ordering is not arbitrary. It follows the logic of structural
+dependence:
+CΩ≺CR≺CA≺C∆ ≺CO≺CΠ≺CK≺CV≺Ccomp≺Calg. (155)
+This ordering states that theorem development should begin by securing what can exist,
+then what can relate, then what must hold, then how states evolve, then what operations
+are admissible, then how the mother-body is projected, then how it is reconstructed,
+then how membership is certified, and only after that how compression and algorithmic
+implementation are optimized.
+The ordering can also be partitioned into three tiers:
+Tier I ={CΩ, CR, CA, C∆}, (156)
+Tier II ={CO, CΠ, CK, CV}, (157)
+Tier III ={Ccomp, Calg}. (158)
+Tier I secures the mother-body’s internal structural truth. Tier II secures the mother-
+body’s outward methodological and reconstructive functioning. Tier III secures efficiency,
+approximation quality, and executable implementation.
+9.4 Dependency Graph of Theorem Classes
+The theorem program should also be read as a dependency graph rather than only a linear
+list. Let
+Λ⊆C×C (159)
+denote theorem-class dependency. Then a minimal dependency structure is:
+(CΩ, CR), (CR, CA), (CA, C∆ ), (160)
+(C∆, CO), (CO, CΠ ), (CΠ, CK), (161)
+(CK, CV), (CO, Ccomp), (C∆, Calg). (162)
+This means, for example, that one should not try to prove strong reconstruction
+guarantees before projection admissibility has been formalized, and one should not try to
+claim robust algorithmic convergence before the dynamic transition structure itself has
+45
+
+EP-FCS v0 Sections 0–8 Draft
+theorem-level stability conditions.
+9.5 Tier I Theorems: Mother-Body Stabilization
+Tier I is the theorem layer that makes EP-FCS v0 non-arbitrary.
+Proposition 9.1 (Target Tier I Theorem Types). The first Tier I theorem program
+should prioritize the following proposition families:
+(T1.1) primitive admissibility and closure,
+(T1.2) relational well-formedness,
+(T1.3) non-contradiction of the axiom set,
+(T1.4) partial independence of core axioms,
+(T1.5) persistence-under-maintenance theorems,
+(T1.6) reproduction-preserves-structural-logic theorems, and
+(T1.7) suppressed-correction-implies-fragility-accumulation theorems.
+Examples of the first target statements include:
+Persist(S)∧Viable(S)⇒∃M,E [maintained_by(S,M )∧depends_on(S,E )], (163)
+and ∫ t1
+t0
+BlockCorr(S,t )dt> 0⇒Φ frag(S,t 1)> Φ frag(S,t 0), (164)
+under appropriate regularity conditions.
+The point is not to overreach immediately. The point is to turn the mother-body’s
+strongest structural claims into proof obligations.
+9.6 Tier II Theorems: Methodology, Projection, Reconstruction,
+Validity
+Tier II theorem development turns the mother-body into a disciplined working system.
+Proposition 9.2 (Target Tier II Theorem Types). The first Tier II theorem program
+should prioritize the following proposition families:
+(T2.1) operator admissibility and closure under composition,
+(T2.2) monotonicity and dominance results for operator outputs,
+(T2.3) bounded-loss projection theorems,
+46
+
+EP-FCS v0 Sections 0–8 Draft
+(T2.4) projection coverage theorems,
+(T2.5) reconstruction existence theorems,
+(T2.6) reconstruction uniqueness or identifiability theorems, and
+(T2.7) validity soundness and completeness theorems relative to the mother-body.
+Representative target forms include:
+Q∈Qτ⇒K(Q)∼=Icore EPRA, (165)
+whereQτdenotes fragment families whose coverage exceeds thresholdτ, and
+IsEP(X) = 1⇒X|=Acore, (166)
+which is a soundness requirement for the validity layer.
+The structural function of Tier II is control. It prevents the mother-body from being
+exported, reconstructed, or certified in arbitrary ways.
+9.7 Tier III Theorems: Compression and Algorithmic Realization
+Tier III theorems matter, but they should be sequenced later because they presuppose
+stabilized upstream structure.
+Proposition 9.3(Target Tier III Theorem Types). The first Tier III theorem program
+should prioritize:
+(T3.1) compression error bounds,
+(T3.2) invariance-preservation under coarse-graining,
+(T3.3) computational complexity bounds for the operator stack,
+(T3.4) convergence theorems for iterative redesign procedures,
+(T3.5) stability theorems for learned or parameterized operators, and
+(T3.6) approximation guarantees for executable implementations.
+Representative targets include:
+∥Icore(G)−Icore(˜G)∥≤ε, (167)
+for admissible compression mapG↦→˜G, and
+JEP(G(k+1))≥JEP(G(k))−δk, (168)
+for iterative redesign sequence{G(k)}with admissible error schedule{δk}.
+47
+
+EP-FCS v0 Sections 0–8 Draft
+9.8 Proof Requirement Map
+Every theorem class should carry explicit proof requirements. Let
+Preq : C→P(Mproof) (169)
+map each theorem class to its required proof methods, whereMproof is the set of admissible
+proof-method families. Then an initial requirement map is:
+Preq(CΩ ) ={set-theoretic, definitional, closure}, (170)
+Preq(CA) ={logical consequence, independence, consistency}, (171)
+Preq(C∆ ) ={difference equations, dynamical systems, monotonicity}, (172)
+Preq(CO) ={operator theory, optimization, graph methods}, (173)
+Preq(CK) ={identifiability, inverse problems, graph reconstruction}, (174)
+Preq(Calg) ={complexity, convergence, approximation}. (175)
+This matters because theorem inflation is easy. Real theorem-building requires stating
+in advance what proof burden each theorem class actually imposes.
+9.9 Theorem Development Schedule
+The theorem development schedule should be defined as an ordered release plan rather
+than an undifferentiated wishlist. Let
+Dthm = (D1,D2,D3,D4) (176)
+denote the first development schedule, where:
+D1 ={closure, consistency, persistence, fragility monotonicity}, (177)
+D2 ={operator monotonicity, routing dominance, projection boundedness}, (178)
+D3 ={reconstruction existence, coverage threshold, validity soundness}, (179)
+D4 ={compression error bounds, convergence, algorithmic complexity}. (180)
+This schedule is designed to secure identity before expansion, reconstruction before
+automation, and correctness before efficiency.
+9.10 Canonical Theorem-Roadmap Procedure
+The first canonical theorem-roadmap procedure is:
+Step 1: Enumerate the mother-body layers currently formalized.
+48
+
+EP-FCS v0 Sections 0–8 Draft
+Step 2: Partition target propositions into theorem classesC.
+Step 3: Compute dependency relationsΛ among theorem classes.
+Step 4: Assign theorem classes to Tier I, Tier II, or Tier III.
+Step 5: For each class, define representative target theorem statements.
+Step 6: For each class, declare proof requirements and admissible methods.
+Step 7: Build the development scheduleDthm.
+Step 8: Reject theorem candidates that bypass unresolved lower-tier dependencies.
+Step 9: Publish the prioritized proof program together with its current completion state.
+9.11 Pseudo-Code Skeleton for Section 9
+Input: LEP (formalized layers of EP-FCS v0).
+C←ClassifyTargetTheorems(LEP);
+Λ←BuildDependencies(C);
+≺←TopologicalPriority(Λ);
+TierMap←AssignTiers(C,≺);
+Targets←InstantiateRepresentativeTheorems(C);
+Preq←AssignProofRequirements(C);
+Dthm←BuildSchedule(C, Λ, TierMap);
+Output: ⟨C,≺, Λ,Dthm,Preq, Targets⟩.
+(181)
+9.12 What Section 9 Adds
+With Section 9 in place, EP-FCS v0 now contains:
+• a formal theorem-program layer rather than an informal proof wishlist,
+• priority ordering among theorem classes,
+• a dependency graph constraining proof sequence,
+• a tiered proof program aligned with structural necessity,
+• explicit proof-requirement maps, and
+• a canonical roadmap procedure for turning the mother-body into a genuine theorem-
+bearing system.
+49
+
+EP-FCS v0 Sections 0–8 Draft
+This means the mother-body no longer only defines itself, evolves, acts, projects,
+reconstructs, and validates. It now also knows what it must prove next, in what order,
+and under what proof burden.
+Remark 9.1(Immediate Next Step). The next formal task is to begin the actual theorem-
+writing program for Development BlockD1. That block should include at least closure,
+consistency, persistence-under-maintenance, and fragility-accumulation theorems. Once
+those are stated and proved, EP-FCS v0 will cross from a protected specification into an
+initial theorem-bearing formal system.
+50

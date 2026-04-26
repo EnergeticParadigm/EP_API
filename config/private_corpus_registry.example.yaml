@@ -1,0 +1,28 @@
+version: private-corpus-registry-v1
+# Keep this file on your own server. Point text_path at preprocessed text or markdown,
+# not raw PDFs, for the best retrieval quality.
+entries:
+  - id: ep_fcs_v0
+    title: EP_FCS_v0
+    role: mother_body
+    tags: [ontology, validity, reconstruction, theorem_roadmap]
+    text_path: /srv/epra/private_corpus/EP_FCS_v0.txt
+    priority: 10
+  - id: ep_methodology_full
+    title: EP Methodology FULL
+    role: methodology
+    tags: [primitives, graph, operators, pipeline, metrics]
+    text_path: /srv/epra/private_corpus/EP_Methodology_FULL.txt
+    priority: 9
+  - id: d1_completion
+    title: EP_FCS_D1_Completion_Block_v1
+    role: theorem_block
+    tags: [closure, consistency, persistence, fracture]
+    text_path: /srv/epra/private_corpus/EP_FCS_D1_Completion_Block_v1.txt
+    priority: 7
+  - id: bootstrap_spec
+    title: EPRA_Bootstrap_Specification_v1
+    role: bootstrap
+    tags: [load_order, setup, validity]
+    text_path: /srv/epra/private_corpus/EPRA_Bootstrap_Specification_v1.txt
+    priority: 8

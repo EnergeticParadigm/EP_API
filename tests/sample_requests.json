@@ -1,0 +1,20 @@
+{
+  "analyze": {
+    "task": "Analyze a university admissions system in EP terms before answering.",
+    "context": {
+      "jurisdiction": "generic",
+      "goal": "test EP activation"
+    }
+  },
+  "validate": {
+    "task": "Validate this answer.",
+    "output_text": "Source: applicant pool. Sink: admitted cohort. Maintenance depends on staffing and legitimacy. Control is exercised through selection criteria. Fragility rises when correction is suppressed."
+  },
+  "reconstruct": {
+    "fragments": [
+      "Persistence requires maintenance.",
+      "Suppressed correction accumulates fragility.",
+      "Papers are projections, not ontology."
+    ]
+  }
+}
